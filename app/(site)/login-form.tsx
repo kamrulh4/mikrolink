@@ -32,14 +32,14 @@ export function LoginForm() {
 
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label className="font-medium text-sm" htmlFor="username">
-            Username
+          <Label className="font-medium text-sm" htmlFor="phone-number">
+            Phone Number
           </Label>
           <Input
             className="h-11"
-            id="username"
+            id="phone-number"
             onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder="Enter your username"
+            placeholder="Enter your phone number"
             type="text"
             value={phoneNumber}
           />
@@ -78,10 +78,10 @@ export function LoginForm() {
           Sign In
         </Button>
 
-        <div className="text-center text-muted-foreground text-sm">
+        {/* <div className="text-center text-muted-foreground text-sm">
           <p className="font-medium">Demo credentials:</p>
           <p>Username: admin | Password: admin</p>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );
