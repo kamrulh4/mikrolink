@@ -1,9 +1,9 @@
 "use client"
 
+import { Globe, Server, Wifi, Zap } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Wifi, Server, Globe, Zap } from "lucide-react"
 
 const metrics = [
   {
@@ -58,7 +58,11 @@ export function NetworkPerformance() {
                 <span className="text-sm font-bold">{metric.value}%</span>
                 <Badge
                   variant={
-                    metric.status === "excellent" ? "default" : metric.status === "good" ? "secondary" : "outline"
+                    metric.status === "excellent"
+                      ? "default"
+                      : metric.status === "good"
+                        ? "secondary"
+                        : "outline"
                   }
                   className="text-xs"
                 >

@@ -1,5 +1,12 @@
+import {
+  Activity,
+  AlertTriangle,
+  DollarSign,
+  TrendingUp,
+  Users,
+  Wifi,
+} from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Wifi, TrendingUp, DollarSign, Activity, AlertTriangle } from "lucide-react"
 
 const stats = [
   {
@@ -67,7 +74,9 @@ export function StatsGrid() {
           className="bg-card/80 backdrop-blur-sm border-border/50 hover:shadow-lg transition-all duration-300"
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              {stat.title}
+            </CardTitle>
             <div className={`p-2 rounded-lg ${stat.bgColor}`}>
               <stat.icon className={`h-4 w-4 ${stat.color}`} />
             </div>

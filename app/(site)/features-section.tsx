@@ -1,35 +1,35 @@
-import { BarChart3, Settings, Users } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { BarChart3, Settings, Users } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 
 const features = [
   {
     id: 1,
     icon: Users,
-    title: 'User Management',
+    title: "User Management",
     description:
-      'Manage internet subscribers, accounts, and service plans from a centralized dashboard.',
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-50 dark:bg-blue-950/20',
+      "Manage internet subscribers, accounts, and service plans from a centralized dashboard.",
+    color: "text-blue-500",
+    bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
     id: 2,
     icon: BarChart3,
-    title: 'Usage Analytics',
+    title: "Usage Analytics",
     description:
-      'Monitor bandwidth usage, track data consumption, and generate detailed usage reports.',
-    color: 'text-green-500',
-    bgColor: 'bg-green-50 dark:bg-green-950/20',
+      "Monitor bandwidth usage, track data consumption, and generate detailed usage reports.",
+    color: "text-green-500",
+    bgColor: "bg-green-50 dark:bg-green-950/20",
   },
   {
     id: 3,
     icon: Settings,
-    title: 'Network Control',
+    title: "Network Control",
     description:
-      'Configure network settings, manage bandwidth allocation, and control user access.',
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-50 dark:bg-purple-950/20',
+      "Configure network settings, manage bandwidth allocation, and control user access.",
+    color: "text-purple-500",
+    bgColor: "bg-purple-50 dark:bg-purple-950/20",
   },
-];
+]
 
 export function FeaturesSection() {
   return (
@@ -40,9 +40,8 @@ export function FeaturesSection() {
             Why Choose Mikrolink?
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Professional tools designed specifically for internet service
-            providers to efficiently manage their subscribers and network
-            operations.
+            Professional tools designed specifically for internet service providers to
+            efficiently manage their subscribers and network operations.
           </p>
         </div>
 
@@ -58,9 +57,7 @@ export function FeaturesSection() {
                 >
                   <feature.icon className={`h-8 w-8 ${feature.color}`} />
                 </div>
-                <h3 className="font-semibold text-foreground text-xl">
-                  {feature.title}
-                </h3>
+                <h3 className="font-semibold text-foreground text-xl">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
@@ -70,5 +67,5 @@ export function FeaturesSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

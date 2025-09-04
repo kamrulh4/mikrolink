@@ -1,7 +1,7 @@
-import { FeaturesSection } from '@/app/(site)/features-section';
-import { Footer } from '@/app/(site)/footer';
-import { Header } from '@/app/(site)/header';
-import { HeroSection } from '@/app/(site)/hero-section';
+import { FeaturesSection } from "@/app/(site)/features-section"
+import { Footer } from "@/app/(site)/footer"
+import { Header } from "@/app/(site)/header"
+import { HeroSection } from "@/app/(site)/hero-section"
 
 export default function HomePage() {
   return (
@@ -13,5 +13,5 @@ export default function HomePage() {
       </main>
       <Footer />
     </div>
-  );
+  )
 }

@@ -1,16 +1,16 @@
-'use client';
+"use client"
 
-import { Eye, EyeOff, Globe } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Eye, EyeOff, Globe } from "lucide-react"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [password, setPassword] = useState("")
 
   return (
     <Card className="w-full max-w-md border-0 bg-card/50 shadow-xl backdrop-blur">
@@ -21,9 +21,7 @@ export function LoginForm() {
           </div>
         </div>
         <div>
-          <h2 className="font-semibold text-2xl text-foreground">
-            Welcome Back
-          </h2>
+          <h2 className="font-semibold text-2xl text-foreground">Welcome Back</h2>
           <p className="mt-1 text-muted-foreground text-sm">
             Sign in to your Mikrolink account
           </p>
@@ -55,7 +53,7 @@ export function LoginForm() {
               id="password"
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               value={password}
             />
             <Button
@@ -74,9 +72,7 @@ export function LoginForm() {
           </div>
         </div>
 
-        <Button className="h-11 w-full font-medium text-base shadow-lg">
-          Sign In
-        </Button>
+        <Button className="h-11 w-full font-medium text-base shadow-lg">Sign In</Button>
 
         {/* <div className="text-center text-muted-foreground text-sm">
           <p className="font-medium">Demo credentials:</p>
@@ -84,5 +80,5 @@ export function LoginForm() {
         </div> */}
       </CardContent>
     </Card>
-  );
+  )
 }

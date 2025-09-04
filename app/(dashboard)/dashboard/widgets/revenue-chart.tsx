@@ -1,8 +1,8 @@
 "use client"
 
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Bar, BarChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
 
 const data = [
   { month: "Jan", revenue: 8500, target: 10000 },
@@ -39,11 +39,24 @@ export function RevenueChart() {
         >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
-              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="hsl(var(--border))"
+                opacity={0.3}
+              />
+              <XAxis
+                dataKey="month"
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+              />
               <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Bar dataKey="target" fill="hsl(var(--chart-4))" radius={[4, 4, 0, 0]} opacity={0.6} />
+              <Bar
+                dataKey="target"
+                fill="hsl(var(--chart-4))"
+                radius={[4, 4, 0, 0]}
+                opacity={0.6}
+              />
               <Bar dataKey="revenue" fill="hsl(var(--chart-3))" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

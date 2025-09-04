@@ -1,5 +1,5 @@
-import { FeatureGrid } from '@/app/(site)/feature-grid';
-import { LoginForm } from '@/app/(site)/login-form';
+import { FeatureGrid } from "@/app/(site)/feature-grid"
+import { LoginForm } from "@/app/(site)/login-form"
 
 export function HeroSection() {
   return (
@@ -9,13 +9,13 @@ export function HeroSection() {
           <div className="space-y-8">
             <div className="space-y-6">
               <h1 className="font-bold text-4xl tracking-tight lg:text-5xl xl:text-6xl">
-                Manage Your{' '}
+                Manage Your{" "}
                 <span className="font-serif text-primary">Internet Users</span>
               </h1>
               <p className="max-w-2xl text-lg text-muted-foreground leading-relaxed">
-                Efficiently manage internet subscribers, monitor usage, handle
-                billing, and provide seamless connectivity. Professional tools
-                for modern internet service providers.
+                Efficiently manage internet subscribers, monitor usage, handle billing,
+                and provide seamless connectivity. Professional tools for modern internet
+                service providers.
               </p>
             </div>
 
@@ -28,5 +28,5 @@ export function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

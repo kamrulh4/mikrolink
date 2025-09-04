@@ -1,5 +1,5 @@
-import type React from "react"
 import { Geist, Playfair_Display } from "next/font/google"
+import type React from "react"
 import "./globals.css"
 
 const geist = Geist({
@@ -14,11 +14,7 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 })
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} ${playfair.variable} antialiased`}>
       <body className="font-sans">{children}</body>

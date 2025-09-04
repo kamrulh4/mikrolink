@@ -1,8 +1,8 @@
 "use client"
 
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Pie, PieChart, Cell, ResponsiveContainer, Legend } from "recharts"
 
 const data = [
   { name: "Basic 50Mbps", value: 35, color: "hsl(var(--chart-1))" },
@@ -25,9 +25,15 @@ export function TopPlansChart() {
         <ChartContainer
           config={{
             "Basic 50Mbps": { label: "Basic 50Mbps", color: "hsl(var(--chart-1))" },
-            "Standard 100Mbps": { label: "Standard 100Mbps", color: "hsl(var(--chart-2))" },
+            "Standard 100Mbps": {
+              label: "Standard 100Mbps",
+              color: "hsl(var(--chart-2))",
+            },
             "Premium 200Mbps": { label: "Premium 200Mbps", color: "hsl(var(--chart-3))" },
-            "Enterprise 500Mbps": { label: "Enterprise 500Mbps", color: "hsl(var(--chart-4))" },
+            "Enterprise 500Mbps": {
+              label: "Enterprise 500Mbps",
+              color: "hsl(var(--chart-4))",
+            },
           }}
           className="h-[300px]"
         >

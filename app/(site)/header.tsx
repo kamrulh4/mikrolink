@@ -1,4 +1,4 @@
-import { Globe } from 'lucide-react';
+import { Globe } from "lucide-react"
 
 export function Header() {
   return (
@@ -9,9 +9,7 @@ export function Header() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <Globe className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-semibold text-foreground text-lg">
-              Mikrolink
-            </span>
+            <span className="font-semibold text-foreground text-lg">Mikrolink</span>
           </div>
 
           <nav className="hidden items-center gap-8 md:flex">
@@ -37,5 +35,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  );
+  )
 }

@@ -1,22 +1,15 @@
-import { QuickActions } from "./widgets/quick-actions"
-import { RecentActivity } from "./widgets/recent-activity"
-import { StatsGrid } from "./widgets/stats-grid"
-
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { QuickActions } from "./widgets/quick-actions"
+import { RecentActivity } from "./widgets/recent-activity"
+import { StatsGrid } from "./widgets/stats-grid"
 
 export default function Page() {
   return (
@@ -33,11 +26,8 @@ export default function Page() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Dashboard
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
-               
               </BreadcrumbList>
             </Breadcrumb>
           </div>
@@ -51,23 +41,22 @@ export default function Page() {
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
         </div> */}
 
-               <main className="container mx-auto px-4 py-8 space-y-8">
-         <div>
-           <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-           <p className="text-muted-foreground mt-2">Monitor your network and manage users efficiently</p>
-         </div>
+        <main className="container mx-auto px-4 py-8 space-y-8">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-muted-foreground mt-2">
+              Monitor your network and manage users efficiently
+            </p>
+          </div>
 
-         <StatsGrid />
+          <StatsGrid />
 
-      
-
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           <RecentActivity />
-           <QuickActions />
-         </div>
-       </main>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <RecentActivity />
+            <QuickActions />
+          </div>
+        </main>
       </SidebarInset>
     </SidebarProvider>
   )
 }
-

@@ -1,8 +1,6 @@
 "use client"
 
-import * as React from "react"
 import {
-
   CreditCard,
   GalleryVerticalEnd,
   LayoutDashboard,
@@ -11,6 +9,7 @@ import {
   User,
   Users,
 } from "lucide-react"
+import type * as React from "react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -52,17 +51,17 @@ const data = {
     {
       title: "Packages",
       url: "/packages",
-      icon: Package2, 
+      icon: Package2,
     },
     {
       title: "Payments",
       url: "/payments",
-      icon: CreditCard, 
+      icon: CreditCard,
     },
     {
       title: "Users",
       url: "/users",
-      icon: User, 
+      icon: User,
     },
     {
       title: "Settings",
@@ -70,7 +69,6 @@ const data = {
       icon: Settings2,
     },
   ],
-
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
