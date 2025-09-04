@@ -1,7 +1,3 @@
-import { QuickActions } from "./widgets/quick-actions"
-import { RecentActivity } from "./widgets/recent-activity"
-import { StatsGrid } from "./widgets/stats-grid"
-
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
@@ -34,40 +30,26 @@ export default function Page() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#">
-                    Dashboard
+                    Building Your Application
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-               
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        {/* <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="bg-muted/50 aspect-video rounded-xl" />
             <div className="bg-muted/50 aspect-video rounded-xl" />
             <div className="bg-muted/50 aspect-video rounded-xl" />
           </div>
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-        </div> */}
-
-               <main className="container mx-auto px-4 py-8 space-y-8">
-         <div>
-           <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-           <p className="text-muted-foreground mt-2">Monitor your network and manage users efficiently</p>
-         </div>
-
-         <StatsGrid />
-
-      
-
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           <RecentActivity />
-           <QuickActions />
-         </div>
-       </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )
 }
-
