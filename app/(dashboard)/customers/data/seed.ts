@@ -4,7 +4,7 @@ import path from "path"
 
 import { accessLevels, categories } from "./data"
 
-const tasks = Array.from({ length: 100 }, () => ({
+const customers = Array.from({ length: 100 }, () => ({
   id: faker.string.ulid(),
   title: faker.hacker.phrase().replace(/^./, (letter) => letter.toUpperCase()),
   filePath: faker.system.filePath(),
@@ -15,6 +15,6 @@ const tasks = Array.from({ length: 100 }, () => ({
   accessLevel: faker.helpers.arrayElement(accessLevels).value,
 }))
 
-fs.writeFileSync(path.join(__dirname, "tasks.json"), JSON.stringify(tasks, null, 2))
+fs.writeFileSync(path.join(__dirname, "customers.json"), JSON.stringify(customers, null, 2))
 
-console.log("✅ Tasks data generated.")
+console.log("✅ Customers data generated.")
