@@ -9,8 +9,7 @@ export function HeroSection() {
           <div className="space-y-8">
             <div className="space-y-6">
               <h1 className="font-bold text-4xl tracking-tight lg:text-5xl xl:text-6xl">
-                Manage Your{" "}
-                <span className="font-serif text-primary">Internet Users</span>
+                Manage Your <span className="text-primary">Internet Users</span>
               </h1>
               <p className="max-w-2xl text-lg text-muted-foreground leading-relaxed">
                 Efficiently manage internet subscribers, monitor usage, handle billing,

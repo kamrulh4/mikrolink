@@ -26,3 +26,7 @@ export function getInitials(text: string, defaultValue: string = "N/A") {
 
   return initials || defaultValue
 }
+
+export function generateAvatarUrl(name: string) {
+  return `https://api.dicebear.com/9.x/initials/svg?seed=${name}&fontSize=41&fontWeight=600`
+}

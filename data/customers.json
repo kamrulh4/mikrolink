@@ -22,12 +22,12 @@
         "description": ""
       },
       "connection_start_date": null,
-      "is_active": true,
+      "is_active": false,
       "ip_address": "",
       "mac_address": "",
       "username": "anit.joylmizi",
       "password": "12345",
-      "connection_type": "PPPoE",
+      "connection_type": "DHCP",
       "credentials": {}
     },
     {

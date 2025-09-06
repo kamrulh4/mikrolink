@@ -1,70 +1,60 @@
 // import { CircleOff, } from "lucide-react";
 
 import {
-  CircleOff,
-  Cpu,
+  AnchorIcon,
+  BadgeCheckIcon,
+  BadgeXIcon,
   DollarSign,
   Gavel,
   Lock,
   LockOpen,
   Megaphone,
-  ShoppingCart,
-  Truck,
-  Users,
+  NetworkIcon,
+  WorkflowIcon,
 } from "lucide-react"
 
-export const categories = [
+export const connectionType = [
   {
-    value: "finance",
-    label: "Finance",
-    icon: DollarSign,
+    value: "PPPoE",
+    label: "PPPoE",
+    icon: NetworkIcon,
   },
   {
-    value: "legal",
-    label: "Legal",
-    icon: Gavel,
+    value: "DHCP",
+    label: "DHCP",
+    icon: WorkflowIcon,
   },
   {
-    value: "marketing",
-    label: "Marketing",
-    icon: Megaphone,
-  },
-  {
-    value: "hr",
-    label: "HR",
-    icon: Users,
-  },
-  {
-    value: "operations",
-    label: "Operations",
-    icon: Truck,
-  },
-  {
-    value: "it",
-    label: "IT",
-    icon: Cpu,
-  },
-  {
-    value: "sales",
-    label: "Sales",
-    icon: ShoppingCart,
-  },
-  {
-    value: "other",
-    label: "Other",
-    icon: CircleOff,
+    value: "STATIC",
+    label: "STATIC",
+    icon: AnchorIcon,
   },
 ]
 
-export const accessLevels = [
+export const customerStatus = [
   {
-    label: "Private",
-    value: "private",
-    icon: Lock,
+    label: "Active",
+    value: "true",
+    icon: BadgeCheckIcon,
   },
   {
-    label: "Public",
-    value: "public",
-    icon: LockOpen,
+    label: "Inactive",
+    value: "false",
+    icon: BadgeXIcon,
   },
 ]
+
+// export const customerPaymentType = [
+//   {
+//     label: "Free",
+//     value: true,
+//     icon: Lock,
+//   },
+//   {
+//     label: "Paid",
+//     value: false,
+//     icon: LockOpen,
+//   },
+// ]
+
+export const packages = []

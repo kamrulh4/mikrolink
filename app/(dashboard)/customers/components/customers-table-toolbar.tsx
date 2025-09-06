@@ -2,12 +2,22 @@
 
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
+import * as React from "react"
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useCustomersStore } from "@/stores/customers-store"
-import { accessLevels, categories } from "../data/data"
+import { connectionType, customerStatus } from "../data/data"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -17,30 +27,42 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
   const isFiltered = table.getState().columnFilters.length > 0
 
   const { setCustomerMutationType, setIsUpsertCustomerDialogOpen } = useCustomersStore()
+  const [searchField, setSearchField] = React.useState("username")
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
+        <Select defaultValue="username" onValueChange={setSearchField}>
+          <SelectTrigger size="sm">
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="username">Username</SelectItem>
+            <SelectItem value="name">Name</SelectItem>
+            <SelectItem value="phone">Phone</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Input
-          placeholder="Filter tasks..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          placeholder={`Filter by ${searchField.toLowerCase()}...`}
+          value={(table.getColumn(searchField)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn(searchField)?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("category") && (
+        {table.getColumn("is_active") && (
           <DataTableFacetedFilter
-            column={table.getColumn("category")}
-            title="Category"
-            options={categories}
+            column={table.getColumn("is_active")}
+            title="Status"
+            options={customerStatus}
           />
         )}
-        {table.getColumn("accessLevel") && (
+        {table.getColumn("connection_type") && (
           <DataTableFacetedFilter
-            column={table.getColumn("accessLevel")}
-            title="Access Level"
-            options={accessLevels}
+            column={table.getColumn("connection_type")}
+            title="Connection"
+            options={connectionType}
           />
         )}
         {isFiltered && (
