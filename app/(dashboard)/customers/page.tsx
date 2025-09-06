@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default async function CustomersPage() {
   return (
-    <div className="p-4">
+    <div>
       <Suspense fallback={<div className="text-center">Loading...</div>}>
         <CustomersTable />
       </Suspense>

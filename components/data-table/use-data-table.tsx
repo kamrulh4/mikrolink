@@ -71,12 +71,16 @@ export function useDataTable<TData, TValue>({
       <div className="space-y-4">
         <div className="rounded-md border">
           <Table>
-            <TableHeader>
+            <TableHeader className="border-collapse sticky top-0 z-20 bg-background">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} colSpan={header.colSpan}>
+                      <TableHead
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className="rounded-md"
+                      >
                         {header.isPlaceholder
                           ? null
                           : flexRender(
