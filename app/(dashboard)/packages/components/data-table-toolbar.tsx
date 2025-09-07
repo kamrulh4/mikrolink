@@ -3,11 +3,9 @@
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
 import * as React from "react"
-import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableSearch } from "@/components/data-table/data-table-search"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -15,8 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useCustomersStore } from "@/stores/customers-store"
-import { connectionType, customerStatus } from "../data/data"
+import { usePackagesStore } from "@/stores/packages-store"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -25,39 +22,26 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
-  const { setCustomerMutationType, setIsUpsertCustomerDialogOpen } = useCustomersStore()
-  const [searchField, setSearchField] = React.useState("username")
+  const { setPackageMutationType, setIsUpsertPackageDialogOpen } = usePackagesStore()
+  const [searchField, setSearchField] = React.useState("name")
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <Select defaultValue="username" onValueChange={setSearchField}>
+        <Select defaultValue="name" onValueChange={setSearchField}>
           <SelectTrigger size="sm">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="username">Username</SelectItem>
             <SelectItem value="name">Name</SelectItem>
-            <SelectItem value="phone">Phone</SelectItem>
+            <SelectItem value="speed_mbps">Speed</SelectItem>
+            <SelectItem value="price">Price</SelectItem>
+            <SelectItem value="description">Description</SelectItem>
           </SelectContent>
         </Select>
 
         <DataTableSearch table={table} searchField={searchField} />
 
-        {table.getColumn("is_active") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("is_active")}
-            title="Status"
-            options={customerStatus}
-          />
-        )}
-        {table.getColumn("connection_type") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("connection_type")}
-            title="Connection"
-            options={connectionType}
-          />
-        )}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -72,13 +56,13 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 
       <Button
         onClick={() => {
-          setIsUpsertCustomerDialogOpen(true)
-          setCustomerMutationType("add")
+          setIsUpsertPackageDialogOpen(true)
+          setPackageMutationType("add")
         }}
         size="sm"
         className="mr-2"
       >
-        Add Customer
+        Add Package
       </Button>
 
       <DataTableViewOptions table={table} />
