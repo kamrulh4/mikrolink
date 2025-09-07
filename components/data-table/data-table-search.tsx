@@ -30,7 +30,8 @@ export function DataTableSearch<TData>({
 
   return (
     <Input
-      placeholder={`Filter by ${searchField.toLowerCase()}...`}
+      // placeholder={`Filter by ${searchField.toLowerCase()}...`}
+      placeholder="Search..."
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
       className="h-8 w-[150px] lg:w-[250px]"
