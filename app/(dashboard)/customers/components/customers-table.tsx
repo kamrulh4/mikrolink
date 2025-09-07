@@ -2,11 +2,16 @@
 
 import { useDataTable } from "@/components/data-table/use-data-table"
 import customers from "@/data/customers.json"
+import { useGetCustomerList } from "@/hooks/rq/use-customer-query"
 import { columns } from "./columns"
 import { DataTableToolbar } from "./customers-table-toolbar"
 import { UpsertCustomersDialog } from "./upsert-customers-dialog"
 
 export function CustomersTable() {
+  const { data: customersData } = useGetCustomerList()
+
+  console.log(customersData)
+
   const { table, render } = useDataTable({ columns, data: customers.results })
 
   return (
