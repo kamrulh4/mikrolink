@@ -42,7 +42,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "email",
     accessorFn: (row) => `${row.phone} (${row.email})`,
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Phonw" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Phone" />,
     cell: ({ row }) => {
       return (
         <div>
