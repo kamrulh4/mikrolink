@@ -8,7 +8,7 @@ import {
 import { resetPaymentsStore, usePaymentsStore } from "@/stores/payments-store"
 import { PaymentsUpsertForm } from "./payments-upsert-form"
 
-export function UpsertPaymentsDialog() {
+export function PaymentsUpsertDialog() {
   const { isUpsertPaymentDialogOpen, setIsUpsertPaymentDialogOpen, paymentMutationType } =
     usePaymentsStore()
 

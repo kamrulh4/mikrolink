@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { cn, generateAvatarUrl, getInitials } from "@/lib/utils"
 import payments from "../../../../data/payments.json"
 import { paymentMethods } from "../data/data"
-import { CustomersTableRowActions } from "./customers-table-row-actions"
+import { PaymentsTableRowActions } from "./payments-table-row-actions"
 
 type Payment = (typeof payments.results)[0]
 
@@ -151,6 +151,6 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CustomersTableRowActions row={row} />,
+    cell: ({ row }) => <PaymentsTableRowActions row={row} />,
   },
 ]

@@ -16,8 +16,8 @@ interface CustomersTableRowActionsProps {
   row: Row<any>
 }
 
-export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps) {
-  function deleteCustomerHandler(id: string) {}
+export function PaymentsTableRowActions({ row }: CustomersTableRowActionsProps) {
+  function deletePaymentHandler(id: string) {}
 
   return (
     <DropdownMenu>
@@ -42,7 +42,7 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            deleteCustomerHandler(row.original.id)
+            deletePaymentHandler(row.original.id)
           }}
         >
           Delete
