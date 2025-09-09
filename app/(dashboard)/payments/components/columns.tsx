@@ -47,6 +47,42 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
+    accessorKey: "entry_by",
+    accessorFn: (row) => {
+      const { first_name, last_name, phone } = row.entry_by || {}
+
+      const name =
+        first_name || last_name ? `${first_name || ""} ${last_name || ""}` : "None"
+
+      return `${name} ${phone}`
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Collected By" />
+    ),
+    cell: ({ row }) => {
+      const { first_name, last_name, phone } = row.original.entry_by || {}
+
+      const name =
+        first_name || last_name ? `${first_name || ""} ${last_name || ""}` : "None"
+
+      return (
+        <div className="flex space-x-2 items-center">
+          <Avatar className="rounded-md">
+            <AvatarImage src={generateAvatarUrl(name)} />
+            <AvatarFallback className="text-xs font-light">
+              {getInitials(name)}
+            </AvatarFallback>
+          </Avatar>
+
+          <div>
+            <div className="max-w-[500px] truncate font-medium">{name}</div>
+            <div className="max-w-[500px] truncate text-xs text-slate-500">{phone}</div>
+          </div>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: "billing_month",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Bill Amount (BDT)" />
@@ -55,7 +91,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <div>
           <div className="max-w-[500px] truncate font-medium">
-            {row.original.bill_amount} BDT
+            {row.original.bill_amount}
           </div>
           <div className="max-w-[500px] truncate text-xs text-slate-500">
             {row.original.billing_month}
@@ -64,26 +100,9 @@ export const columns: ColumnDef<Payment>[] = [
       )
     },
   },
-  // {
-  //   accessorKey: "payment_method",
-  //   header: ({ column }) => <DataTableColumnHeader column={column} title="Method" />,
-  //   cell: ({ row }) => {
-  //     return (
-  //       <div>
-  //         <div className="max-w-[500px] truncate font-medium">
-  //           {row.original.payment_method}
-  //         </div>
-  //         {/* <div className="max-w-[500px] truncate text-xs text-slate-500">
-  //           {format(row.original.payment_date!, "PP")}
-  //         </div> */}
-  //       </div>
-  //     )
-  //   },
-  // },
-
   {
     accessorKey: "payment_method",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Kind" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Method" />,
     cell: ({ row }) => {
       const status = paymentMethods.find(
         (method) => method.value === row.getValue("payment_method"),
@@ -106,7 +125,10 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "amount",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Amount" />,
+    // accessorFn: (row) => `${row.entry_by?.first_name} ${row.entry_by?.last_name}`,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Amount (BDT)" />
+    ),
     cell: ({ row }) => {
       return (
         <div>

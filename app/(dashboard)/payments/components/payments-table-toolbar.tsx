@@ -36,6 +36,7 @@ export function PaymentsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="customer">Customer</SelectItem>
+            <SelectItem value="entry_by">Collected By</SelectItem>
           </SelectContent>
         </Select>
 
