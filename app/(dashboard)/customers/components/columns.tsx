@@ -138,6 +138,6 @@ export const columns: ColumnDef<Customer>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CustomersTableRowActions row={row} />,
+    cell: CustomersTableRowActions,
   },
 ]

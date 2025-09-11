@@ -2,7 +2,8 @@
 
 import { Row } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
-import React from "react"
+import React, { useState } from "react"
+import { DeleteAlertDialog } from "@/components/core/delete-alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -18,6 +19,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useCustomersStore } from "@/stores/customers-store"
 import { customerStatus } from "../data/data"
 
 interface CustomersTableRowActionsProps {
@@ -25,54 +27,86 @@ interface CustomersTableRowActionsProps {
 }
 
 export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps) {
+  const {
+    setCustomerMutationType,
+    setIsUpsertCustomerDialogOpen,
+    setIsViewCustomerDialogOpen,
+    setSelectedCustomer,
+  } = useCustomersStore()
+
   const [position, setPosition] = React.useState("true")
 
-  function deleteCustomerHandler(id: string) {}
+  const [open, setOpen] = useState(false)
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
-          <MoreHorizontal />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem
-          onClick={() => {
-            console.log("Edit", row.original.id)
-          }}
-        >
-          Edit
-        </DropdownMenuItem>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+            <MoreHorizontal />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[160px]">
+          <DropdownMenuItem
+            onClick={() => {
+              setIsViewCustomerDialogOpen(true)
+              setSelectedCustomer(row.original)
+            }}
+          >
+            View
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              setIsUpsertCustomerDialogOpen(true)
+              setCustomerMutationType("edit")
+            }}
+          >
+            Edit
+          </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+          <DropdownMenuSeparator />
 
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-                {customerStatus.map((s) => (
-                  <DropdownMenuRadioItem value={s.value}>
-                    <s.icon /> {s.label}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup
+                  value={position}
+                  onValueChange={(val) => {
+                    setPosition(val)
+                  }}
+                >
+                  {customerStatus.map((s) => (
+                    <DropdownMenuRadioItem value={s.value}>
+                      <s.icon /> {s.label}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
 
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            deleteCustomerHandler(row.original.id)
-          }}
-        >
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
+            Delete
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DeleteAlertDialog
+        open={open}
+        setOpen={setOpen}
+        resource="customers"
+        onDelete={() => {
+          console.log("delete vaya")
+        }}
+      />
+    </>
   )
 }
