@@ -2,20 +2,20 @@ import { createCollection } from "@tanstack/db"
 import { queryCollectionOptions } from "@tanstack/query-db-collection"
 import { httpV1 } from "@/lib/xior"
 import { queryClient } from "@/providers/rq-provider"
-import { CustomerResponse } from "@/types/customers"
+import { PackageResponse } from "@/types/packages"
 
-export const customersCollection = createCollection(
+export const packagesCollection = createCollection(
   queryCollectionOptions({
     queryClient,
-    queryKey: ["customers"],
+    queryKey: ["packages"],
     queryFn: () => {
       const results = httpV1
-        .request<CustomerResponse>({
+        .request<PackageResponse>({
           method: "GET",
-          url: "/customers",
+          url: "/packages",
           params: {
             page: 1,
-            page_size: 1000,
+            page_size: 10000,
           },
         })
         .then((res) => res.data.results)
@@ -26,7 +26,7 @@ export const customersCollection = createCollection(
     onInsert: async ({ transaction }) => {
       const { modified } = transaction.mutations[0]
 
-      await httpV1.request({ method: "POST", url: "/customers", data: modified })
+      await httpV1.request({ method: "POST", url: "/packages", data: modified })
     },
 
     onUpdate: async ({ transaction }) => {
@@ -34,14 +34,14 @@ export const customersCollection = createCollection(
 
       await httpV1.request({
         method: "PUT",
-        url: `/customers/${original.id}`,
+        url: `/packages/${original.id}`,
         data: modified,
       })
     },
 
     onDelete: async ({ transaction }) => {
       const { original } = transaction.mutations[0]
-      await httpV1.request({ method: "DELETE", url: `/customers/${original.id}` })
+      await httpV1.request({ method: "DELETE", url: `/packages/${original.id}` })
     },
   }),
 )
