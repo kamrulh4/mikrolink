@@ -1,16 +1,43 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff, Globe } from "lucide-react"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useLogin } from "@/hooks/rq/use-login"
+
+const formSchema = z.object({
+  phone: z.string().min(1, "Phone number is required"),
+  password: z.string().min(1, "Password is required"),
+})
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [password, setPassword] = useState("")
+  const { mutate: triggerLogin } = useLogin()
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      phone: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    triggerLogin(values)
+  }
 
   return (
     <Card className="w-full max-w-md border-0 bg-card/50 shadow-xl backdrop-blur">
@@ -29,55 +56,66 @@ export function LoginForm() {
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <Label className="font-medium text-sm" htmlFor="phone-number">
-            Phone Number
-          </Label>
-          <Input
-            className="h-11"
-            id="phone-number"
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder="Enter your phone number"
-            type="text"
-            value={phoneNumber}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label className="font-medium text-sm" htmlFor="password">
-            Password
-          </Label>
-          <div className="relative">
-            <Input
-              className="h-11 pr-10"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              type={showPassword ? "text" : "password"}
-              value={password}
-            />
-            <Button
-              className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-              onClick={() => setShowPassword(!showPassword)}
-              size="sm"
-              type="button"
-              variant="ghost"
-            >
-              {showPassword ? (
-                <EyeOff className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <Eye className="h-4 w-4 text-muted-foreground" />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel className="font-medium text-sm">Phone Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="h-11"
+                      placeholder="Enter your phone number"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel className="font-medium text-sm">Password</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        className="h-11 pr-10"
+                        placeholder="Enter your password"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                    </FormControl>
+                    <Button
+                      className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                      size="sm"
+                      type="button"
+                      variant="ghost"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </Button>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="h-11 w-full font-medium text-base shadow-lg">
+              Sign In
             </Button>
-          </div>
-        </div>
-
-        <Button className="h-11 w-full font-medium text-base shadow-lg">Sign In</Button>
-
-        {/* <div className="text-center text-muted-foreground text-sm">
-          <p className="font-medium">Demo credentials:</p>
-          <p>Username: admin | Password: admin</p>
-        </div> */}
+          </form>
+        </Form>
       </CardContent>
     </Card>
   )
