@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { usePackagesStore } from "@/stores/packages-store"
 
-interface CustomersTableRowActionsProps {
+interface PackagesTableRowActionsProps {
   row: Row<any>
 }
 
-export function PackagesTableRowActions({ row }: CustomersTableRowActionsProps) {
+export function PackagesTableRowActions({ row }: PackagesTableRowActionsProps) {
   const {
     setPackageMutationType,
     setIsUpsertPackageDialogOpen,

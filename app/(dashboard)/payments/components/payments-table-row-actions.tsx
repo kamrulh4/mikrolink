@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { usePaymentsStore } from "@/stores/payments-store"
 
-interface CustomersTableRowActionsProps {
+interface PaymentsTableRowActionsProps {
   row: Row<any>
 }
 
-export function PaymentsTableRowActions({ row }: CustomersTableRowActionsProps) {
+export function PaymentsTableRowActions({ row }: PaymentsTableRowActionsProps) {
   const {
     setPaymentMutationType,
     setIsUpsertPaymentDialogOpen,
