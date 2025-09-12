@@ -102,7 +102,7 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
       <DeleteAlertDialog
         open={open}
         setOpen={setOpen}
-        resource="customers"
+        resource="customer"
         onDelete={() => {
           console.log("delete vaya")
         }}

@@ -26,8 +26,7 @@ export function DeleteAlertDialog(props: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your{" "}
-            {props.resource}
+            This action cannot be undone. This will permanently delete {props.resource}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

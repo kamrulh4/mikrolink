@@ -5,6 +5,7 @@ import payments from "@/data/payments.json"
 import { columns } from "./columns"
 import { PaymentsTableToolbar } from "./payments-table-toolbar"
 import { PaymentsUpsertDialog } from "./payments-upsert-dialog"
+import { ViewPaymentsDialog } from "./view-payments-dialog"
 
 export function PaymentsTable() {
   const { table, render } = useDataTable({ columns, data: payments.results })
@@ -15,6 +16,7 @@ export function PaymentsTable() {
       {render}
 
       <PaymentsUpsertDialog />
+      <ViewPaymentsDialog />
     </div>
   )
 }

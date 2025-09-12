@@ -5,6 +5,7 @@ import packages from "@/data/packages.json"
 import { columns } from "./columns"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { UpsertPackagesDialog } from "./upsert-packages-dialog"
+import { ViewPackagesDialog } from "./view-packages-dialog"
 
 export function PackagesTable() {
   const { table, render } = useDataTable({ columns, data: packages.results })
@@ -15,6 +16,7 @@ export function PackagesTable() {
       {render}
 
       <UpsertPackagesDialog />
+      <ViewPackagesDialog />
     </div>
   )
 }
