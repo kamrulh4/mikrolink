@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { http } from "@/lib/xior"
+import { httpV1 } from "@/lib/xior"
 
 export type customerResponse = {
   code: number
@@ -38,7 +38,7 @@ export function useGetCustomerList() {
   return useQuery({
     queryKey: ["customers", "list"],
     queryFn: () => {
-      return http
+      return httpV1
         .request<customerResponse>({
           method: "get",
           url: "/api/v1/customers",
