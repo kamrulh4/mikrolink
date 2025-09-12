@@ -11,7 +11,7 @@ export const customersCollection = createCollection(
     queryFn: () => {
       const results = httpV1
         .request<CustomerResponse>({
-          method: "get",
+          method: "GET",
           url: "/customers",
           params: {
             page: 1,
@@ -26,18 +26,22 @@ export const customersCollection = createCollection(
     onInsert: async ({ transaction }) => {
       const { modified } = transaction.mutations[0]
 
-      await fetch("http://localhost:8000/users", {
-        method: "POST",
-        body: JSON.stringify(modified),
+      await httpV1.request({ method: "POST", url: "/customers", data: modified })
+    },
+
+    onUpdate: async ({ transaction }) => {
+      const { modified, original } = transaction.mutations[0]
+
+      await httpV1.request({
+        method: "PUT",
+        url: `/customers/${original.id}`,
+        data: modified,
       })
     },
 
     onDelete: async ({ transaction }) => {
       const { original } = transaction.mutations[0]
-
-      await fetch(`http://localhost:8000/users/${original.id}`, {
-        method: "DELETE",
-      })
+      await httpV1.request({ method: "DELETE", url: `/customers/${original.id}` })
     },
   }),
 )
