@@ -40,10 +40,6 @@ export function LoginForm() {
     triggerLogin(values)
   }
 
-  const { data } = useSession()
-
-  console.log(data)
-
   return (
     <Card className="w-full max-w-md border-0 bg-card/50 shadow-xl backdrop-blur">
       <CardHeader className="space-y-4 pb-6 text-center">

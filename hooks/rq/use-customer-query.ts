@@ -1,53 +1,86 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
+import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
-
-export type customerResponse = {
-  code: number
-  next: string
-  previous: any
-  count: number
-  results: Array<{
-    id: number
-    uid: string
-    name: string
-    email: string
-    phone: string
-    address: string
-    nid: string
-    is_free: boolean
-    package: {
-      id: number
-      uid: string
-      name: string
-      speed_mbps: number
-      price: string
-      description: string
-    }
-    connection_start_date: any
-    is_active: boolean
-    ip_address: string
-    mac_address: string
-    username: string
-    password: string
-    connection_type: string
-    credentials: {}
-  }>
-}
+import { CreateCustomer, Customer, CustomerResponse } from "@/types/customers"
 
 export function useGetCustomerList() {
   return useQuery({
     queryKey: ["customers", "list"],
     queryFn: () => {
       return httpV1
-        .request<customerResponse>({
-          method: "get",
-          url: "/api/v1/customers",
+        .request<CustomerResponse>({
+          method: "GET",
+          url: "/customers",
           params: {
             page: 1,
             page_size: 20,
           },
         })
         .then((res) => res.data)
+    },
+  })
+}
+
+export function useCreateCustomer() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: ["customers", "add"],
+    mutationFn: (payload: CreateCustomer) => {
+      return httpV1
+        .request<Customer>({
+          method: "POST",
+          url: "/customers",
+          data: payload,
+        })
+        .then((res) => res.data)
+    },
+
+    onSuccess: (data) => {
+      toast.success("Customer created successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed. Please try Again", {
+          description: error.message,
+        })
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["customers"] })
+    },
+  })
+}
+
+export function useDeleteCustomer() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: ["customers", "delete"],
+    mutationFn: (uid: string) => {
+      return httpV1
+        .request({
+          method: "DELETE",
+          url: `/customers/${uid}`,
+        })
+        .then((res) => res.data)
+    },
+
+    onSuccess: (data) => {
+      toast.success("Customer deleted successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed. Please try Again", {
+          description: error.message,
+        })
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["customers"] })
     },
   })
 }

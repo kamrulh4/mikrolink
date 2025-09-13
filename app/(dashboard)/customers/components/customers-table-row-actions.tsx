@@ -19,11 +19,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useDeleteCustomer } from "@/hooks/rq/use-customer-query"
 import { useCustomersStore } from "@/stores/customers-store"
+import { Customer } from "@/types/customers"
 import { customerStatus } from "../data/data"
 
 interface CustomersTableRowActionsProps {
-  row: Row<any>
+  row: Row<Customer>
 }
 
 export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps) {
@@ -34,9 +36,15 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
     setSelectedCustomer,
   } = useCustomersStore()
 
+  const { mutate: triggerDeleteCustomer } = useDeleteCustomer()
+
   const [position, setPosition] = React.useState("true")
 
   const [open, setOpen] = useState(false)
+
+  function onDeleteHandler() {
+    triggerDeleteCustomer(row.original.uid)
+  }
 
   return (
     <>
@@ -103,9 +111,7 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
         open={open}
         setOpen={setOpen}
         resource="customer"
-        onDelete={() => {
-          console.log("delete vaya")
-        }}
+        onDelete={onDeleteHandler}
       />
     </>
   )

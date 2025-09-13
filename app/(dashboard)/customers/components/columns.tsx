@@ -7,11 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 // import { Checkbox } from "@/components/ui/checkbox"
 import { cn, generateAvatarUrl, getInitials } from "@/lib/utils"
+import { Customer } from "@/types/customers"
 import customers from "../../../../data/customers.json"
 // import { accessLevels, categories } from "../data/data"
 import { CustomersTableRowActions } from "./customers-table-row-actions"
-
-type Customer = (typeof customers.results)[0]
 
 export const columns: ColumnDef<Customer>[] = [
   // {
@@ -52,7 +51,9 @@ export const columns: ColumnDef<Customer>[] = [
       return (
         <div className="flex space-x-2 items-center">
           <Avatar className="rounded-md">
-            <AvatarImage src={generateAvatarUrl(row.original.username)} />
+            <AvatarImage
+              src={generateAvatarUrl(row.original.username || row.original.name)}
+            />
             <AvatarFallback className="text-xs font-light">
               {getInitials(row.original.name)}
             </AvatarFallback>
@@ -88,12 +89,18 @@ export const columns: ColumnDef<Customer>[] = [
     cell: ({ row }) => {
       return (
         <div>
-          <div className="max-w-[500px] truncate font-medium">
-            {row.original.package.name}
-          </div>
-          <div className="max-w-[500px] truncate text-xs text-slate-500">
-            {row.original.package.price} BDT
-          </div>
+          {row.original.package ? (
+            <>
+              <div className="max-w-[500px] truncate font-medium">
+                {row.original.package?.name}
+              </div>
+              <div className="max-w-[500px] truncate text-xs text-slate-500">
+                {row.original.package?.price} BDT
+              </div>
+            </>
+          ) : (
+            <div className="text-red-500">Not Assigned</div>
+          )}
         </div>
       )
     },

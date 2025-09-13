@@ -10,7 +10,7 @@ export type Customer = {
   id: number
   uid: string
   name: string
-  email: null
+  email: string | undefined
   phone: string
   address: string
   nid: string
@@ -35,4 +35,22 @@ export type Package = {
   speed_mbps: number
   price: string
   description: string | null
+}
+
+export type CreateCustomer = {
+  name: string
+  phone: string
+  address: string
+  nid: string
+  is_free: boolean
+  is_active: boolean
+  ip_address: string
+  mac_address: string
+  username: string
+  password: string
+  connection_type: "DHCP" | "STATIC" | "PPPoE"
+  email?: string | undefined
+  package_id?: number | undefined
+  connection_start_date?: string | null | undefined
+  credentials?: any
 }

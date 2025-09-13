@@ -21,6 +21,7 @@ export function useLogin() {
     },
 
     onSuccess: (data) => {
+      toast.success("Successfully logged in")
       localStorage.setItem("token", data.access_token)
       // localStorage.setItem("user", JSON.stringify(data.user))
 

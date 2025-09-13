@@ -24,20 +24,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
+import { DataTableLoading } from "./data-table-loading"
 import { DataTablePagination } from "./data-table-pagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[] | undefined
+  loading?: boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const emptyArray = [] as any[]
 
 export function useDataTable<TData, TValue>({
   columns,
   data,
+  loading,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -65,6 +66,15 @@ export function useDataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
+
+  if (loading) {
+    return {
+      table,
+      render: (
+        <DataTableLoading columnCount={table.getAllColumns().length} rowCount={10} />
+      ),
+    }
+  }
 
   const render = (
     <>
