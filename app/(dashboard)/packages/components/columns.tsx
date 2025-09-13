@@ -2,10 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
-import packages from "../../../../data/packages.json"
+import { Package } from "@/types/packages"
 import { PackagesTableRowActions } from "./packages-table-row-actions"
-
-type Package = (typeof packages.results)[0]
 
 export const columns: ColumnDef<Package>[] = [
   {

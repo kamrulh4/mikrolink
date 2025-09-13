@@ -1,7 +1,7 @@
 "use client"
 
 import { useDataTable } from "@/components/data-table/use-data-table"
-import { useGetCustomerList } from "@/hooks/rq/use-customer-query"
+import { useGetCustomerList } from "@/hooks/rq/use-customers-query"
 import { columns } from "./columns"
 import { DataTableToolbar } from "./customers-table-toolbar"
 import { UpsertCustomersDialog } from "./upsert-customers-dialog"

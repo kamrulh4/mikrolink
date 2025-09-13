@@ -1,14 +1,20 @@
 "use client"
 
 import { useDataTable } from "@/components/data-table/use-data-table"
-import packages from "@/data/packages.json"
+import { useGetPackgeList } from "@/hooks/rq/use-packages-query"
 import { columns } from "./columns"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { UpsertPackagesDialog } from "./upsert-packages-dialog"
 import { ViewPackagesDialog } from "./view-packages-dialog"
 
 export function PackagesTable() {
-  const { table, render } = useDataTable({ columns, data: packages.results })
+  const { data: packageData, isLoading } = useGetPackgeList()
+
+  const { table, render } = useDataTable({
+    columns,
+    data: packageData?.results,
+    loading: isLoading,
+  })
 
   return (
     <div className="space-y-4">

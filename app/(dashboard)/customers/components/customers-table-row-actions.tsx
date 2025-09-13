@@ -19,7 +19,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useDeleteCustomer } from "@/hooks/rq/use-customer-query"
+import { useDeleteCustomer } from "@/hooks/rq/use-customers-query"
 import { useCustomersStore } from "@/stores/customers-store"
 import { Customer } from "@/types/customers"
 import { customerStatus } from "../data/data"

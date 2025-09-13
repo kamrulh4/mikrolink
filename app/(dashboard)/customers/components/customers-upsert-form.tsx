@@ -29,7 +29,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useCreateCustomer } from "@/hooks/rq/use-customer-query"
+import { useCreateCustomer } from "@/hooks/rq/use-customers-query"
+import { useGetPackgeList } from "@/hooks/rq/use-packages-query"
+import { useCustomersStore } from "@/stores/customers-store"
 
 // ✅ Schema from your message
 export const formSchema = z.object({
@@ -39,7 +41,7 @@ export const formSchema = z.object({
   address: z.string().max(255),
   nid: z.string().max(20),
   is_free: z.boolean(),
-  package_id: z.number().int().optional(),
+  package_id: z.string().optional(),
   connection_start_date: z.string().nullable().optional(),
   is_active: z.boolean(),
   ip_address: z.string().max(45),
@@ -53,16 +55,22 @@ export const formSchema = z.object({
 export function CustomersUpsertForm() {
   const { mutate: triggerCreateCustomer } = useCreateCustomer()
 
+  const { setIsUpsertCustomerDialogOpen } = useCustomersStore()
+
+  const { data: packageData } = useGetPackgeList()
+
+  const packages = packageData?.results || []
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       phone: "",
-      // email: "",
+      email: undefined,
       address: "",
       nid: "",
       is_free: false,
-      package_id: undefined,
+      // package_id: undefined,
       connection_start_date: null,
       is_active: true,
       ip_address: "",
@@ -75,7 +83,15 @@ export function CustomersUpsertForm() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    triggerCreateCustomer(values)
+    const payload = {
+      ...values,
+      package_id: values.package_id ? +values.package_id : undefined,
+    }
+    triggerCreateCustomer(payload, {
+      onSuccess: () => {
+        setIsUpsertCustomerDialogOpen(false)
+      },
+    })
   }
 
   return (
@@ -172,8 +188,8 @@ export function CustomersUpsertForm() {
                 <FormItem>
                   <FormLabel>Package</FormLabel>
                   <Select
-                    onValueChange={(val) => field.onChange(Number(val))}
-                    value={field.value ? String(field.value) : ""}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value?.toString()}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -181,9 +197,11 @@ export function CustomersUpsertForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="1">Basic</SelectItem>
-                      <SelectItem value="2">Standard</SelectItem>
-                      <SelectItem value="3">Premium</SelectItem>
+                      {packages.map((pack) => (
+                        <SelectItem key={pack.uid} value={pack.id.toString()}>
+                          {pack.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
