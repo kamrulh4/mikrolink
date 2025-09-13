@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useLogin } from "@/hooks/rq/auth/use-login"
+import { useSession } from "@/hooks/rq/auth/use-session"
 
 const formSchema = z.object({
   phone: z.string().min(1, "Phone number is required"),
@@ -38,6 +39,10 @@ export function LoginForm() {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     triggerLogin(values)
   }
+
+  const { data } = useSession()
+
+  console.log(data)
 
   return (
     <Card className="w-full max-w-md border-0 bg-card/50 shadow-xl backdrop-blur">

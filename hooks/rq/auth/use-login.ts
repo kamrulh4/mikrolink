@@ -22,6 +22,7 @@ export function useLogin() {
 
     onSuccess: (data) => {
       localStorage.setItem("token", data.access_token)
+      // localStorage.setItem("user", JSON.stringify(data.user))
 
       router.push("/dashboard")
     },
