@@ -25,12 +25,12 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
-  const { mutate: triggerLogin } = useLogin()
+  const { mutate: triggerLogin, isPending } = useLogin()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      phone: "",
+      phone: "01844668099",
       password: "",
     },
   })
@@ -111,7 +111,12 @@ export function LoginForm() {
               )}
             />
 
-            <Button type="submit" className="h-11 w-full font-medium text-base shadow-lg">
+            <Button
+              type="submit"
+              className="h-11 w-full font-medium text-base shadow-lg"
+              disabled={isPending}
+              loading={isPending}
+            >
               Sign In
             </Button>
           </form>
