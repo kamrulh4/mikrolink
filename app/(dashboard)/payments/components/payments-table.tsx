@@ -1,14 +1,20 @@
 "use client"
 
 import { useDataTable } from "@/components/data-table/use-data-table"
-import payments from "@/data/payments.json"
+import { useGetPaymentList } from "@/hooks/rq/auth/use-payment-query"
 import { columns } from "./columns"
 import { PaymentsTableToolbar } from "./payments-table-toolbar"
 import { PaymentsUpsertDialog } from "./payments-upsert-dialog"
 import { ViewPaymentsDialog } from "./view-payments-dialog"
 
 export function PaymentsTable() {
-  const { table, render } = useDataTable({ columns, data: payments.results })
+  const { data: paymentsData, isLoading } = useGetPaymentList()
+
+  const { table, render } = useDataTable({
+    columns,
+    data: paymentsData?.results,
+    loading: isLoading,
+  })
 
   return (
     <div className="space-y-4">

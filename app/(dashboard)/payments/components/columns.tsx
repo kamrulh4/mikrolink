@@ -6,11 +6,9 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { cn, generateAvatarUrl, getInitials } from "@/lib/utils"
-import payments from "../../../../data/payments.json"
+import { Payment } from "@/types/payments"
 import { paymentMethods } from "../data/data"
 import { PaymentsTableRowActions } from "./payments-table-row-actions"
-
-type Payment = (typeof payments.results)[0]
 
 export const columns: ColumnDef<Payment>[] = [
   {
