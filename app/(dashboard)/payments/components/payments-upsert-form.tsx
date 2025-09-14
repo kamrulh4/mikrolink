@@ -27,12 +27,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { useCreatePayment } from "@/hooks/rq/auth/use-payment-query"
 import { cn } from "@/lib/utils"
 import { usePaymentsStore } from "@/stores/payments-store"
 import { months, paymentMethods } from "../data/data"
 import { CustomerSelect } from "./customer-select-form"
 
-// ✅ Zod schema
 const formSchema = z.object({
   customer_id: z.number({
     required_error: "Please select a customer.",
@@ -54,12 +54,14 @@ const formSchema = z.object({
 export function PaymentsUpsertForm() {
   const { setIsUpsertPaymentDialogOpen } = usePaymentsStore()
 
+  const { mutate: triggerCreatePayment } = useCreatePayment()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       // customer_id: undefined,
-      billing_month: "",
-      payment_method: "",
+      billing_month: "JANUARY",
+      payment_method: "CASH",
       bill_amount: undefined,
       amount: undefined,
       transaction_id: undefined,
@@ -71,6 +73,12 @@ export function PaymentsUpsertForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Payment Submitted:", values)
+
+    triggerCreatePayment(values, {
+      onSuccess: () => {
+        setIsUpsertPaymentDialogOpen(false)
+      },
+    })
   }
 
   return (

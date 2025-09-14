@@ -1,10 +1,10 @@
 import { createStore } from "stan-js"
 
-import payments from "@/data/payments.json"
+import { Payment } from "@/types/payments"
 
 export const { useStore: usePaymentsStore, reset: resetPaymentsStore } = createStore({
   isViewPaymentDialogOpen: false,
   isUpsertPaymentDialogOpen: false,
   paymentMutationType: "" as "add" | "edit",
-  selectedPayment: {} as (typeof payments.results)[0],
+  selectedPayment: {} as Payment,
 })

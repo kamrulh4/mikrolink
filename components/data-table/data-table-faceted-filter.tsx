@@ -80,6 +80,11 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value)
+
+                const val = ["true", "false"].includes(option.value)
+                  ? option.value === "true"
+                  : option.value
+
                 return (
                   <CommandItem
                     key={option.value}
@@ -109,9 +114,9 @@ export function DataTableFacetedFilter<TData, TValue>({
                       <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                     )}
                     <span>{option.label}</span>
-                    {facets?.get(option.value) && (
+                    {facets?.get(val) && (
                       <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
-                        {facets.get(option.value)}
+                        {facets.get(val)}
                       </span>
                     )}
                   </CommandItem>

@@ -22,7 +22,7 @@ export function useGetPaymentList() {
   })
 }
 
-export function useCreatePackage() {
+export function useCreatePayment() {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -43,7 +43,7 @@ export function useCreatePackage() {
     onError: (error) => {
       if (error instanceof XiorError) {
         toast.error("Failed. Please try Again", {
-          description: error.message,
+          description: JSON.stringify(error.response?.data),
         })
       }
     },
@@ -54,7 +54,7 @@ export function useCreatePackage() {
   })
 }
 
-export function useDeletePackage() {
+export function useDeletePayment() {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -68,7 +68,7 @@ export function useDeletePackage() {
         .then((res) => res.data)
     },
 
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Payment deleted successfully")
     },
     onError: (error) => {

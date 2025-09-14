@@ -13,10 +13,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useDeletePayment } from "@/hooks/rq/auth/use-payment-query"
 import { usePaymentsStore } from "@/stores/payments-store"
+import { Payment } from "@/types/payments"
 
 interface PaymentsTableRowActionsProps {
-  row: Row<any>
+  row: Row<Payment>
 }
 
 export function PaymentsTableRowActions({ row }: PaymentsTableRowActionsProps) {
@@ -27,7 +29,13 @@ export function PaymentsTableRowActions({ row }: PaymentsTableRowActionsProps) {
     setSelectedPayment,
   } = usePaymentsStore()
 
+  const { mutate: triggerDeletePayment } = useDeletePayment()
+
   const [open, setOpen] = useState(false)
+
+  function onDeleteHandler() {
+    triggerDeletePayment(row.original.uid)
+  }
 
   return (
     <>
@@ -72,9 +80,7 @@ export function PaymentsTableRowActions({ row }: PaymentsTableRowActionsProps) {
         open={open}
         setOpen={setOpen}
         resource="payment"
-        onDelete={() => {
-          console.log("delete vaya")
-        }}
+        onDelete={onDeleteHandler}
       />
     </>
   )
