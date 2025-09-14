@@ -1,10 +1,10 @@
 import { createStore } from "stan-js"
 
-import users from "@/data/users.json"
+import { User } from "@/types/logins"
 
 export const { useStore: useUsersStore, reset: resetUsersStore } = createStore({
   isViewUserDialogOpen: false,
   isUpsertUserDialogOpen: false,
   userMutationType: "" as "add" | "edit",
-  selectedUser: {} as (typeof users.results)[number],
+  selectedUser: {} as User,
 })

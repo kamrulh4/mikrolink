@@ -2,17 +2,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
-import { CreateCustomer } from "@/types/customers"
-import { Package, PackageResponse } from "@/types/packages"
+import { User, UserResponse } from "@/types/users"
 
-export function useGetPackgeList() {
+export function useGetUserList() {
   return useQuery({
-    queryKey: ["packages", "list"],
+    queryKey: ["users", "list"],
     queryFn: () => {
       return httpV1
-        .request<PackageResponse>({
+        .request<UserResponse>({
           method: "GET",
-          url: "/packages",
+          url: "/users",
           params: {
             page: 1,
             page_size: 10_000,
@@ -23,54 +22,54 @@ export function useGetPackgeList() {
   })
 }
 
-export function useCreatePackage() {
+export function useCreateUser() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["packages", "add"],
+    mutationKey: ["users", "add"],
     mutationFn: (payload: any) => {
       return httpV1
-        .request<Package>({
+        .request<User>({
           method: "POST",
-          url: "/packages",
+          url: "/users",
           data: payload,
         })
         .then((res) => res.data)
     },
 
     onSuccess: () => {
-      toast.success("Package created successfully")
+      toast.success("User created successfully")
     },
     onError: (error) => {
       if (error instanceof XiorError) {
         toast.error("Failed. Please try Again", {
-          description: error.message,
+          description: JSON.stringify(error.response?.data),
         })
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["packages"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] })
     },
   })
 }
 
-export function useDeletePackage() {
+export function useDeleteUser() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ["packages", "delete"],
+    mutationKey: ["users", "delete"],
     mutationFn: (uid: string) => {
       return httpV1
         .request({
           method: "DELETE",
-          url: `/packages/${uid}`,
+          url: `/users/${uid}`,
         })
         .then((res) => res.data)
     },
 
-    onSuccess: (data) => {
-      toast.success("Package deleted successfully")
+    onSuccess: () => {
+      toast.success("User deleted successfully")
     },
     onError: (error) => {
       if (error instanceof XiorError) {
@@ -81,7 +80,7 @@ export function useDeletePackage() {
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["packages"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] })
     },
   })
 }

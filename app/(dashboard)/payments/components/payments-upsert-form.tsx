@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { useCreatePayment } from "@/hooks/rq/auth/use-payment-query"
+import { useCreatePayment } from "@/hooks/rq/use-payment-query"
 import { cn } from "@/lib/utils"
 import { usePaymentsStore } from "@/stores/payments-store"
 import { months, paymentMethods } from "../data/data"

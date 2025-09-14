@@ -1,7 +1,7 @@
 "use client"
 
 import { useDataTable } from "@/components/data-table/use-data-table"
-import { useGetPaymentList } from "@/hooks/rq/auth/use-payment-query"
+import { useGetPaymentList } from "@/hooks/rq/use-payment-query"
 import { columns } from "./columns"
 import { PaymentsTableToolbar } from "./payments-table-toolbar"
 import { PaymentsUpsertDialog } from "./payments-upsert-dialog"

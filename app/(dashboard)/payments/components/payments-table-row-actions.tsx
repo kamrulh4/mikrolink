@@ -13,7 +13,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useDeletePayment } from "@/hooks/rq/auth/use-payment-query"
+import { useDeletePayment } from "@/hooks/rq/use-payment-query"
 import { usePaymentsStore } from "@/stores/payments-store"
 import { Payment } from "@/types/payments"
 
