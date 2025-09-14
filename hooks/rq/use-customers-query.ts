@@ -14,7 +14,7 @@ export function useGetCustomerList() {
           url: "/customers",
           params: {
             page: 1,
-            page_size: 20,
+            page_size: 10_000,
           },
         })
         .then((res) => res.data)

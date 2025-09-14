@@ -26,7 +26,7 @@ export function PaymentsUpsertDialog() {
         setIsUpsertPaymentDialogOpen(false)
       }}
     >
-      <DialogContent className="max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] !max-w-[50vw] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
