@@ -1,3 +1,4 @@
+import { Loader } from "lucide-react"
 import { MouseEvent } from "react"
 import {
   AlertDialog,
@@ -17,6 +18,7 @@ type Props = {
   onDelete: (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void
   open: boolean
   setOpen: any
+  loading?: boolean
 }
 
 export function DeleteAlertDialog(props: Props) {
@@ -34,7 +36,9 @@ export function DeleteAlertDialog(props: Props) {
           <AlertDialogAction
             onClick={props.onDelete}
             className={cn(buttonVariants({ variant: "destructive" }))}
+            disabled={props.loading}
           >
+            {props.loading && <Loader className="animate-spin size-4" />}
             Permanently Delete
           </AlertDialogAction>
         </AlertDialogFooter>

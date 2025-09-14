@@ -28,7 +28,7 @@ export function useCreatePackage() {
 
   return useMutation({
     mutationKey: ["packages", "add"],
-    mutationFn: (payload: CreateCustomer) => {
+    mutationFn: (payload: any) => {
       return httpV1
         .request<Package>({
           method: "POST",

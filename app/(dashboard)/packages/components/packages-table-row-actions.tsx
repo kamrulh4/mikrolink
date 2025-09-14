@@ -13,10 +13,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useDeletePackage } from "@/hooks/rq/use-packages-query"
 import { usePackagesStore } from "@/stores/packages-store"
+import { Package } from "@/types/packages"
 
 interface PackagesTableRowActionsProps {
-  row: Row<any>
+  row: Row<Package>
 }
 
 export function PackagesTableRowActions({ row }: PackagesTableRowActionsProps) {
@@ -27,9 +29,13 @@ export function PackagesTableRowActions({ row }: PackagesTableRowActionsProps) {
     setSelectedPackage,
   } = usePackagesStore()
 
-  const [position, setPosition] = React.useState("true")
-
   const [open, setOpen] = useState(false)
+
+  const { mutate: triggerDeletePackage, isPending } = useDeletePackage()
+
+  function onDeleteHandler() {
+    triggerDeletePackage(row.original.uid)
+  }
 
   return (
     <>
@@ -75,9 +81,8 @@ export function PackagesTableRowActions({ row }: PackagesTableRowActionsProps) {
         open={open}
         setOpen={setOpen}
         resource="package"
-        onDelete={() => {
-          console.log("delete vaya")
-        }}
+        onDelete={onDeleteHandler}
+        loading={isPending}
       />
     </>
   )
