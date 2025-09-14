@@ -25,19 +25,31 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useSession } from "@/hooks/rq/auth/use-session"
+import { generateAvatarUrl } from "@/lib/utils"
+import { Skeleton } from "./ui/skeleton"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+export function UserInfoSkeleton() {
+  return (
+    <div className="flex items-center gap-3">
+      <Skeleton className="h-8 w-8 rounded-lg" />
+
+      <div className="grid flex-1 text-left text-sm leading-tight">
+        <Skeleton className="h-4 w-[120px]" /> {/* Name */}
+        <Skeleton className="h-3 w-[180px]" /> {/* Email */}
+      </div>
+    </div>
+  )
+}
+
+export function NavUser() {
   const { isMobile } = useSidebar()
 
   const router = useRouter()
+
+  const { data: session, isLoading } = useSession()
+
+  const name = `${session?.first_name || ""} ${session?.last_name || ""}`
 
   function logoutHandler() {
     localStorage.clear()
@@ -53,14 +65,21 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
-              </div>
+              {session ? (
+                <>
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarImage src={generateAvatarUrl(name)} alt={session?.email} />
+                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{name}</span>
+                    <span className="truncate text-xs">{session?.email}</span>
+                  </div>
+                </>
+              ) : (
+                <UserInfoSkeleton />
+              )}
+
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -73,12 +92,12 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={generateAvatarUrl(name)} alt={name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">{name}</span>
+                  <span className="truncate text-xs">{session?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
