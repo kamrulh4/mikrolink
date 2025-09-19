@@ -59,6 +59,7 @@ export function PackagesTableRowActions({ row }: PackagesTableRowActionsProps) {
             onClick={() => {
               setIsUpsertPackageDialogOpen(true)
               setPackageMutationType("edit")
+              setSelectedPackage(row.original)
             }}
           >
             Edit

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useCreatePackage } from "@/hooks/rq/use-packages-query"
+import { useCreatePackage, useUpdatePackage } from "@/hooks/rq/use-packages-query"
 import { useCustomersStore } from "@/stores/customers-store"
 import { usePackagesStore } from "@/stores/packages-store"
 
@@ -27,20 +27,30 @@ const formSchema = z.object({
 
 export function PackagesUpsertForm() {
   const { mutate: triggerCreatePackage, isPending } = useCreatePackage()
-
-  const { setIsUpsertPackageDialogOpen } = usePackagesStore()
+  const { mutate: triggerUpdatePackage } = useUpdatePackage()
+  const { setIsUpsertPackageDialogOpen, packageMutationType, selectedPackage } =
+    usePackagesStore()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      // speed_mbps: undefined,
-      price: undefined,
-      description: "",
+      name: selectedPackage?.name,
+      speed_mbps: selectedPackage?.speed_mbps,
+      price: selectedPackage?.price,
+      description: selectedPackage?.description || "",
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    if (packageMutationType === "edit" && selectedPackage?.uid) {
+      triggerUpdatePackage(
+        { payload: values, uid: selectedPackage.uid },
+        {
+          onSuccess: () => setIsUpsertPackageDialogOpen(false),
+        },
+      )
+      return
+    }
     triggerCreatePackage(values, {
       onSuccess: () => setIsUpsertPackageDialogOpen(false),
     })
@@ -121,7 +131,7 @@ export function PackagesUpsertForm() {
 
         <div className="flex justify-between">
           <Button type="submit" disabled={isPending} loading={isPending}>
-            Create Package
+            {packageMutationType === "edit" ? "Update Package" : "Create Package"}
           </Button>
         </div>
       </form>
