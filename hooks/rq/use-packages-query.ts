@@ -1,12 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  mutationOptions,
+  queryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
 import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
-import { CreateCustomer } from "@/types/customers"
 import { Package, PackageResponse } from "@/types/packages"
 
-export function useGetPackgeList() {
-  return useQuery({
+function getPackageListOptions() {
+  return queryOptions({
     queryKey: ["packages", "list"],
     queryFn: () => {
       return httpV1
@@ -23,10 +27,8 @@ export function useGetPackgeList() {
   })
 }
 
-export function useCreatePackage() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
+function createPackageOptions() {
+  return mutationOptions({
     mutationKey: ["packages", "add"],
     mutationFn: (payload: any) => {
       return httpV1
@@ -37,7 +39,6 @@ export function useCreatePackage() {
         })
         .then((res) => res.data)
     },
-
     onSuccess: () => {
       toast.success("Package created successfully")
     },
@@ -48,17 +49,42 @@ export function useCreatePackage() {
         })
       }
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["packages"] })
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["packages"] })
     },
   })
 }
 
-export function useDeletePackage() {
-  const queryClient = useQueryClient()
+function updatePackageOptions() {
+  return mutationOptions({
+    mutationKey: ["packages", "update"],
+    mutationFn: ({ payload, uid }: { payload: Partial<Package>; uid: string }) => {
+      return httpV1
+        .request<Package>({
+          method: "PUT",
+          url: `/packages/${uid}`,
+          data: payload,
+        })
+        .then((res) => res.data)
+    },
+    onSuccess: () => {
+      toast.success("Package updated successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed. Please try Again", {
+          description: error.message,
+        })
+      }
+    },
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["packages"] })
+    },
+  })
+}
 
-  return useMutation({
+function deletePackageOptions() {
+  return mutationOptions({
     mutationKey: ["packages", "delete"],
     mutationFn: (uid: string) => {
       return httpV1
@@ -68,8 +94,7 @@ export function useDeletePackage() {
         })
         .then((res) => res.data)
     },
-
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Package deleted successfully")
     },
     onError: (error) => {
@@ -79,9 +104,24 @@ export function useDeletePackage() {
         })
       }
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["packages"] })
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["packages"] })
     },
   })
+}
+
+export function useGetPackageList() {
+  return useQuery(getPackageListOptions())
+}
+
+export function useCreatePackage() {
+  return useMutation(createPackageOptions())
+}
+
+export function useDeletePackage() {
+  return useMutation(deletePackageOptions())
+}
+
+export function useUpdatePackage() {
+  return useMutation(updatePackageOptions())
 }

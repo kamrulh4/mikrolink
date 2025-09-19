@@ -29,10 +29,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useCreateCustomer, useUpdateCustomer } from "@/hooks/rq/use-customers-query"
-import { useGetPackgeList } from "@/hooks/rq/use-packages-query"
+import { useGetPackageList } from "@/hooks/rq/use-packages-query"
 import { useCustomersStore } from "@/stores/customers-store"
 
-// ✅ Schema from your message
 export const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(255),
   email: z.string().email("Invalid email").max(254).optional(),
@@ -57,7 +56,7 @@ export function CustomersUpsertForm() {
   const { mutate: triggerCreateCustomer } = useCreateCustomer()
   const { mutate: triggerUpdateCustomer } = useUpdateCustomer()
 
-  const { data: packageData } = useGetPackgeList()
+  const { data: packageData } = useGetPackageList()
 
   const { selectedCustomer } = useCustomersStore()
 
