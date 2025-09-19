@@ -22,7 +22,7 @@ export type Customer = {
   mac_address: string
   username: string
   password: string
-  connection_type: string
+  connection_type: "DHCP" | "STATIC" | "PPPoE"
   credentials: Credentials
 }
 
@@ -39,16 +39,16 @@ export type Package = {
 
 export type CreateCustomer = {
   name: string
-  phone: string
-  address: string
-  nid: string
-  is_free: boolean
-  is_active: boolean
-  ip_address: string
-  mac_address: string
-  username: string
-  password: string
-  connection_type: "DHCP" | "STATIC" | "PPPoE"
+  phone?: string
+  address?: string
+  nid?: string
+  is_free?: boolean
+  is_active?: boolean
+  ip_address?: string
+  mac_address?: string
+  username?: string
+  password?: string
+  connection_type?: "DHCP" | "STATIC" | "PPPoE"
   email?: string | undefined
   package_id?: number | undefined
   connection_start_date?: string | null | undefined

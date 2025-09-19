@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { customersCollection } from "@/collections/customers-collection"
+import { z } from "zod/v3"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -29,56 +28,59 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useCreateCustomer } from "@/hooks/rq/use-customers-query"
+import { useCreateCustomer, useUpdateCustomer } from "@/hooks/rq/use-customers-query"
 import { useGetPackgeList } from "@/hooks/rq/use-packages-query"
 import { useCustomersStore } from "@/stores/customers-store"
 
 // ✅ Schema from your message
 export const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(255),
-  email: z.email("Invalid email").max(254).optional(),
-  phone: z.string().max(20),
-  address: z.string().max(255),
-  nid: z.string().max(20),
-  is_free: z.boolean(),
+  email: z.string().email("Invalid email").max(254).optional(),
+  phone: z.string().max(20).optional(),
+  address: z.string().max(255).optional(),
+  nid: z.string().max(20).optional(),
+  is_free: z.boolean().optional(),
   package_id: z.string().optional(),
   connection_start_date: z.string().nullable().optional(),
-  is_active: z.boolean(),
-  ip_address: z.string().max(45),
-  mac_address: z.string().max(32),
-  username: z.string().max(150),
-  password: z.string().max(128),
-  connection_type: z.enum(["DHCP", "STATIC", "PPPoE"]),
+  is_active: z.boolean().optional(),
+  ip_address: z.string().max(45).optional(),
+  mac_address: z.string().max(32).optional(),
+  username: z.string().max(150).optional(),
+  password: z.string().max(128).optional(),
+  connection_type: z.enum(["DHCP", "STATIC", "PPPoE"]).optional(),
   credentials: z.any().optional(),
 })
 
 export function CustomersUpsertForm() {
-  const { mutate: triggerCreateCustomer } = useCreateCustomer()
+  const { setIsUpsertCustomerDialogOpen, customerMutationType } = useCustomersStore()
 
-  const { setIsUpsertCustomerDialogOpen } = useCustomersStore()
+  const { mutate: triggerCreateCustomer } = useCreateCustomer()
+  const { mutate: triggerUpdateCustomer } = useUpdateCustomer()
 
   const { data: packageData } = useGetPackgeList()
+
+  const { selectedCustomer } = useCustomersStore()
 
   const packages = packageData?.results || []
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      phone: "",
-      email: undefined,
-      address: "",
-      nid: "",
-      is_free: false,
-      // package_id: undefined,
+      name: selectedCustomer.name,
+      phone: selectedCustomer?.phone,
+      email: selectedCustomer?.email || undefined,
+      address: selectedCustomer?.address || undefined,
+      nid: selectedCustomer?.nid,
+      is_free: selectedCustomer?.is_free,
+      package_id: selectedCustomer?.package?.id.toString(),
       connection_start_date: null,
-      is_active: true,
-      ip_address: "",
-      mac_address: "",
-      username: "",
-      password: "",
-      connection_type: "PPPoE",
-      credentials: {},
+      is_active: selectedCustomer?.is_active,
+      ip_address: selectedCustomer?.ip_address,
+      mac_address: selectedCustomer?.mac_address,
+      username: selectedCustomer?.username,
+      password: selectedCustomer?.password,
+      connection_type: selectedCustomer?.connection_type,
+      // credentials: {},
     },
   })
 
@@ -87,17 +89,26 @@ export function CustomersUpsertForm() {
       ...values,
       package_id: values.package_id ? +values.package_id : undefined,
     }
+
+    if (customerMutationType === "edit") {
+      triggerUpdateCustomer(
+        { payload, uid: selectedCustomer.uid },
+        {
+          onSuccess: () => setIsUpsertCustomerDialogOpen(false),
+        },
+      )
+
+      return
+    }
+
     triggerCreateCustomer(payload, {
-      onSuccess: () => {
-        setIsUpsertCustomerDialogOpen(false)
-      },
+      onSuccess: () => setIsUpsertCustomerDialogOpen(false),
     })
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* ✅ Basic Information */}
         <Card>
           <CardHeader>
             <CardTitle>Basic Information</CardTitle>
@@ -174,7 +185,6 @@ export function CustomersUpsertForm() {
           </CardContent>
         </Card>
 
-        {/* ✅ Package & Status */}
         <Card>
           <CardHeader>
             <CardTitle>Package & Status</CardTitle>
@@ -258,7 +268,6 @@ export function CustomersUpsertForm() {
           </CardContent>
         </Card>
 
-        {/* ✅ Network Configuration */}
         <Card>
           <CardHeader>
             <CardTitle>Network Configuration</CardTitle>
@@ -317,15 +326,9 @@ export function CustomersUpsertForm() {
                 </FormItem>
               )}
             />
-            <div className="md:col-span-2">
-              <Button type="button" variant="outline" className="w-full">
-                Generate Credentials
-              </Button>
-            </div>
           </CardContent>
         </Card>
 
-        {/* ✅ Actions */}
         <div className="flex justify-between">
           <Button type="button" variant="outline">
             Cancel

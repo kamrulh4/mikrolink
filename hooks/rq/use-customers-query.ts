@@ -3,7 +3,6 @@ import {
   queryOptions,
   useMutation,
   useQuery,
-  useQueryClient,
 } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { XiorError } from "xior"
@@ -61,11 +60,11 @@ function createCustomerOptons() {
 function updateCustomerOptons() {
   return mutationOptions({
     mutationKey: ["customers", "update"],
-    mutationFn: (payload: Partial<CreateCustomer>) => {
+    mutationFn: ({ payload, uid }: { payload: Partial<CreateCustomer>; uid: string }) => {
       return httpV1
         .request<Customer>({
           method: "PUT",
-          url: "/customers",
+          url: `/customers/${uid}`,
           data: payload,
         })
         .then((res) => res.data)

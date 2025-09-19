@@ -3,6 +3,7 @@
 import { Row } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import React, { useState } from "react"
+import { set } from "zod"
 import { DeleteAlertDialog } from "@/components/core/delete-alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
@@ -68,6 +69,7 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
             onClick={() => {
               setIsUpsertCustomerDialogOpen(true)
               setCustomerMutationType("edit")
+              setSelectedCustomer(row.original)
             }}
           >
             Edit
