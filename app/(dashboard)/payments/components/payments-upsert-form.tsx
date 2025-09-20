@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
-import { Suspense } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod/v3"
 import { Button } from "@/components/ui/button"
@@ -27,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { useCreatePayment } from "@/hooks/rq/use-payment-query"
+import { useCreatePayment, useUpdatePayment } from "@/hooks/rq/use-payment-query"
 import { cn } from "@/lib/utils"
 import { usePaymentsStore } from "@/stores/payments-store"
 import { months, paymentMethods } from "../data/data"
@@ -52,32 +51,40 @@ const formSchema = z.object({
 })
 
 export function PaymentsUpsertForm() {
-  const { setIsUpsertPaymentDialogOpen } = usePaymentsStore()
-
+  const { setIsUpsertPaymentDialogOpen, paymentMutationType, selectedPayment } =
+    usePaymentsStore()
   const { mutate: triggerCreatePayment } = useCreatePayment()
+  const { mutate: triggerUpdatePayment } = useUpdatePayment()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // customer_id: undefined,
-      billing_month: "JANUARY",
-      payment_method: "CASH",
-      bill_amount: undefined,
-      amount: undefined,
-      transaction_id: undefined,
-      payment_date: new Date(),
-      note: "",
-      paid: false,
+      customer_id: selectedPayment?.customer?.id,
+      billing_month: selectedPayment?.billing_month || "JANUARY",
+      payment_method: selectedPayment?.payment_method || "CASH",
+      bill_amount: selectedPayment?.bill_amount,
+      amount: selectedPayment?.amount,
+      transaction_id: selectedPayment?.transaction_id,
+      payment_date: selectedPayment?.payment_date
+        ? new Date(selectedPayment.payment_date)
+        : new Date(),
+      note: selectedPayment?.note || "",
+      paid: selectedPayment?.paid || false,
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Payment Submitted:", values)
-
+    if (paymentMutationType === "edit" && selectedPayment?.uid) {
+      triggerUpdatePayment(
+        { payload: values, uid: selectedPayment.uid },
+        {
+          onSuccess: () => setIsUpsertPaymentDialogOpen(false),
+        },
+      )
+      return
+    }
     triggerCreatePayment(values, {
-      onSuccess: () => {
-        setIsUpsertPaymentDialogOpen(false)
-      },
+      onSuccess: () => setIsUpsertPaymentDialogOpen(false),
     })
   }
 
@@ -242,7 +249,9 @@ export function PaymentsUpsertForm() {
           >
             Cancel
           </Button>
-          <Button type="submit">Create Payment</Button>
+          <Button type="submit">
+            {paymentMutationType === "edit" ? "Update Payment" : "Create Payment"}
+          </Button>
         </div>
       </form>
     </Form>
