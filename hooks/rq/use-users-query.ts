@@ -1,11 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  mutationOptions,
+  queryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
 import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { User, UserResponse } from "@/types/users"
 
-export function useGetUserList() {
-  return useQuery({
+function getUserListOptions() {
+  return queryOptions({
     queryKey: ["users", "list"],
     queryFn: () => {
       return httpV1
@@ -22,10 +27,8 @@ export function useGetUserList() {
   })
 }
 
-export function useCreateUser() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
+function createUserOptions() {
+  return mutationOptions({
     mutationKey: ["users", "add"],
     mutationFn: (payload: any) => {
       return httpV1
@@ -36,7 +39,6 @@ export function useCreateUser() {
         })
         .then((res) => res.data)
     },
-
     onSuccess: () => {
       toast.success("User created successfully")
     },
@@ -47,17 +49,42 @@ export function useCreateUser() {
         })
       }
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["users"] })
     },
   })
 }
 
-export function useDeleteUser() {
-  const queryClient = useQueryClient()
+function updateUserOptions() {
+  return mutationOptions({
+    mutationKey: ["users", "update"],
+    mutationFn: ({ payload, uid }: { payload: Partial<User>; uid: string }) => {
+      return httpV1
+        .request<User>({
+          method: "PUT",
+          url: `/users/${uid}`,
+          data: payload,
+        })
+        .then((res) => res.data)
+    },
+    onSuccess: () => {
+      toast.success("User updated successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed. Please try Again", {
+          description: error.message,
+        })
+      }
+    },
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["users"] })
+    },
+  })
+}
 
-  return useMutation({
+function deleteUserOptions() {
+  return mutationOptions({
     mutationKey: ["users", "delete"],
     mutationFn: (uid: string) => {
       return httpV1
@@ -67,7 +94,6 @@ export function useDeleteUser() {
         })
         .then((res) => res.data)
     },
-
     onSuccess: () => {
       toast.success("User deleted successfully")
     },
@@ -78,9 +104,24 @@ export function useDeleteUser() {
         })
       }
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["users"] })
     },
   })
+}
+
+export function useGetUserList() {
+  return useQuery(getUserListOptions())
+}
+
+export function useCreateUser() {
+  return useMutation(createUserOptions())
+}
+
+export function useUpdateUser() {
+  return useMutation(updateUserOptions())
+}
+
+export function useDeleteUser() {
+  return useMutation(deleteUserOptions())
 }
