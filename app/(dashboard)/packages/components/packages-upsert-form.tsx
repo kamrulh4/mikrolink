@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useCreatePackage, useUpdatePackage } from "@/hooks/rq/use-packages-query"
-import { useCustomersStore } from "@/stores/customers-store"
 import { usePackagesStore } from "@/stores/packages-store"
 
 const formSchema = z.object({

@@ -1,11 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  mutationOptions,
+  queryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query"
 import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { Payment, PaymentResponse } from "@/types/payments"
 
-export function useGetPaymentList() {
-  return useQuery({
+function getPaymentListOptions() {
+  return queryOptions({
     queryKey: ["payments", "list"],
     queryFn: () => {
       return httpV1
@@ -22,10 +27,8 @@ export function useGetPaymentList() {
   })
 }
 
-export function useCreatePayment() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
+function createPaymentOptions() {
+  return mutationOptions({
     mutationKey: ["payments", "add"],
     mutationFn: (payload: any) => {
       return httpV1
@@ -36,7 +39,6 @@ export function useCreatePayment() {
         })
         .then((res) => res.data)
     },
-
     onSuccess: () => {
       toast.success("Payment created successfully")
     },
@@ -47,17 +49,42 @@ export function useCreatePayment() {
         })
       }
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments"] })
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["payments"] })
     },
   })
 }
 
-export function useDeletePayment() {
-  const queryClient = useQueryClient()
+function updatePaymentOptions() {
+  return mutationOptions({
+    mutationKey: ["payments", "update"],
+    mutationFn: ({ payload, uid }: { payload: Partial<Payment>; uid: string }) => {
+      return httpV1
+        .request<Payment>({
+          method: "PUT",
+          url: `/payments/${uid}`,
+          data: payload,
+        })
+        .then((res) => res.data)
+    },
+    onSuccess: () => {
+      toast.success("Payment updated successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed. Please try Again", {
+          description: error.message,
+        })
+      }
+    },
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["payments"] })
+    },
+  })
+}
 
-  return useMutation({
+function deletePaymentOptions() {
+  return mutationOptions({
     mutationKey: ["payments", "delete"],
     mutationFn: (uid: string) => {
       return httpV1
@@ -67,7 +94,6 @@ export function useDeletePayment() {
         })
         .then((res) => res.data)
     },
-
     onSuccess: () => {
       toast.success("Payment deleted successfully")
     },
@@ -78,9 +104,24 @@ export function useDeletePayment() {
         })
       }
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments"] })
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["payments"] })
     },
   })
+}
+
+export function useGetPaymentList() {
+  return useQuery(getPaymentListOptions())
+}
+
+export function useCreatePayment() {
+  return useMutation(createPaymentOptions())
+}
+
+export function useUpdatePayment() {
+  return useMutation(updatePaymentOptions())
+}
+
+export function useDeletePayment() {
+  return useMutation(deletePaymentOptions())
 }
