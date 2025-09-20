@@ -51,6 +51,7 @@ export function UsersTableRowActions({ row }: UsersTableRowActionsProps) {
             onClick={() => {
               setIsUpsertUserDialogOpen(true)
               setUserMutationType("edit")
+              setSelectedUser(row.original)
             }}
           >
             Edit

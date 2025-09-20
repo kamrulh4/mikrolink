@@ -59,6 +59,7 @@ export function PaymentsTableRowActions({ row }: PaymentsTableRowActionsProps) {
             onClick={() => {
               setIsUpsertPaymentDialogOpen(true)
               setPaymentMutationType("edit")
+              setSelectedPayment(row.original)
             }}
           >
             Edit

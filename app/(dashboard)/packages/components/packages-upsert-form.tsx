@@ -25,8 +25,10 @@ const formSchema = z.object({
 })
 
 export function PackagesUpsertForm() {
-  const { mutate: triggerCreatePackage, isPending } = useCreatePackage()
-  const { mutate: triggerUpdatePackage } = useUpdatePackage()
+  const { mutate: triggerCreatePackage, isPending: isCreatePackagePending } =
+    useCreatePackage()
+  const { mutate: triggerUpdatePackage, isPending: isUpdatePackagePending } =
+    useUpdatePackage()
   const { setIsUpsertPackageDialogOpen, packageMutationType, selectedPackage } =
     usePackagesStore()
 
@@ -128,8 +130,19 @@ export function PackagesUpsertForm() {
           )}
         />
 
-        <div className="flex justify-between">
-          <Button type="submit" disabled={isPending} loading={isPending}>
+        <div className="flex justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setIsUpsertPackageDialogOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={isCreatePackagePending || isUpdatePackagePending}
+            loading={isCreatePackagePending || isUpdatePackagePending}
+          >
             {packageMutationType === "edit" ? "Update Package" : "Create Package"}
           </Button>
         </div>

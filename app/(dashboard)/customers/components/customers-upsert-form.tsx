@@ -53,8 +53,10 @@ export const formSchema = z.object({
 export function CustomersUpsertForm() {
   const { setIsUpsertCustomerDialogOpen, customerMutationType } = useCustomersStore()
 
-  const { mutate: triggerCreateCustomer } = useCreateCustomer()
-  const { mutate: triggerUpdateCustomer } = useUpdateCustomer()
+  const { mutate: triggerCreateCustomer, isPending: isCreateCustomerPending } =
+    useCreateCustomer()
+  const { mutate: triggerUpdateCustomer, isPending: isUpdateCustomerPending } =
+    useUpdateCustomer()
 
   const { data: packageData } = useGetPackageList()
 
@@ -328,11 +330,21 @@ export function CustomersUpsertForm() {
           </CardContent>
         </Card>
 
-        <div className="flex justify-between">
-          <Button type="button" variant="outline">
+        <div className="flex justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setIsUpsertCustomerDialogOpen(false)}
+          >
             Cancel
           </Button>
-          <Button type="submit">Create Customer</Button>
+          <Button
+            type="submit"
+            loading={isCreateCustomerPending || isUpdateCustomerPending}
+            disabled={isCreateCustomerPending || isUpdateCustomerPending}
+          >
+            {customerMutationType === "edit" ? "Update Customer" : "Create Customer"}
+          </Button>
         </div>
       </form>
     </Form>

@@ -53,8 +53,10 @@ const formSchema = z.object({
 export function PaymentsUpsertForm() {
   const { setIsUpsertPaymentDialogOpen, paymentMutationType, selectedPayment } =
     usePaymentsStore()
-  const { mutate: triggerCreatePayment } = useCreatePayment()
-  const { mutate: triggerUpdatePayment } = useUpdatePayment()
+  const { mutate: triggerCreatePayment, isPending: isCreatePaymentPending } =
+    useCreatePayment()
+  const { mutate: triggerUpdatePayment, isPending: isUpdatePaymentPending } =
+    useUpdatePayment()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -249,7 +251,11 @@ export function PaymentsUpsertForm() {
           >
             Cancel
           </Button>
-          <Button type="submit">
+          <Button
+            type="submit"
+            loading={isCreatePaymentPending || isUpdatePaymentPending}
+            disabled={isCreatePaymentPending || isUpdatePaymentPending}
+          >
             {paymentMutationType === "edit" ? "Update Payment" : "Create Payment"}
           </Button>
         </div>
