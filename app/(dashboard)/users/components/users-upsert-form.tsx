@@ -12,18 +12,26 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useCreateUser, useUpdateUser } from "@/hooks/rq/use-users-query"
-import { cn } from "@/lib/utils"
 import { useUsersStore } from "@/stores/users-store"
+import { genders, kinds } from "../data/data"
 
 const formSchema = z.object({
-  first_name: z.string().min(1, "First name is required").max(50),
+  phone: z.string().max(20),
+  email: z.string().email("Enter valid email"),
+
+  first_name: z.string().max(50).optional(),
   last_name: z.string().max(50).optional(),
-  email: z.string().email("Invalid email").optional(),
-  phone: z.string().max(20).optional(),
   gender: z.string().optional(),
   kind: z.string().optional(),
-  image: z.string().optional(),
+  // image: z.string().optional(),
 })
 
 export function UsersUpsertForm() {
@@ -34,13 +42,13 @@ export function UsersUpsertForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: selectedUser?.first_name || "",
-      last_name: selectedUser?.last_name || "",
-      email: selectedUser?.email || "",
-      phone: selectedUser?.phone || "",
-      gender: selectedUser?.gender || "",
-      kind: selectedUser?.kind || "",
-      image: selectedUser?.image || "",
+      first_name: selectedUser?.first_name,
+      last_name: selectedUser?.last_name,
+      email: selectedUser?.email,
+      phone: selectedUser.phone,
+      gender: selectedUser?.gender,
+      kind: selectedUser?.kind,
+      // image: selectedUser?.image,
     },
   })
 
@@ -65,12 +73,26 @@ export function UsersUpsertForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="first_name"
+            name="phone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  First Name<span className="text-red-500 -ml-1.5">*</span>
+                  Phone<span className="text-red-500">*</span>{" "}
                 </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="first_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -104,28 +126,31 @@ export function UsersUpsertForm() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="gender"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {genders.map((g) => (
+                      <SelectItem key={g.value} value={g.value}>
+                        <g.icon className="mr-2 h-4 w-4 inline-block" /> {g.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -136,14 +161,31 @@ export function UsersUpsertForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Kind</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select kind" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {kinds
+                      .filter((kind) => !["SUPER_ADMIN", "ADMIN"].includes(kind.value))
+                      .map((k) => (
+                        <SelectItem key={k.value} value={k.value}>
+                          <k.icon className="mr-2 h-4 w-4 inline-block" /> {k.label}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="image"
             render={({ field }) => (
@@ -155,7 +197,7 @@ export function UsersUpsertForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <div className="flex justify-end gap-2">
             <Button
