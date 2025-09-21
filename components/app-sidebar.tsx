@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  Building2,
   CreditCard,
   GalleryVerticalEnd,
   LayoutDashboard,
@@ -54,13 +55,18 @@ const data = {
       icon: CreditCard,
     },
     {
+      title: "Organizations",
+      url: "/organizations",
+      icon: Building2,
+    },
+    {
       title: "Users",
       url: "/users",
       icon: User,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
     },
   ],
