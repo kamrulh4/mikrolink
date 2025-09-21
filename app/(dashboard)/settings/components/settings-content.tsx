@@ -27,9 +27,9 @@ export function SettingsContent() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Settings</h1>
-        <p className="text-muted-foreground">
+      <div className="px-2 sm:px-0">
+        <h1 className="text-2xl sm:text-3xl font-bold">Settings</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
           Manage your application settings and preferences
         </p>
       </div>
@@ -37,32 +37,44 @@ export function SettingsContent() {
       <Separator />
 
       {/* Settings Categories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* General Settings */}
         <Card className="hover:shadow-md transition-shadow cursor-pointer">
           <CardHeader className="pb-3">
             <div className="flex items-center space-x-2">
-              <Settings className="h-5 w-5 text-blue-600" />
-              <CardTitle className="text-lg">General</CardTitle>
+              <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+              <CardTitle className="text-base sm:text-lg">General</CardTitle>
             </div>
-            <CardDescription>Basic application settings and preferences</CardDescription>
+            <CardDescription className="text-xs sm:text-sm">
+              Basic application settings and preferences
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 sm:px-6">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm">Language</span>
-                <Badge variant="outline">English</Badge>
+                <span className="text-xs sm:text-sm">Language</span>
+                <Badge variant="outline" className="text-xs">
+                  English
+                </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm">Theme</span>
-                <Badge variant="outline">System</Badge>
+                <span className="text-xs sm:text-sm">Theme</span>
+                <Badge variant="outline" className="text-xs">
+                  System
+                </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm">Timezone</span>
-                <Badge variant="outline">UTC+6</Badge>
+                <span className="text-xs sm:text-sm">Timezone</span>
+                <Badge variant="outline" className="text-xs">
+                  UTC+6
+                </Badge>
               </div>
             </div>
-            <Button variant="outline" size="sm" className="w-full mt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-3 sm:mt-4 text-xs sm:text-sm"
+            >
               Configure
             </Button>
           </CardContent>
@@ -317,27 +329,41 @@ export function SettingsContent() {
 
       {/* Quick Actions */}
       <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common administrative tasks and maintenance</CardDescription>
+        <CardHeader className="pb-3 sm:pb-4">
+          <CardTitle className="text-sm sm:text-base">Quick Actions</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
+            Common administrative tasks and maintenance
+          </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex flex-col space-y-2">
-              <Database className="h-6 w-6" />
-              <span>Backup Database</span>
+        <CardContent className="px-3 sm:px-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+            <Button
+              variant="outline"
+              className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 p-2"
+            >
+              <Database className="h-4 w-4 sm:h-6 sm:w-6" />
+              <span className="text-xs sm:text-sm text-center">Backup Database</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col space-y-2">
-              <Bell className="h-6 w-6" />
-              <span>Send Notification</span>
+            <Button
+              variant="outline"
+              className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 p-2"
+            >
+              <Bell className="h-4 w-4 sm:h-6 sm:w-6" />
+              <span className="text-xs sm:text-sm text-center">Send Notification</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col space-y-2">
-              <Shield className="h-6 w-6" />
-              <span>Security Audit</span>
+            <Button
+              variant="outline"
+              className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 p-2"
+            >
+              <Shield className="h-4 w-4 sm:h-6 sm:w-6" />
+              <span className="text-xs sm:text-sm text-center">Security Audit</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col space-y-2">
-              <Server className="h-6 w-6" />
-              <span>System Health</span>
+            <Button
+              variant="outline"
+              className="h-16 sm:h-20 flex flex-col space-y-1 sm:space-y-2 p-2"
+            >
+              <Server className="h-4 w-4 sm:h-6 sm:w-6" />
+              <span className="text-xs sm:text-sm text-center">System Health</span>
             </Button>
           </div>
         </CardContent>

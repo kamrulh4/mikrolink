@@ -44,21 +44,27 @@ const actions = [
 export function QuickActions() {
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-      <CardHeader>
-        <CardTitle className="text-foreground">Quick Actions</CardTitle>
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="text-foreground text-sm sm:text-base">
+          Quick Actions
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-3">
+      <CardContent className="px-3 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
           {actions.map((action) => (
             <Button
               key={action.title}
               variant="outline"
-              className="h-auto p-4 flex flex-col items-center space-y-2 hover:bg-muted/50 bg-transparent"
+              className="h-auto p-3 sm:p-4 flex flex-col items-center space-y-1 sm:space-y-2 hover:bg-muted/50 bg-transparent"
             >
-              <action.icon className="h-6 w-6 text-primary" />
+              <action.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               <div className="text-center">
-                <p className="font-medium text-sm text-foreground">{action.title}</p>
-                <p className="text-xs text-muted-foreground">{action.description}</p>
+                <p className="font-medium text-xs sm:text-sm text-foreground leading-tight">
+                  {action.title}
+                </p>
+                <p className="text-xs text-muted-foreground hidden sm:block">
+                  {action.description}
+                </p>
               </div>
             </Button>
           ))}

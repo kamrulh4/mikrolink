@@ -1,5 +1,6 @@
 "use client"
 
+import { MobileDataTable } from "@/components/data-table/mobile-data-table"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetOrganizationList } from "@/hooks/rq/use-organizations-query"
 import { columns } from "./columns"
@@ -19,7 +20,15 @@ export function OrganizationsTable() {
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
-      {render}
+      <MobileDataTable
+        columns={columns}
+        data={organizationsData?.results}
+        loading={isLoading}
+        title="Organizations"
+        description="Manage your organizations"
+        table={table}
+        render={render}
+      />
       <UpsertOrganizationsDialog />
       <ViewOrganizationsDialog />
     </div>

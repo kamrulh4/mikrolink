@@ -1,5 +1,6 @@
 "use client"
 
+import { MobileDataTable } from "@/components/data-table/mobile-data-table"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetUserList } from "@/hooks/rq/use-users-query"
 import { columns } from "./columns"
@@ -19,7 +20,15 @@ export function UsersTable() {
   return (
     <div className="space-y-4">
       <UsersTableToolbar table={table} />
-      {render}
+      <MobileDataTable
+        columns={columns}
+        data={usersData?.results}
+        loading={isLoading}
+        title="Users"
+        description="Manage your users"
+        table={table}
+        render={render}
+      />
 
       <UpsertUsersDialog />
       <ViewUsersDialog />

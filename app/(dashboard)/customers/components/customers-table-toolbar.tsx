@@ -29,10 +29,10 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
   const [searchField, setSearchField] = React.useState("username")
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2">
+      <div className="flex flex-1 items-center space-x-2 w-full sm:w-auto">
         <Select defaultValue="username" onValueChange={setSearchField}>
-          <SelectTrigger size="sm">
+          <SelectTrigger size="sm" className="w-24 sm:w-auto">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
@@ -44,44 +44,48 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 
         <DataTableSearch table={table} searchField={searchField} />
 
-        {table.getColumn("is_active") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("is_active")}
-            title="Status"
-            options={customerStatus}
-          />
-        )}
-        {table.getColumn("connection_type") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("connection_type")}
-            title="Connection"
-            options={connectionType}
-          />
-        )}
-        {isFiltered && (
-          <Button
-            variant="ghost"
-            onClick={() => table.resetColumnFilters()}
-            className="h-8 px-2 lg:px-3"
-          >
-            Reset
-            <X />
-          </Button>
-        )}
+        <div className="hidden sm:flex items-center space-x-2">
+          {table.getColumn("is_active") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("is_active")}
+              title="Status"
+              options={customerStatus}
+            />
+          )}
+          {table.getColumn("connection_type") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("connection_type")}
+              title="Connection"
+              options={connectionType}
+            />
+          )}
+          {isFiltered && (
+            <Button
+              variant="ghost"
+              onClick={() => table.resetColumnFilters()}
+              className="h-8 px-2 lg:px-3"
+            >
+              Reset
+              <X />
+            </Button>
+          )}
+        </div>
       </div>
 
-      <Button
-        onClick={() => {
-          setIsUpsertCustomerDialogOpen(true)
-          setCustomerMutationType("add")
-        }}
-        size="sm"
-        className="mr-2"
-      >
-        Add Customer
-      </Button>
+      <div className="flex items-center space-x-2 w-full sm:w-auto">
+        <Button
+          onClick={() => {
+            setIsUpsertCustomerDialogOpen(true)
+            setCustomerMutationType("add")
+          }}
+          size="sm"
+          className="flex-1 sm:flex-none"
+        >
+          Add Customer
+        </Button>
 
-      <DataTableViewOptions table={table} />
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   )
 }

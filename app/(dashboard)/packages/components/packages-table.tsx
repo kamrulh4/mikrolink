@@ -1,5 +1,6 @@
 "use client"
 
+import { MobileDataTable } from "@/components/data-table/mobile-data-table"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetPackageList } from "@/hooks/rq/use-packages-query"
 import { columns } from "./columns"
@@ -19,7 +20,15 @@ export function PackagesTable() {
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
-      {render}
+      <MobileDataTable
+        columns={columns}
+        data={packageData?.results}
+        loading={isLoading}
+        title="Packages"
+        description="Manage your packages"
+        table={table}
+        render={render}
+      />
 
       <UpsertPackagesDialog />
       <ViewPackagesDialog />

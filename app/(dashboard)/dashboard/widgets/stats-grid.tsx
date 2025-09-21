@@ -67,31 +67,34 @@ const stats = [
 
 export function StatsGrid() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
       {stats.map((stat) => (
         <Card
           key={stat.title}
           className="bg-card/80 backdrop-blur-sm border-border/50 hover:shadow-lg transition-all duration-300"
         >
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 sm:pb-3">
+            <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground leading-tight">
               {stat.title}
             </CardTitle>
-            <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-              <stat.icon className={`h-4 w-4 ${stat.color}`} />
+            <div className={`p-1.5 sm:p-2 rounded-lg ${stat.bgColor}`}>
+              <stat.icon className={`h-3 w-3 sm:h-4 sm:w-4 ${stat.color}`} />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+          <CardContent className="pb-3 sm:pb-4">
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground mb-1 leading-tight">
+              {stat.value}
+            </div>
             <p
               className={`text-xs mt-1 flex items-center gap-1 ${
                 stat.trend === "up" ? "text-green-600" : "text-red-600"
               }`}
             >
               <span
-                className={`inline-block w-2 h-2 rounded-full ${stat.trend === "up" ? "bg-green-500" : "bg-red-500"}`}
+                className={`inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${stat.trend === "up" ? "bg-green-500" : "bg-red-500"}`}
               ></span>
-              {stat.change} from last month
+              <span className="hidden sm:inline">{stat.change} from last month</span>
+              <span className="sm:hidden">{stat.change}</span>
             </p>
           </CardContent>
         </Card>

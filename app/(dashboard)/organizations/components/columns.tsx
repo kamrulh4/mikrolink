@@ -26,7 +26,9 @@ export const columns: ColumnDef<Organization>[] = [
       return (
         <div className="flex space-x-2 items-center">
           <Avatar className="rounded-md">
-            <AvatarImage src={row.original.logo} />
+            <AvatarImage
+              src={row.original.logo || generateAvatarUrl(row.original.name)}
+            />
             <AvatarFallback className="text-xs font-light">
               {getInitials(row.original.name)}
             </AvatarFallback>

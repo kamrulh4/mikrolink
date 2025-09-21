@@ -1,5 +1,6 @@
 "use client"
 
+import { MobileDataTable } from "@/components/data-table/mobile-data-table"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetPaymentList } from "@/hooks/rq/use-payment-query"
 import { columns } from "./columns"
@@ -19,7 +20,15 @@ export function PaymentsTable() {
   return (
     <div className="space-y-4">
       <PaymentsTableToolbar table={table} />
-      {render}
+      <MobileDataTable
+        columns={columns}
+        data={paymentsData?.results}
+        loading={isLoading}
+        title="Payments"
+        description="Manage your payments"
+        table={table}
+        render={render}
+      />
 
       <PaymentsUpsertDialog />
       <ViewPaymentsDialog />

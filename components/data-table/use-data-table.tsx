@@ -67,16 +67,10 @@ export function useDataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
-  if (loading) {
-    return {
-      table,
-      render: (
-        <DataTableLoading columnCount={table.getAllColumns().length} rowCount={10} />
-      ),
-    }
-  }
-
-  const render = (
+  // Always create the render function, but conditionally render content
+  const render = loading ? (
+    <DataTableLoading columnCount={table.getAllColumns().length} rowCount={10} />
+  ) : (
     <>
       <div className="space-y-4">
         <div className="rounded-md border">

@@ -18,7 +18,7 @@ export default function DashboardLayout({
       <AppSidebar />
       <SidebarInset>
         <header className="sticky top-0 z-50 border-b bg-background flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
+          <div className="flex items-center gap-2 px-2 sm:px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
               orientation="vertical"
@@ -26,7 +26,7 @@ export default function DashboardLayout({
             />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbItem className="hidden sm:block">
                   <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -34,7 +34,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="p-4">{children}</main>
+        <main className="p-2 sm:p-4">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   )
