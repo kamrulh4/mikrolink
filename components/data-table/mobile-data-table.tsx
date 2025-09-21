@@ -26,22 +26,9 @@ export function MobileDataTable<TData, TValue>({
   table,
   render,
 }: MobileDataTableProps<TData, TValue>) {
-  // Always render loading state if loading
+  // Always render loading state if loading - use the default table skeleton
   if (loading) {
-    return (
-      <div className="space-y-4">
-        <div className="grid gap-4">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Card key={i} className="animate-pulse">
-              <CardContent className="p-4">
-                <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-muted rounded w-1/2"></div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    )
+    return <>{render}</>
   }
 
   // Always render empty state if no data
