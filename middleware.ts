@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
   }
 
   // 2. If logged in but visiting `/` or `/login` → redirect to dashboard
-  if (token && ["/", "/login"].includes(pathname)) {
+  if (token && ["/login"].includes(pathname)) {
     return NextResponse.redirect(new URL("/dashboard", request.url))
   }
 

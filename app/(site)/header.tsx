@@ -1,6 +1,11 @@
 import { Globe } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { getSession } from "@/lib/apis/auth"
 
-export function Header() {
+export async function Header() {
+  const session = await getSession()
+
   return (
     <header className="border-border border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,24 +18,23 @@ export function Header() {
           </div>
 
           <nav className="hidden items-center gap-8 md:flex">
-            <a
-              className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-              href="#features"
-            >
-              Features
-            </a>
-            <a
-              className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-              href="#pricing"
-            >
-              Pricing
-            </a>
-            <a
-              className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-              href="#contact"
-            >
-              Contact
-            </a>
+            {session ? (
+              <Link
+                className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
+                href="/dashboard"
+              >
+                {session.email}
+              </Link>
+            ) : (
+              <>
+                <Link
+                  className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
+                  href="/login"
+                >
+                  Login
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </div>

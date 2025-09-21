@@ -20,7 +20,7 @@ export function useSession() {
     queryKey: ["session"],
     queryFn: () => {
       return httpV1
-        .request<Session>({ method: "GET", url: "/users/me" })
+        .request<Session>({ method: "GET", url: "/users/me", cache: "no-store" })
         .then((res) => res.data)
     },
     staleTime: 10 * 60 * 1000,
