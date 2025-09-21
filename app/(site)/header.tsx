@@ -1,6 +1,5 @@
 import { Globe } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { getSession } from "@/lib/apis/auth"
 
 export async function Header() {
@@ -26,14 +25,12 @@ export async function Header() {
                 {session.email}
               </Link>
             ) : (
-              <>
-                <Link
-                  className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-                  href="/login"
-                >
-                  Login
-                </Link>
-              </>
+              <Link
+                className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
+                href="/login"
+              >
+                Login
+              </Link>
             )}
           </nav>
         </div>
