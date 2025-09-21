@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { FeatureGrid } from "@/app/(site)/feature-grid"
 import { LoginForm } from "@/app/(site)/login-form"
 
@@ -22,7 +23,9 @@ export function HeroSection() {
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <LoginForm />
+            <Suspense>
+              <LoginForm />
+            </Suspense>
           </div>
         </div>
       </div>

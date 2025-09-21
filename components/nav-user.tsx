@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useLogout } from "@/hooks/rq/auth/use-logout"
 import { useSession } from "@/hooks/rq/auth/use-session"
 import { generateAvatarUrl } from "@/lib/utils"
 import { Skeleton } from "./ui/skeleton"
@@ -51,9 +52,10 @@ export function NavUser() {
 
   const name = `${session?.first_name || ""} ${session?.last_name || ""}`
 
+  const { mutate: triggerLogout } = useLogout()
+
   function logoutHandler() {
-    localStorage.clear()
-    router.push("/")
+    triggerLogout()
   }
 
   return (

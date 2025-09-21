@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
@@ -7,6 +7,7 @@ import { LoginResponse } from "@/types/logins"
 
 export function useLogin() {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   return useMutation({
     mutationKey: ["login"],
@@ -22,10 +23,10 @@ export function useLogin() {
 
     onSuccess: (data) => {
       toast.success("Successfully logged in")
-      localStorage.setItem("token", data.access_token)
-      // localStorage.setItem("user", JSON.stringify(data.user))
+      document.cookie = `token=${data.access_token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`
 
-      router.push("/dashboard")
+      const redirectTo = searchParams.get("redirect") || "/dashboard"
+      router.push(redirectTo)
     },
     onError: (error) => {
       if (error instanceof XiorError) {
