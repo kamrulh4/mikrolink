@@ -1,5 +1,16 @@
-import { Badge } from "@/components/ui/badge"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import z from "zod"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -8,8 +19,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { months, paymentMethods } from "../../payments/data/data"
+
+const formSchema = z.object({
+  billingMonth: z.string().min(1, "Billing Month is required"),
+  paymentMethod: z.string().min(1, "Payment Method is required"),
+  amount: z.string(),
+  markAsPaid: z.boolean(),
+})
 
 export function CustomersPaymentHistoryTab() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      billingMonth: "",
+      paymentMethod: "",
+      amount: undefined,
+      markAsPaid: false,
+    },
+  })
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+  }
+
   return (
     <div className="flex flex-col md:flex-row gap-4">
       <div className="flex-1 rounded-lg border bg-card text-card-foreground shadow-sm p-4">
@@ -46,48 +79,90 @@ export function CustomersPaymentHistoryTab() {
       </div>
       <div className="w-full md:max-w-xs rounded-lg border bg-card text-card-foreground shadow-sm p-4">
         <div className="font-semibold text-lg mb-2">Quick Actions</div>
-        <form className="space-y-3">
-          <div>
-            <label className="block text-sm font-medium mb-1">Billing Month</label>
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Month" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="SEPTEMBER">September</SelectItem>
-                <SelectItem value="OCTOBER">October</SelectItem>
-                {/* Add more months as needed */}
-              </SelectContent>
-            </Select>
-            <span className="text-xs text-red-500">Required</span>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Payment Method</label>
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Method" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="CASH">CASH</SelectItem>
-                <SelectItem value="BKASH">BKASH</SelectItem>
-                <SelectItem value="NAGAD">NAGAD</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Amount</label>
-            <Input type="number" className="w-full" value={500} />
-          </div>
-          <div className="flex items-center gap-2">
-            <input type="checkbox" id="markAsPaid" />
-            <label htmlFor="markAsPaid" className="text-sm">
-              Mark as paid
-            </label>
-          </div>
-          <Button type="submit" className="w-full mt-2">
-            Add Payment
-          </Button>
-        </form>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="billingMonth"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billing Month</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Month" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {months.map((m) => (
+                          <SelectItem key={m.value} value={m.value}>
+                            <m.icon className="mr-2 h-4 w-4 inline-block" /> {m.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="paymentMethod"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Payment Method</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Method" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {paymentMethods.map((pm) => (
+                          <SelectItem key={pm.value} value={pm.value}>
+                            <pm.icon className="mr-2 h-4 w-4 inline-block" /> {pm.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Amount</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="markAsPaid"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                  <FormControl>
+                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormLabel className="text-sm font-normal">Mark as paid</FormLabel>
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full">
+              Add Payment
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   )
