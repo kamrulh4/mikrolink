@@ -1,10 +1,9 @@
 import { Globe } from "lucide-react"
-import Link from "next/link"
-import { getSession } from "@/lib/apis/auth"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { NavLinks } from "./nav-links"
 
 export async function Header() {
-  const session = await getSession()
-
   return (
     <header className="border-border border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,23 +15,9 @@ export async function Header() {
             <span className="font-semibold text-foreground text-lg">Mikrolink</span>
           </div>
 
-          <nav className="hidden items-center gap-8 md:flex">
-            {session ? (
-              <Link
-                className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-                href="/dashboard"
-              >
-                {session.email}
-              </Link>
-            ) : (
-              <Link
-                className="font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
-                href="/login"
-              >
-                Login
-              </Link>
-            )}
-          </nav>
+          <Suspense fallback={<Skeleton className="h-4 w-[100px]" />}>
+            <NavLinks />
+          </Suspense>
         </div>
       </div>
     </header>
