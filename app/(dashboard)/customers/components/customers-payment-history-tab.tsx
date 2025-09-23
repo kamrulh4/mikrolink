@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import z from "zod"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -20,14 +21,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useGetCustomerPayments } from "@/hooks/rq/use-customers-query"
+import {
+  useCreateCustomerPayment,
+  useGetCustomerPayments,
+} from "@/hooks/rq/use-customers-query"
 import { useCustomersStore } from "@/stores/customers-store"
 import { months, paymentMethods } from "../../payments/data/data"
 
 const formSchema = z.object({
   billingMonth: z.string().min(1, "Billing Month is required"),
   paymentMethod: z.string().min(1, "Payment Method is required"),
-  amount: z.string(),
+  amount: z.string().min(1, "Amount is required"),
   markAsPaid: z.boolean(),
 })
 
@@ -37,7 +41,7 @@ export function CustomersPaymentHistoryTab() {
     defaultValues: {
       billingMonth: "",
       paymentMethod: "",
-      amount: undefined,
+      amount: "",
       markAsPaid: false,
     },
   })
@@ -50,10 +54,23 @@ export function CustomersPaymentHistoryTab() {
     isError,
   } = useGetCustomerPayments(selectedCustomer.uid)
 
-  console.log(payments)
+  const { mutate: triggerCreateCustomerPayment, isPending } = useCreateCustomerPayment(
+    selectedCustomer.uid,
+  )
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    const payload = {
+      billing_month: values.billingMonth,
+      payment_method: values.paymentMethod,
+      amount: Number(values.amount),
+      paid: values.markAsPaid,
+    }
+    triggerCreateCustomerPayment(payload, {
+      onSuccess: () => {
+        form.reset()
+        toast.success("Payment added successfully")
+      },
+    })
   }
 
   return (
@@ -200,7 +217,12 @@ export function CustomersPaymentHistoryTab() {
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isPending}
+              loading={isPending}
+            >
               Add Payment
             </Button>
           </form>
