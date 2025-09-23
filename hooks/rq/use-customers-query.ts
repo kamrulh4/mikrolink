@@ -116,6 +116,92 @@ function deleteCustomerOptions() {
   })
 }
 
+// Get payments for a customer
+function getCustomerPaymentsOptions(uid: string) {
+  return queryOptions({
+    queryKey: ["customers", "payments", uid],
+    queryFn: () =>
+      httpV1
+        .request({
+          method: "GET",
+          url: `/customers/${uid}/payments`,
+        })
+        .then((res) => res.data),
+  })
+}
+
+// Add payment for a customer
+function createCustomerPaymentOptions(uid: string) {
+  return mutationOptions({
+    mutationKey: ["customers", "payments", "add", uid],
+    mutationFn: (payload: any) =>
+      httpV1
+        .request({
+          method: "POST",
+          url: `/customers/${uid}/payments`,
+          data: payload,
+        })
+        .then((res) => res.data),
+    onSuccess: () => {
+      toast.success("Payment added successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed to add payment", { description: error.message })
+      }
+    },
+    onSettled: (_data, _error, _variables, _onMutateResult, context) => {
+      context.client.invalidateQueries({ queryKey: ["customers", "payments", uid] })
+    },
+  })
+}
+
+// Generate bill for customers
+function generateCustomerBillOptions() {
+  return mutationOptions({
+    mutationKey: ["customers", "bills", "generate"],
+    mutationFn: (payload: any) =>
+      httpV1
+        .request({
+          method: "POST",
+          url: "/customers/bills/generate",
+          data: payload,
+        })
+        .then((res) => res.data),
+    onSuccess: () => {
+      toast.success("Bill generated successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed to generate bill", { description: error.message })
+      }
+    },
+  })
+}
+
+// Toggle customer status
+function toggleCustomerStatusOptions() {
+  return mutationOptions({
+    mutationKey: ["customers", "status", "toggle"],
+    mutationFn: (payload: any) =>
+      httpV1
+        .request({
+          method: "POST",
+          url: "/customers/status/toggle",
+          data: payload,
+        })
+        .then((res) => res.data),
+    onSuccess: () => {
+      toast.success("Customer status updated")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed to update status", { description: error.message })
+      }
+    },
+  })
+}
+
 export function useGetCustomerList() {
   return useQuery(getCustomerListOptions())
 }
@@ -130,4 +216,20 @@ export function useUpdateCustomer() {
 
 export function useDeleteCustomer() {
   return useMutation(deleteCustomerOptions())
+}
+
+export function useGetCustomerPayments(uid: string) {
+  return useQuery(getCustomerPaymentsOptions(uid))
+}
+
+export function useCreateCustomerPayment(uid: string) {
+  return useMutation(createCustomerPaymentOptions(uid))
+}
+
+export function useGenerateCustomerBill() {
+  return useMutation(generateCustomerBillOptions())
+}
+
+export function useToggleCustomerStatus() {
+  return useMutation(toggleCustomerStatusOptions())
 }
