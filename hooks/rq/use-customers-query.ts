@@ -8,6 +8,7 @@ import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { CreateCustomer, Customer, CustomerResponse } from "@/types/customers"
+import { PaymentResponse } from "@/types/payments"
 
 function getCustomerListOptions() {
   return queryOptions({
@@ -122,7 +123,7 @@ function getCustomerPaymentsOptions(uid: string) {
     queryKey: ["customers", "payments", uid],
     queryFn: () =>
       httpV1
-        .request({
+        .request<PaymentResponse>({
           method: "GET",
           url: `/customers/${uid}/payments`,
         })

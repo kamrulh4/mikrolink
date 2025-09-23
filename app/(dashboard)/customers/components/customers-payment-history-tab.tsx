@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { format } from "date-fns"
 import { useForm } from "react-hook-form"
 import z from "zod"
 import { Button } from "@/components/ui/button"
@@ -19,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useGetCustomerPayments } from "@/hooks/rq/use-customers-query"
+import { useCustomersStore } from "@/stores/customers-store"
 import { months, paymentMethods } from "../../payments/data/data"
 
 const formSchema = z.object({
@@ -38,6 +41,16 @@ export function CustomersPaymentHistoryTab() {
       markAsPaid: false,
     },
   })
+
+  const { selectedCustomer } = useCustomersStore()
+
+  const {
+    data: payments,
+    isLoading,
+    isError,
+  } = useGetCustomerPayments(selectedCustomer.uid)
+
+  console.log(payments)
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
@@ -63,17 +76,46 @@ export function CustomersPaymentHistoryTab() {
             </tr>
           </thead>
           <tbody>
-            {/* Replace with dynamic payment history */}
-            <tr>
-              <td className="py-2">Sep 21, 2025</td>
-              <td className="py-2">SEPTEMBER</td>
-              <td className="py-2">BDT 0.00</td>
-              <td className="py-2">
-                <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">
-                  Pending
-                </span>
-              </td>
-            </tr>
+            {isLoading ? (
+              <tr>
+                <td colSpan={4} className="py-2 text-center">
+                  Loading...
+                </td>
+              </tr>
+            ) : isError ? (
+              <tr>
+                <td colSpan={4} className="py-2 text-center text-red-500">
+                  Error loading payments
+                </td>
+              </tr>
+            ) : payments && payments.results.length > 0 ? (
+              payments.results.map((payment) => (
+                <tr key={payment.uid}>
+                  <td className="py-2">
+                    {payment.payment_date
+                      ? format(payment.payment_date, "DD/MM/YYYY")
+                      : "-"}
+                  </td>
+                  <td className="py-2">{payment.billing_month || "-"}</td>
+                  <td className="py-2">
+                    {payment.amount ? `BDT ${payment.amount}` : "-"}
+                  </td>
+                  <td className="py-2">
+                    <span
+                      className={`px-2 py-1 rounded text-xs ${payment.paid ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
+                    >
+                      {payment.paid ? "Paid" : "Pending"}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="py-2 text-center">
+                  No payments found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
