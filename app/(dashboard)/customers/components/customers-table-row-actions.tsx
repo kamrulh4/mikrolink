@@ -2,8 +2,7 @@
 
 import { Row } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
-import React, { useState } from "react"
-import { set } from "zod"
+import { useOptimistic, useState } from "react"
 import { DeleteAlertDialog } from "@/components/core/delete-alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,7 +19,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useDeleteCustomer } from "@/hooks/rq/use-customers-query"
+import {
+  useDeleteCustomer,
+  useToggleCustomerStatus,
+} from "@/hooks/rq/use-customers-query"
 import { useCustomersStore } from "@/stores/customers-store"
 import { Customer } from "@/types/customers"
 import { customerStatus } from "../data/data"
@@ -39,8 +41,10 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
 
   const { mutate: triggerDeleteCustomer } = useDeleteCustomer()
 
-  const [position, setPosition] = React.useState("true")
+  const { mutate: triggerToogleCustomerStatus } = useToggleCustomerStatus()
 
+  const status = row.original.is_active ? "true" : "false"
+  const [optimisticStatus, setOptimisticStatus] = useOptimistic<string>(status)
   const [open, setOpen] = useState(false)
 
   function onDeleteHandler() {
@@ -82,9 +86,20 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuRadioGroup
-                  value={position}
+                  value={optimisticStatus}
                   onValueChange={(val) => {
-                    setPosition(val)
+                    setOptimisticStatus(val)
+                    triggerToogleCustomerStatus(
+                      {
+                        username: row.original.username,
+                        is_active: val === "true",
+                      },
+                      {
+                        onError: () => {
+                          setOptimisticStatus(status) // revert on error
+                        },
+                      },
+                    )
                   }}
                 >
                   {customerStatus.map((s) => (

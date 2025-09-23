@@ -184,9 +184,9 @@ function generateCustomerBillOptions() {
 function toggleCustomerStatusOptions() {
   return mutationOptions({
     mutationKey: ["customers", "status", "toggle"],
-    mutationFn: (payload: any) =>
+    mutationFn: (payload: { username: string; is_active: boolean }) =>
       httpV1
-        .request({
+        .request<{ username: string; is_active: boolean }>({
           method: "POST",
           url: "/customers/status/toggle",
           data: payload,
