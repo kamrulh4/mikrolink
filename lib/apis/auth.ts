@@ -16,6 +16,16 @@ type Session = {
   updated_at: Date
 }
 
+type DashboardData = {
+  total_customers: number
+  active_customers: number
+  total_packages: number
+  total_payments: number
+  total_revenue: string
+  pending_payments: number
+  current_month_payments: number
+}
+
 const http = xior.create({
   baseURL: "https://api.mikrolink.artsensebd.com/api/v1",
 })
@@ -38,6 +48,17 @@ export async function getSession() {
       .request<Session>({ method: "GET", url: "/users/me" })
       .then((res) => res.data)
 
+    return res
+  } catch (error) {
+    return null
+  }
+}
+
+export async function getDashboardData() {
+  try {
+    const res = await http
+      .request<DashboardData>({ method: "GET", url: "/dashboard" })
+      .then((res) => res.data)
     return res
   } catch (error) {
     return null

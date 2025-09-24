@@ -1,24 +1,17 @@
-"use client"
+// "use client"
 import { Clock, CreditCard, DollarSign, Package, UserCheck, Users } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useDashboardQuery } from "@/hooks/rq/use-dashboard-query"
+import { getDashboardData } from "@/lib/apis/auth"
 
-export function StatsGrid() {
-  const { data, isLoading, isError } = useDashboardQuery()
+export async function StatsGrid() {
+  // const { data, isLoading, isError } = useDashboardQuery()
 
-  if (isLoading) {
-    return <div className="text-center py-8">Loading dashboard stats...</div>
-  }
-  if (isError || !data) {
-    return (
-      <div className="text-center py-8 text-red-500">Failed to load dashboard stats.</div>
-    )
-  }
+  const data = await getDashboardData()
 
   const stats = [
     {
       title: "Total Customers",
-      value: data.total_customers,
+      value: data?.total_customers,
       icon: Users,
       color: "text-gray-500",
       subtitle: "registered customers",
@@ -26,7 +19,7 @@ export function StatsGrid() {
     },
     {
       title: "Active Customers",
-      value: data.active_customers,
+      value: data?.active_customers,
       icon: UserCheck,
       color: "text-gray-500",
       subtitle: <span className="text-green-600">+2.5%</span>,
@@ -34,7 +27,7 @@ export function StatsGrid() {
     },
     {
       title: "Available Packages",
-      value: data.total_packages,
+      value: data?.total_packages,
       icon: Package,
       color: "text-gray-500",
       subtitle: "service packages",
@@ -42,7 +35,7 @@ export function StatsGrid() {
     },
     {
       title: "Total Revenue",
-      value: `BDT ${Number(data.total_revenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
+      value: `BDT ${Number(data?.total_revenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
       icon: CreditCard,
       color: "text-gray-500",
       subtitle: <span className="text-green-600">+12.3%</span>,
@@ -50,7 +43,7 @@ export function StatsGrid() {
     },
     {
       title: "Total Payments",
-      value: data.total_payments,
+      value: data?.total_payments,
       icon: DollarSign,
       color: "text-gray-500",
       subtitle: "all payments",
@@ -58,7 +51,7 @@ export function StatsGrid() {
     },
     {
       title: "Pending Payments",
-      value: data.pending_payments,
+      value: data?.pending_payments,
       icon: Clock,
       color: "text-gray-500",
       subtitle: "awaiting payment",
@@ -66,7 +59,7 @@ export function StatsGrid() {
     },
     {
       title: "Current Month Payments",
-      value: data.current_month_payments,
+      value: data?.current_month_payments,
       icon: CreditCard,
       color: "text-gray-500",
       subtitle: "paid this month",
