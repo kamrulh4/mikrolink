@@ -25,8 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { useLogout } from "@/hooks/rq/auth/use-logout"
-import { useSession } from "@/hooks/rq/auth/use-session"
+import { useLogout, useSession } from "@/hooks/rq/use-auth-query"
 import { generateAvatarUrl } from "@/lib/utils"
 import { Skeleton } from "./ui/skeleton"
 

@@ -16,8 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useLogin } from "@/hooks/rq/auth/use-login"
-import { useSession } from "@/hooks/rq/auth/use-session"
+import { useLogin } from "@/hooks/rq/use-auth-query"
 
 const formSchema = z.object({
   phone: z.string().min(1, "Phone number is required"),
