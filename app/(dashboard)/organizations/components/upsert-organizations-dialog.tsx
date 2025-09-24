@@ -33,7 +33,7 @@ export function UpsertOrganizationsDialog() {
         setIsUpsertOrganizationDialogOpen(false)
       }}
     >
-      <DialogContent className="max-h-[90vh] !max-w-[70vw] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] !max-w-[95vw] lg:!max-w-[70vw] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

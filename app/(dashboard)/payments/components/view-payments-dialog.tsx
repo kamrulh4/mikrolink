@@ -13,7 +13,7 @@ export function ViewPaymentsDialog() {
 
   return (
     <Dialog open={isViewPaymentDialogOpen} onOpenChange={setIsViewPaymentDialogOpen}>
-      <DialogContent className="h-[90vh] !max-w-[90vw] overflow-y-auto">
+      <DialogContent className="h-[90vh] !max-w-[95vw] lg:!max-w-[70vw] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{selectedPayment.customer?.name}</DialogTitle>
           <DialogDescription>{selectedPayment.customer?.address}</DialogDescription>
