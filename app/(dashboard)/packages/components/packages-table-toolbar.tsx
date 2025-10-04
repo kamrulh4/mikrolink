@@ -19,7 +19,7 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
 
-export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
+export function PackagesTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   const { setPackageMutationType, setIsUpsertPackageDialogOpen } = usePackagesStore()

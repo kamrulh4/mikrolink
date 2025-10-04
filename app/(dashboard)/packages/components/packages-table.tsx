@@ -3,7 +3,7 @@
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetPackageList } from "@/hooks/rq/use-packages-query"
 import { columns } from "./columns"
-import { DataTableToolbar } from "./data-table-toolbar"
+import { PackagesTableToolbar } from "./packages-table-toolbar"
 import { UpsertPackagesDialog } from "./upsert-packages-dialog"
 import { ViewPackagesDialog } from "./view-packages-dialog"
 
@@ -18,7 +18,7 @@ export function PackagesTable() {
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <PackagesTableToolbar table={table} />
       {render}
 
       <UpsertPackagesDialog />

@@ -64,6 +64,7 @@ export function CustomersPaymentHistoryTab() {
       payment_method: values.paymentMethod,
       amount: Number(values.amount),
       paid: values.markAsPaid,
+      customer_id: selectedCustomer.id,
     }
     triggerCreateCustomerPayment(payload, {
       onSuccess: () => {
@@ -110,7 +111,7 @@ export function CustomersPaymentHistoryTab() {
                 <tr key={payment.uid}>
                   <td className="py-2">
                     {payment.payment_date
-                      ? format(payment.payment_date, "DD/MM/YYYY")
+                      ? format(payment.payment_date, "dd/MM/yyyy")
                       : "-"}
                   </td>
                   <td className="py-2">{payment.billing_month || "-"}</td>
@@ -197,7 +198,7 @@ export function CustomersPaymentHistoryTab() {
                 <FormItem>
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input type="number" {...field} min={0} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

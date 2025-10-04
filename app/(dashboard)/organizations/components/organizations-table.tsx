@@ -3,7 +3,7 @@
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetOrganizationList } from "@/hooks/rq/use-organizations-query"
 import { columns } from "./columns"
-import { DataTableToolbar } from "./organizations-table-toolbar"
+import { OrganizationsTableToolbar } from "./organizations-table-toolbar"
 import { UpsertOrganizationsDialog } from "./upsert-organizations-dialog"
 import { ViewOrganizationsDialog } from "./view-organizations-dialog"
 
@@ -18,7 +18,7 @@ export function OrganizationsTable() {
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <OrganizationsTableToolbar table={table} />
       {render}
       <UpsertOrganizationsDialog />
       <ViewOrganizationsDialog />

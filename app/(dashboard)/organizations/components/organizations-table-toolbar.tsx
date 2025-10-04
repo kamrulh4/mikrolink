@@ -21,7 +21,9 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
 
-export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
+export function OrganizationsTableToolbar<TData>({
+  table,
+}: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   const { setOrganizationMutationType, setIsUpsertOrganizationDialogOpen } =
@@ -30,7 +32,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-1 items-center gap-2 flex-wrap">
         <Select defaultValue="name" onValueChange={setSearchField}>
           <SelectTrigger size="sm">
             <SelectValue placeholder="Select" />

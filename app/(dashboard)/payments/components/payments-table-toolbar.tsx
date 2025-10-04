@@ -29,7 +29,7 @@ export function PaymentsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-1 items-center gap-2 flex-wrap">
         <Select value={searchField} onValueChange={setSearchField}>
           <SelectTrigger size="sm">
             <SelectValue placeholder="Select" />
