@@ -28,10 +28,10 @@ export function PaymentsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
   const [searchField, setSearchField] = React.useState("customer")
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex md:items-center md:justify-between flex-col md:flex-row gap-2">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
         <Select value={searchField} onValueChange={setSearchField}>
-          <SelectTrigger size="sm">
+          <SelectTrigger size="sm" className="w-full md:w-[132px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
@@ -83,7 +83,7 @@ export function PaymentsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
           setPaymentMutationType("add")
         }}
         size="sm"
-        className="mr-2"
+        className="md:mr-2"
       >
         Add Payment
       </Button>
