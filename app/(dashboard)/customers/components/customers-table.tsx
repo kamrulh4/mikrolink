@@ -3,7 +3,7 @@
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetCustomerList } from "@/hooks/rq/use-customers-query"
 import { columns } from "./columns"
-import { CustomerTableToolbar } from "./customers-table-toolbar"
+import { CustomersTableToolbar } from "./customers-table-toolbar"
 import { UpsertCustomersDialog } from "./upsert-customers-dialog"
 import { ViewCustomersDialog } from "./view-customers-dialog"
 
@@ -18,7 +18,7 @@ export function CustomersTable() {
 
   return (
     <div className="space-y-4">
-      <CustomerTableToolbar table={table} />
+      <CustomersTableToolbar table={table} />
       {render}
       <UpsertCustomersDialog />
       <ViewCustomersDialog />

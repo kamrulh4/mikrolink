@@ -14,7 +14,7 @@ export function ViewCustomersDialog() {
 
   return (
     <Dialog open={isViewCustomerDialogOpen} onOpenChange={setIsViewCustomerDialogOpen}>
-      <DialogContent className="flex flex-col h-[90vh] lg:!max-w-[70vw] overflow-y-auto">
+      <DialogContent className="flex flex-col h-[90vh] max-w-[100vw] lg:!max-w-[70vw] overflow-y-auto rounded-none md:rounded-lg">
         <DialogHeader>
           <DialogTitle>{selectedCustomer.name}</DialogTitle>
           <DialogDescription>{selectedCustomer.username}</DialogDescription>

@@ -5,7 +5,7 @@ export function CustomersDetailsTab() {
   const { selectedCustomer } = useCustomersStore()
 
   return (
-    <div className="grid grid-cols-2 gap-4 text-sm">
+    <div className="grid  md:grid-cols-2 gap-4 text-sm">
       <div>
         <span className="font-medium">Phone:</span>
         <p>{selectedCustomer.phone}</p>

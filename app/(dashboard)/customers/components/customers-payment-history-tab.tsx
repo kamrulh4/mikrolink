@@ -75,7 +75,7 @@ export function CustomersPaymentHistoryTab() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row gap-4">
+    <div className="flex flex-col lg:flex-row gap-4">
       <div className="flex-1 rounded-lg border bg-card text-card-foreground shadow-sm p-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="inline-block">🧾</span>
@@ -84,60 +84,62 @@ export function CustomersPaymentHistoryTab() {
         <span className="text-sm text-muted-foreground mb-2 block">
           Recent payment transactions
         </span>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b">
-              <th className="py-2 text-left">Date</th>
-              <th className="py-2 text-left">Month</th>
-              <th className="py-2 text-left">Amount</th>
-              <th className="py-2 text-left">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan={4} className="py-2 text-center">
-                  Loading...
-                </td>
+        <div className="w-full overflow-x-auto">
+          <table className="w-full text-sm min-w-[400px]">
+            <thead>
+              <tr className="border-b">
+                <th className="py-2 px-2 text-left">Date</th>
+                <th className="py-2 px-2 text-left">Month</th>
+                <th className="py-2 px-2 text-left">Amount</th>
+                <th className="py-2 px-2 text-left">Status</th>
               </tr>
-            ) : isError ? (
-              <tr>
-                <td colSpan={4} className="py-2 text-center text-red-500">
-                  Error loading payments
-                </td>
-              </tr>
-            ) : payments && payments.results.length > 0 ? (
-              payments.results.map((payment) => (
-                <tr key={payment.uid}>
-                  <td className="py-2">
-                    {payment.payment_date
-                      ? format(payment.payment_date, "dd/MM/yyyy")
-                      : "-"}
-                  </td>
-                  <td className="py-2">{payment.billing_month || "-"}</td>
-                  <td className="py-2">
-                    {payment.amount ? `BDT ${payment.amount}` : "-"}
-                  </td>
-                  <td className="py-2">
-                    <span
-                      className={`px-2 py-1 rounded text-xs ${payment.paid ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
-                    >
-                      {payment.paid ? "Paid" : "Pending"}
-                    </span>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={4} className="py-2 px-2 text-center">
+                    Loading...
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="py-2 text-center">
-                  No payments found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : isError ? (
+                <tr>
+                  <td colSpan={4} className="py-2 px-2 text-center text-red-500">
+                    Error loading payments
+                  </td>
+                </tr>
+              ) : payments && payments.results.length > 0 ? (
+                payments.results.map((payment) => (
+                  <tr key={payment.uid}>
+                    <td className="py-2 px-2">
+                      {payment.payment_date
+                        ? format(payment.payment_date, "dd/MM/yyyy")
+                        : "-"}
+                    </td>
+                    <td className="py-2 px-2">{payment.billing_month || "-"}</td>
+                    <td className="py-2 px-2">
+                      {payment.amount ? `BDT ${payment.amount}` : "-"}
+                    </td>
+                    <td className="py-2 px-2">
+                      <span
+                        className={`px-2 py-1 rounded text-xs ${payment.paid ? "bg-green-100 text-green-800" : "bg-orange-100 text-orange-800"}`}
+                      >
+                        {payment.paid ? "Paid" : "Pending"}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="py-2 px-2 text-center">
+                    No payments found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div className="w-full md:max-w-xs rounded-lg border bg-card text-card-foreground shadow-sm p-4">
+      <div className="w-full lg:max-w-xs rounded-lg border bg-card text-card-foreground shadow-sm p-4">
         <div className="font-semibold text-lg mb-2">Quick Actions</div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

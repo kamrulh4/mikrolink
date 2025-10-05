@@ -7,7 +7,6 @@ import { DataTableFacetedFilter } from "@/components/data-table/data-table-facet
 import { DataTableSearch } from "@/components/data-table/data-table-search"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -22,17 +21,17 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
 
-export function CustomerTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
+export function CustomersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   const { setCustomerMutationType, setIsUpsertCustomerDialogOpen } = useCustomersStore()
   const [searchField, setSearchField] = React.useState("username")
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex gap-2 md:items-center md:justify-between flex-col md:flex-row">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
         <Select defaultValue="username" onValueChange={setSearchField}>
-          <SelectTrigger size="sm">
+          <SelectTrigger size="sm" className="w-full md:w-[120px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
