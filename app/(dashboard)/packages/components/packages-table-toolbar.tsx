@@ -26,10 +26,10 @@ export function PackagesTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
   const [searchField, setSearchField] = React.useState("name")
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex md:items-center md:justify-between flex-col md:flex-row gap-2">
+      <div className="flex flex-1 items-center flex-wrap gap-2">
         <Select defaultValue="name" onValueChange={setSearchField}>
-          <SelectTrigger size="sm">
+          <SelectTrigger size="sm" className="w-full md:w-[120px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
@@ -60,7 +60,7 @@ export function PackagesTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
           setPackageMutationType("add")
         }}
         size="sm"
-        className="mr-2"
+        className="md:mr-2"
       >
         Add Package
       </Button>

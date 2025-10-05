@@ -14,7 +14,7 @@ export function ViewPackagesDialog() {
 
   return (
     <Dialog open={isViewPackageDialogOpen} onOpenChange={setIsViewPackageDialogOpen}>
-      <DialogContent className="flex flex-col !max-w-[95vw] lg:!max-w-[50vw] overflow-y-auto">
+      <DialogContent className="flex flex-col max-w-[100vw] rounded-none md:rounded-lg lg:!max-w-[50vw] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{selectedPackage.name}</DialogTitle>
           <DialogDescription>
