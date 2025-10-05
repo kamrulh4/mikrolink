@@ -26,7 +26,7 @@ export function UpsertUsersDialog() {
         setIsUpsertUserDialogOpen(false)
       }}
     >
-      <DialogContent className="max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-[100vw] md:max-w-[60vw] rounded-none md:rounded-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

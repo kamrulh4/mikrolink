@@ -12,7 +12,7 @@ export function ViewUsersDialog() {
 
   return (
     <Dialog open={isViewUserDialogOpen} onOpenChange={setIsViewUserDialogOpen}>
-      <DialogContent className="h-[90vh] !max-w-[90vw] overflow-y-auto">
+      <DialogContent className="h-[90vh] max-w-[100vw] rounded-none md:rounded-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {selectedUser.first_name} {selectedUser.last_name}

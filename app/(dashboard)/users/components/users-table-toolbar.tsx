@@ -28,10 +28,10 @@ export function UsersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>
   const [searchField, setSearchField] = React.useState("first_name")
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex md:items-center md:justify-between flex-col md:flex-row gap-2">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
         <Select defaultValue="first_name" onValueChange={setSearchField}>
-          <SelectTrigger size="sm">
+          <SelectTrigger size="sm" className="w-full md:w-[142px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
@@ -74,7 +74,7 @@ export function UsersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>
           setUserMutationType("add")
         }}
         size="sm"
-        className="mr-2"
+        className="md:mr-2"
       >
         Add User
       </Button>
