@@ -23,7 +23,7 @@ export function ViewOrganizationsDialog() {
         setIsViewOrganizationDialogOpen(false)
       }}
     >
-      <DialogContent className="max-h-[90vh] !max-w-[70vw] lg:!max-w-[70vw] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-[100vw] rounded-none md:rounded-lg lg:!max-w-[70vw] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Organization Details</DialogTitle>
           <DialogDescription>

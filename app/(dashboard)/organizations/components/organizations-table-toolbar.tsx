@@ -31,10 +31,10 @@ export function OrganizationsTableToolbar<TData>({
   const [searchField, setSearchField] = React.useState("name")
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex md:items-center md:justify-between flex-col md:flex-row gap-2">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
         <Select defaultValue="name" onValueChange={setSearchField}>
-          <SelectTrigger size="sm">
+          <SelectTrigger size="sm" className="w-full md:w-[105px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
