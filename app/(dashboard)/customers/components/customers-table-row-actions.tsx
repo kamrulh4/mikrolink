@@ -124,12 +124,14 @@ export function CustomersTableRowActions({ row }: CustomersTableRowActionsProps)
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <DeleteAlertDialog
-        open={open}
-        setOpen={setOpen}
-        resource="customer"
-        onDelete={onDeleteHandler}
-      />
+      {open && (
+        <DeleteAlertDialog
+          open={open}
+          setOpen={setOpen}
+          resource="customer"
+          onDelete={onDeleteHandler}
+        />
+      )}
     </>
   )
 }
