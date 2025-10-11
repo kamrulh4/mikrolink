@@ -34,13 +34,7 @@ export const columns: ColumnDef<Customer>[] = [
   //   enableSorting: false,
   //   enableHiding: false,
   // },
-  {
-    accessorKey: "id",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
-    cell: ({ row }) => <div className="w-[10px]">{row.getValue("id")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
+
   {
     accessorKey: "username",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,

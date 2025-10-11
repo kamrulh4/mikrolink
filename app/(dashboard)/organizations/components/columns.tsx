@@ -11,13 +11,6 @@ import { OrganizationsTableRowActions } from "./organizations-table-row-actions"
 
 export const columns: ColumnDef<Organization>[] = [
   {
-    accessorKey: "id",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
-    cell: ({ row }) => <div className="w-[10px]">{row.getValue("id")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Organization" />

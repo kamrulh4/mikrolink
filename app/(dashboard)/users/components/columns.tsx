@@ -10,13 +10,6 @@ import { UsersTableRowActions } from "./users-table-row-actions"
 
 export const columns: ColumnDef<User>[] = [
   {
-    accessorKey: "id",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
-    cell: ({ row }) => <div className="w-[10px]">{row.getValue("id")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "first_name",
     accessorFn: (row) => `${row.first_name} ${row.last_name}`,
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,

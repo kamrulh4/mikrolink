@@ -72,7 +72,7 @@ export function OrganizationsTableToolbar<TData>({
           setOrganizationMutationType("add")
         }}
         size="sm"
-        className="mr-2"
+        className="mr-2 hidden"
       >
         Add Organization
       </Button>
