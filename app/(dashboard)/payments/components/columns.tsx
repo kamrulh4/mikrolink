@@ -13,7 +13,8 @@ import { PaymentsTableRowActions } from "./payments-table-row-actions"
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "customer",
-    accessorFn: (row) => `${row.customer.name} ${row.customer.phone}`,
+    accessorFn: (row) =>
+      `${row.customer.username} ${row.customer.name} ${row.customer.phone}`,
     header: ({ column }) => <DataTableColumnHeader column={column} title="Customer" />,
     cell: ({ row }) => {
       return (

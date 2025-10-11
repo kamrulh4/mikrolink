@@ -32,6 +32,7 @@ export type Customer = {
   address: string
   nid: string
   is_free: boolean
+  username: string
 }
 
 export type EntryBy = {
