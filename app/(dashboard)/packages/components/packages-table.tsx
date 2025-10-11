@@ -1,8 +1,11 @@
 "use client"
 
+import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetPackageList } from "@/hooks/rq/use-packages-query"
+import { generateAvatarUrl } from "@/lib/utils"
 import { columns } from "./columns"
+import { PackagesTableRowActions } from "./packages-table-row-actions"
 import { PackagesTableToolbar } from "./packages-table-toolbar"
 import { UpsertPackagesDialog } from "./upsert-packages-dialog"
 import { ViewPackagesDialog } from "./view-packages-dialog"
@@ -19,7 +22,25 @@ export function PackagesTable() {
   return (
     <div className="space-y-4">
       <PackagesTableToolbar table={table} />
-      {render}
+
+      <div className="block md:hidden">
+        <DataTableCardView
+          loading={isLoading}
+          table={table}
+          mapRow={(row) => {
+            const pkg = row.original
+            return {
+              title: pkg.name,
+              description: `${pkg.speed_mbps} Mbps · ${pkg.price}`,
+              avatar: generateAvatarUrl(pkg.name),
+              uid: pkg.uid,
+            }
+          }}
+          renderRowActions={(row) => <PackagesTableRowActions row={row} />}
+        />
+      </div>
+
+      <div className="hidden md:block">{render}</div>
 
       <UpsertPackagesDialog />
       <ViewPackagesDialog />

@@ -1,8 +1,11 @@
 "use client"
 
+import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetOrganizationList } from "@/hooks/rq/use-organizations-query"
+import { generateAvatarUrl } from "@/lib/utils"
 import { columns } from "./columns"
+import { OrganizationsTableRowActions } from "./organizations-table-row-actions"
 import { OrganizationsTableToolbar } from "./organizations-table-toolbar"
 import { UpsertOrganizationsDialog } from "./upsert-organizations-dialog"
 import { ViewOrganizationsDialog } from "./view-organizations-dialog"
@@ -19,7 +22,25 @@ export function OrganizationsTable() {
   return (
     <div className="space-y-4">
       <OrganizationsTableToolbar table={table} />
-      {render}
+
+      <div className="block md:hidden">
+        <DataTableCardView
+          loading={isLoading}
+          table={table}
+          mapRow={(row) => {
+            const org = row.original
+            return {
+              title: org.name,
+              description: org.phone,
+              avatar: generateAvatarUrl(org.name),
+              uid: org.uid,
+            }
+          }}
+          renderRowActions={(row) => <OrganizationsTableRowActions row={row} />}
+        />
+      </div>
+
+      <div className="hidden md:block">{render}</div>
       <UpsertOrganizationsDialog />
       <ViewOrganizationsDialog />
     </div>

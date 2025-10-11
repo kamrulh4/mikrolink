@@ -86,7 +86,7 @@ export function DataTableCardView<TData>({
 
             <ItemContent className="gap-1">
               <ItemTitle>{item.title}</ItemTitle>
-              <ItemDescription className="w-30 truncate">
+              <ItemDescription className="w-40 truncate">
                 {item.description}
               </ItemDescription>
             </ItemContent>
