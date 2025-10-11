@@ -12,7 +12,7 @@ export function UsersTable() {
 
   const { table, render } = useDataTable({
     columns,
-    data: usersData?.results,
+    data: usersData?.results!,
     loading: isLoading,
   })
 

@@ -12,7 +12,7 @@ export function PackagesTable() {
 
   const { table, render } = useDataTable({
     columns,
-    data: packageData?.results,
+    data: packageData?.results!,
     loading: isLoading,
   })
 

@@ -12,7 +12,7 @@ export function PaymentsTable() {
 
   const { table, render } = useDataTable({
     columns,
-    data: paymentsData?.results,
+    data: paymentsData?.results!,
     loading: isLoading,
   })
 

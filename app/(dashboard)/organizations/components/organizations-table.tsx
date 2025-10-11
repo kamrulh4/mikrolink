@@ -12,7 +12,7 @@ export function OrganizationsTable() {
 
   const { table, render } = useDataTable({
     columns,
-    data: organizationsData?.results,
+    data: organizationsData?.results!,
     loading: isLoading,
   })
 
