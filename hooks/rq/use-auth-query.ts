@@ -82,7 +82,7 @@ export function useRegister() {
       return httpV1
         .request<RegisterResponse>({
           method: "post",
-          url: "/users/regiser",
+          url: "/users/register",
           data: payload,
         })
         .then((res) => res.data)
@@ -92,7 +92,7 @@ export function useRegister() {
     },
     onError: (error) => {
       if (error instanceof XiorError) {
-        toast.error("Login failed. Please try Again", {
+        toast.error("Registration failed. Please try again", {
           description: error.message,
         })
       }
