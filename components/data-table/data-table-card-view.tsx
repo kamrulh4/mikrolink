@@ -33,6 +33,7 @@ type Props<TData> = {
   mapRow?: (row: Row<TData>) => CardItem
   renderRowActions?: (row: Row<TData>) => React.ReactNode
   renderItemActions?: (item: CardItem) => React.ReactNode
+  onItemClick?: (item: CardItem, row?: Row<TData>) => void
   loading?: boolean
 }
 
@@ -42,6 +43,7 @@ export function DataTableCardView<TData>({
   mapRow,
   renderRowActions,
   renderItemActions,
+  onItemClick,
   loading,
 }: Props<TData>) {
   const list: ItemWithRow<TData>[] = React.useMemo(() => {
@@ -74,7 +76,12 @@ export function DataTableCardView<TData>({
     <ItemGroup>
       {list.map(({ item, row }, index) => (
         <React.Fragment key={item.uid}>
-          <Item>
+          <Item
+            className={
+              onItemClick ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""
+            }
+            onClick={() => onItemClick?.(item, row)}
+          >
             {item.avatar ? (
               <ItemMedia>
                 <Avatar className="rounded-md">

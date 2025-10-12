@@ -4,6 +4,7 @@ import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetCustomerList } from "@/hooks/rq/use-customers-query"
 import { generateAvatarUrl } from "@/lib/utils"
+import { useCustomersStore } from "@/stores/customers-store"
 import { columns } from "./columns"
 import { CustomersTableRowActions } from "./customers-table-row-actions"
 import { CustomersTableToolbar } from "./customers-table-toolbar"
@@ -12,6 +13,7 @@ import { ViewCustomersDialog } from "./view-customers-dialog"
 
 export function CustomersTable() {
   const { data: customersData, isLoading } = useGetCustomerList()
+  const { setIsViewCustomerDialogOpen, setSelectedCustomer } = useCustomersStore()
 
   const { table, render } = useDataTable({
     columns,
@@ -38,6 +40,12 @@ export function CustomersTable() {
             }
           }}
           renderRowActions={(row) => <CustomersTableRowActions row={row} />}
+          onItemClick={(item, row) => {
+            if (row) {
+              setIsViewCustomerDialogOpen(true)
+              setSelectedCustomer(row.original)
+            }
+          }}
         />
       </div>
 
