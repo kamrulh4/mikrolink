@@ -9,6 +9,7 @@ import {
   Settings2,
   User,
   Users,
+  Wifi,
 } from "lucide-react"
 import type * as React from "react"
 
@@ -63,6 +64,11 @@ const data = {
       title: "Users",
       url: "/users",
       icon: User,
+    },
+    {
+      title: "Sessions",
+      url: "/sessions",
+      icon: Wifi,
     },
     {
       title: "Settings",
