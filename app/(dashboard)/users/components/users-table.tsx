@@ -4,6 +4,7 @@ import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetUserList } from "@/hooks/rq/use-users-query"
 import { generateAvatarUrl } from "@/lib/utils"
+import { useUsersStore } from "@/stores/users-store"
 import { columns } from "./columns"
 import { UpsertUsersDialog } from "./upsert-users-dialog"
 import { UsersTableRowActions } from "./users-table-row-actions"
@@ -12,6 +13,7 @@ import { ViewUsersDialog } from "./view-users-dialog"
 
 export function UsersTable() {
   const { data: usersData, isLoading } = useGetUserList()
+  const { setIsViewUserDialogOpen, setSelectedUser } = useUsersStore()
 
   const { table, render } = useDataTable({
     columns,
@@ -37,6 +39,12 @@ export function UsersTable() {
             }
           }}
           renderRowActions={(row) => <UsersTableRowActions row={row} />}
+          onItemClick={(item, row) => {
+            if (row) {
+              setIsViewUserDialogOpen(true)
+              setSelectedUser(row.original)
+            }
+          }}
         />
       </div>
 

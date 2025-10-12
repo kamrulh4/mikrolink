@@ -4,6 +4,7 @@ import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetOrganizationList } from "@/hooks/rq/use-organizations-query"
 import { generateAvatarUrl } from "@/lib/utils"
+import { useOrganizationsStore } from "@/stores/organizations-store"
 import { columns } from "./columns"
 import { OrganizationsTableRowActions } from "./organizations-table-row-actions"
 import { OrganizationsTableToolbar } from "./organizations-table-toolbar"
@@ -12,6 +13,8 @@ import { ViewOrganizationsDialog } from "./view-organizations-dialog"
 
 export function OrganizationsTable() {
   const { data: organizationsData, isLoading } = useGetOrganizationList()
+  const { setIsViewOrganizationDialogOpen, setSelectedOrganization } =
+    useOrganizationsStore()
 
   const { table, render } = useDataTable({
     columns,
@@ -37,6 +40,12 @@ export function OrganizationsTable() {
             }
           }}
           renderRowActions={(row) => <OrganizationsTableRowActions row={row} />}
+          onItemClick={(item, row) => {
+            if (row) {
+              setIsViewOrganizationDialogOpen(true)
+              setSelectedOrganization(row.original)
+            }
+          }}
         />
       </div>
 

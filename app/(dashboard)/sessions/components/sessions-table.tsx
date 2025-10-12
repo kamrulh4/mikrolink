@@ -3,11 +3,14 @@
 import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetActiveSessions } from "@/hooks/rq/use-sessions-query"
+import { useSessionsStore } from "@/stores/sessions-store"
 import { columns } from "./columns"
 import { SessionsTableToolbar } from "./sessions-table-toolbar"
+import { ViewSessionsDialog } from "./view-sessions-dialog"
 
 export function SessionsTable() {
   const { data: sessionsData, isLoading } = useGetActiveSessions()
+  const { setIsViewSessionDialogOpen, setSelectedSession } = useSessionsStore()
 
   const { table, render } = useDataTable({
     columns,
@@ -26,18 +29,27 @@ export function SessionsTable() {
           table={table}
           mapRow={(row) => {
             const session = row.original
+            const sessionId = session[".id"] || session["session-id"] || "unknown"
             return {
               title: session.name,
               description: session.address,
-              uid: session[".id"],
+              uid: sessionId,
             }
           }}
           renderRowActions={() => null}
+          onItemClick={(item, row) => {
+            if (row) {
+              setIsViewSessionDialogOpen(true)
+              setSelectedSession(row.original)
+            }
+          }}
         />
       </div>
 
       {/* desktop: table */}
       <div className="hidden md:block">{render}</div>
+
+      <ViewSessionsDialog />
     </div>
   )
 }

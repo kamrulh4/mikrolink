@@ -4,6 +4,7 @@ import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetPaymentList } from "@/hooks/rq/use-payment-query"
 import { generateAvatarUrl } from "@/lib/utils"
+import { usePaymentsStore } from "@/stores/payments-store"
 import { columns } from "./columns"
 import { PaymentsTableRowActions } from "./payments-table-row-actions"
 import { PaymentsTableToolbar } from "./payments-table-toolbar"
@@ -12,6 +13,7 @@ import { ViewPaymentsDialog } from "./view-payments-dialog"
 
 export function PaymentsTable() {
   const { data: paymentsData, isLoading } = useGetPaymentList()
+  const { setIsViewPaymentDialogOpen, setSelectedPayment } = usePaymentsStore()
 
   const { table, render } = useDataTable({
     columns,
@@ -39,6 +41,12 @@ export function PaymentsTable() {
             }
           }}
           renderRowActions={(row) => <PaymentsTableRowActions row={row} />}
+          onItemClick={(item, row) => {
+            if (row) {
+              setIsViewPaymentDialogOpen(true)
+              setSelectedPayment(row.original)
+            }
+          }}
         />
       </div>
 
