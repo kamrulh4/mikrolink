@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { z } from "zod/v3"
+import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import {
   Select,
   SelectContent,
@@ -23,16 +24,23 @@ import { useCreateUser, useUpdateUser } from "@/hooks/rq/use-users-query"
 import { useUsersStore } from "@/stores/users-store"
 import { genders, kinds } from "../data/data"
 
-const formSchema = z.object({
-  phone: z.string().max(20),
-  email: z.string().email("Enter valid email"),
+const formSchema = z
+  .object({
+    phone: z.string().max(20),
+    email: z.string().email("Enter valid email"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirm_password: z.string().min(6, "Confirm Password must be at least 6 characters"),
 
-  first_name: z.string().max(50).optional(),
-  last_name: z.string().max(50).optional(),
-  gender: z.string().optional(),
-  kind: z.string().optional(),
-  // image: z.string().optional(),
-})
+    // optionals
+    first_name: z.string().max(50).optional(),
+    last_name: z.string().max(50).optional(),
+    gender: z.string().optional(),
+    kind: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords don't match",
+    path: ["confirm_password"],
+  })
 
 export function UsersUpsertForm() {
   const { setIsUpsertUserDialogOpen, userMutationType, selectedUser } = useUsersStore()
@@ -71,39 +79,75 @@ export function UsersUpsertForm() {
     <section>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Phone<span className="text-red-500">*</span>{" "}
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Phone<span className="text-red-500">*</span>{" "}
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Email<span className="text-red-500">*</span>{" "}
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Email<span className="text-red-500">*</span>{" "}
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Password<span className="text-red-500">*</span>{" "}
+                  </FormLabel>
+                  <FormControl>
+                    <PasswordInput {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirm_password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Confirm Password<span className="text-red-500">*</span>{" "}
+                  </FormLabel>
+                  <FormControl>
+                    <PasswordInput {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="first_name"
@@ -132,7 +176,7 @@ export function UsersUpsertForm() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="gender"
@@ -178,13 +222,11 @@ export function UsersUpsertForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {kinds
-                        .filter((kind) => !["SUPER_ADMIN", "ADMIN"].includes(kind.value))
-                        .map((k) => (
-                          <SelectItem key={k.value} value={k.value}>
-                            <k.icon className="mr-2 h-4 w-4 inline-block" /> {k.label}
-                          </SelectItem>
-                        ))}
+                      {kinds.map((k) => (
+                        <SelectItem key={k.value} value={k.value}>
+                          <k.icon className="mr-2 h-4 w-4 inline-block" /> {k.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />

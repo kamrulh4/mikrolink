@@ -13,6 +13,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useDeleteUser } from "@/hooks/rq/use-users-query"
 import { useUsersStore } from "@/stores/users-store"
 
 interface UsersTableRowActionsProps {
@@ -28,6 +29,7 @@ export function UsersTableRowActions({ row }: UsersTableRowActionsProps) {
   } = useUsersStore()
 
   const [open, setOpen] = useState(false)
+  const { mutate: triggerDeleteUser } = useDeleteUser()
 
   return (
     <>
@@ -74,9 +76,7 @@ export function UsersTableRowActions({ row }: UsersTableRowActionsProps) {
         open={open}
         setOpen={setOpen}
         resource="user"
-        onDelete={() => {
-          console.log("delete vaya")
-        }}
+        onDelete={() => triggerDeleteUser(row.original.uid)}
       />
     </>
   )
