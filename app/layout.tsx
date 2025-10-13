@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import MobileBottomNav from "@/components/mobile-bottom-nav"
 import { Toaster } from "@/components/ui/sonner"
 import { QueryProvider } from "@/providers/rq-provider"
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         <QueryProvider>{children}</QueryProvider>
 
         <Toaster />
+        <MobileBottomNav />
       </body>
     </html>
   )
