@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,11 +9,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
-export default function DashboardLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function DashboardLayout({ children }: LayoutProps<"/">) {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -36,6 +33,7 @@ export default function DashboardLayout({
 
         <main className="p-4">{children}</main>
       </SidebarInset>
+      <MobileBottomNav />
     </SidebarProvider>
   )
 }

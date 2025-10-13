@@ -11,6 +11,8 @@ import {
   Wifi,
 } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -23,7 +25,9 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings2 },
 ]
 
-export default function MobileBottomNav() {
+export function MobileBottomNav() {
+  const pathname = usePathname()
+
   return (
     <nav
       aria-label="Primary mobile"
@@ -34,11 +38,15 @@ export default function MobileBottomNav() {
         <div className="backdrop-blur-sm bg-card/80 border-t border-border flex justify-between items-center px-4 py-2 rounded-t-lg">
           {navItems.map((item) => {
             const Icon = item.icon
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground focus:text-foreground focus:outline-none"
+                className={cn(
+                  "flex flex-col items-center gap-1 px-2 py-1 text-xs text-muted-foreground hover:text-foreground",
+                  pathname === item.href && "text-primary outline-none",
+                )}
                 aria-label={item.label}
                 title={item.label}
               >
