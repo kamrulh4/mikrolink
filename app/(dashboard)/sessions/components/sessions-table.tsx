@@ -14,7 +14,7 @@ export function SessionsTable() {
 
   const { table, render } = useDataTable({
     columns,
-    data: sessionsData?.sessions,
+    data: sessionsData?.sessions!,
     loading: isLoading,
   })
 
