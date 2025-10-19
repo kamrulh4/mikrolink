@@ -110,6 +110,35 @@ function deleteUserOptions() {
   })
 }
 
+export function useChangePassword() {
+  return useMutation({
+    mutationKey: ["change-password"],
+    mutationFn: (payload: {
+      old_password: string
+      new_password: string
+      confirm_new_password: string
+    }) => {
+      return httpV1
+        .request({
+          method: "post",
+          url: "/users/me/change-password",
+          data: payload,
+        })
+        .then((res) => res.data)
+    },
+    onSuccess: () => {
+      toast.success("Password changed successfully")
+    },
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Registration failed. Please try again", {
+          description: error.message,
+        })
+      }
+    },
+  })
+}
+
 export function useGetUserList() {
   return useQuery(getUserListOptions())
 }
