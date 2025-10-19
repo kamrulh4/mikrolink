@@ -53,10 +53,10 @@ const data = {
       prefetchOptions: getCustomerListOptions,
     },
     {
-      title: "Packages",
-      url: "/packages",
-      icon: Package2,
-      prefetchOptions: getPackageListOptions,
+      title: "Sessions",
+      url: "/sessions",
+      icon: Wifi,
+      prefetchOptions: getSessionsOptions,
     },
     {
       title: "Payments",
@@ -65,10 +65,10 @@ const data = {
       prefetchOptions: getPaymentListOptions,
     },
     {
-      title: "Organizations",
-      url: "/organizations",
-      icon: Building2,
-      prefetchOptions: getOrganizationListOptions,
+      title: "Packages",
+      url: "/packages",
+      icon: Package2,
+      prefetchOptions: getPackageListOptions,
     },
     {
       title: "Users",
@@ -77,10 +77,10 @@ const data = {
       prefetchOptions: getUserListOptions,
     },
     {
-      title: "Sessions",
-      url: "/sessions",
-      icon: Wifi,
-      prefetchOptions: getSessionsOptions,
+      title: "Organizations",
+      url: "/organizations",
+      icon: Building2,
+      prefetchOptions: getOrganizationListOptions,
     },
     {
       title: "Settings",

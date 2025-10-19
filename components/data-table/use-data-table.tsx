@@ -31,6 +31,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   loading?: boolean
+  pagination?: boolean
 }
 
 const emptyArray = [] as any[]
@@ -39,6 +40,7 @@ export function useDataTable<TData, TValue>({
   columns,
   data,
   loading,
+  pagination = true,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -127,7 +129,8 @@ export function useDataTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
-        <DataTablePagination table={table} />
+
+        {pagination && <DataTablePagination table={table} />}
       </div>
     </>
   )

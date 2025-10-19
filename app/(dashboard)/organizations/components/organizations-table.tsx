@@ -7,7 +7,6 @@ import { generateAvatarUrl } from "@/lib/utils"
 import { useOrganizationsStore } from "@/stores/organizations-store"
 import { columns } from "./columns"
 import { OrganizationsTableRowActions } from "./organizations-table-row-actions"
-import { OrganizationsTableToolbar } from "./organizations-table-toolbar"
 import { UpsertOrganizationsDialog } from "./upsert-organizations-dialog"
 import { ViewOrganizationsDialog } from "./view-organizations-dialog"
 
@@ -20,12 +19,11 @@ export function OrganizationsTable() {
     columns,
     data: organizationsData?.results!,
     loading: isLoading,
+    pagination: false,
   })
 
   return (
     <div className="space-y-4">
-      <OrganizationsTableToolbar table={table} />
-
       <div className="block md:hidden">
         <DataTableCardView
           loading={isLoading}
@@ -50,6 +48,8 @@ export function OrganizationsTable() {
       </div>
 
       <div className="hidden md:block">{render}</div>
+
+      {/* <ViewOrganization /> */}
       <UpsertOrganizationsDialog />
       <ViewOrganizationsDialog />
     </div>
