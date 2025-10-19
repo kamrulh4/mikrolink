@@ -8,6 +8,7 @@ import { useOrganizationsStore } from "@/stores/organizations-store"
 import { columns } from "./columns"
 import { OrganizationsTableRowActions } from "./organizations-table-row-actions"
 import { UpsertOrganizationsDialog } from "./upsert-organizations-dialog"
+import { ViewOrganization } from "./view-organization"
 import { ViewOrganizationsDialog } from "./view-organizations-dialog"
 
 export function OrganizationsTable() {

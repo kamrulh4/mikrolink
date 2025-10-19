@@ -1,10 +1,10 @@
 "use client"
 
 import { Table } from "@tanstack/react-table"
+import { SearchIcon } from "lucide-react"
 import * as React from "react"
 
-import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 
 type Props<TData> = {
   table: Table<TData>
@@ -32,13 +32,16 @@ export function DataTableSearch<TData>({
   }, [inputValue, searchField, table])
 
   return (
-    <Input
-      // placeholder={`Filter by ${searchField.toLowerCase()}...`}
-
-      placeholder="Search..."
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-      className="h-8 w-full md:w-[250px]"
-    />
+    <InputGroup className="w-full md:w-[260px] h-8">
+      <InputGroupInput
+        // placeholder={`Filter by ${searchField.toLowerCase()}...`}
+        placeholder="Search..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
+      <InputGroupAddon>
+        <SearchIcon />
+      </InputGroupAddon>
+    </InputGroup>
   )
 }
