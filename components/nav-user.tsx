@@ -8,7 +8,6 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -45,9 +44,7 @@ export function UserInfoSkeleton() {
 export function NavUser() {
   const { isMobile } = useSidebar()
 
-  const router = useRouter()
-
-  const { data: session, isLoading } = useSession()
+  const { data: session } = useSession()
 
   const name = `${session?.first_name || ""} ${session?.last_name || ""}`
 
