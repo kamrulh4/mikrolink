@@ -9,7 +9,7 @@ import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { Payment, PaymentResponse } from "@/types/payments"
 
-function getPaymentListOptions() {
+export function getPaymentListOptions() {
   return queryOptions({
     queryKey: ["payments", "list"],
     queryFn: () => {

@@ -4,7 +4,7 @@ import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { SessionResponse } from "@/types/sessions"
 
-function getSessionsOptions() {
+export function getSessionsOptions() {
   return queryOptions({
     queryKey: ["sessions", "active"],
     queryFn: () => {

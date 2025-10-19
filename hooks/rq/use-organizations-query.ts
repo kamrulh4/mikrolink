@@ -13,7 +13,7 @@ import {
   OrganizationResponse,
 } from "@/types/organizations"
 
-function getOrganizationListOptions() {
+export function getOrganizationListOptions() {
   return queryOptions({
     queryKey: ["organizations", "list"],
     queryFn: () => {

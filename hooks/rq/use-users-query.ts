@@ -9,7 +9,7 @@ import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { User, UserResponse } from "@/types/users"
 
-function getUserListOptions() {
+export function getUserListOptions() {
   return queryOptions({
     queryKey: ["users", "list"],
     queryFn: () => {

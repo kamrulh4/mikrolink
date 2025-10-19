@@ -1,9 +1,9 @@
 "use client"
 
+import { useQueryClient } from "@tanstack/react-query"
 import { type LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-
 import {
   SidebarGroup,
   SidebarMenu,
@@ -19,6 +19,7 @@ export function NavMain({
     url: string
     icon?: LucideIcon
     isActive?: boolean
+    prefetchOptions?: () => any
     items?: {
       title: string
       url: string
@@ -27,11 +28,20 @@ export function NavMain({
 }) {
   const pathname = usePathname()
 
+  const queryClient = useQueryClient()
+
   return (
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
+          <SidebarMenuItem
+            key={item.title}
+            onMouseEnter={(e) => {
+              if (item.prefetchOptions) {
+                queryClient.prefetchQuery(item.prefetchOptions())
+              }
+            }}
+          >
             <Link href={item.url}>
               <SidebarMenuButton
                 tooltip={item.title}

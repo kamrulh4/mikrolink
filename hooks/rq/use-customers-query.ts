@@ -10,7 +10,7 @@ import { httpV1 } from "@/lib/xior"
 import { CreateCustomer, Customer, CustomerResponse } from "@/types/customers"
 import { PaymentResponse } from "@/types/payments"
 
-function getCustomerListOptions() {
+export function getCustomerListOptions() {
   return queryOptions({
     queryKey: ["customers", "list"],
     queryFn: () => {
