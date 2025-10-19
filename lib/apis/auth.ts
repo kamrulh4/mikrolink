@@ -45,7 +45,7 @@ http.interceptors.request.use(async (config) => {
 export async function getSession() {
   try {
     const res = await http
-      .request<Session>({ method: "GET", url: "/users/me" })
+      .request<Session>({ method: "GET", url: "/users/me", cache: "no-store" })
       .then((res) => res.data)
 
     return res

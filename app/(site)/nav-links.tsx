@@ -1,6 +1,7 @@
-import { cookies } from "next/headers"
 import Link from "next/link"
 import { getSession } from "@/lib/apis/auth"
+
+export const dynamic = "force-dynamic"
 
 export async function NavLinks() {
   const session = await getSession()
