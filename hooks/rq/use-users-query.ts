@@ -61,7 +61,7 @@ function updateUserOptions() {
     mutationFn: ({ payload, uid }: { payload: Partial<User>; uid: string }) => {
       return httpV1
         .request<User>({
-          method: "PUT",
+          method: "PATCH",
           url: `/users/${uid}`,
           data: payload,
         })

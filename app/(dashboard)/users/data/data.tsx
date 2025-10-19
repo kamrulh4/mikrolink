@@ -30,16 +30,16 @@ export const genders = [
 ]
 
 export const kinds = [
-  // {
-  //   label: "Admin",
-  //   value: "ADMIN",
-  //   icon: ShieldIcon,
-  // },
-  // {
-  //   label: "Customer",
-  //   value: "CUSTOMER",
-  //   icon: UserIcon,
-  // },
+  {
+    label: "Admin",
+    value: "ADMIN",
+    icon: ShieldIcon,
+  },
+  {
+    label: "Customer",
+    value: "CUSTOMER",
+    icon: UserIcon,
+  },
   {
     label: "Manager",
     value: "MANAGER",
@@ -50,16 +50,16 @@ export const kinds = [
     value: "STAFF",
     icon: UsersIcon,
   },
-  // {
-  //   label: "Super Admin",
-  //   value: "SUPER_ADMIN",
-  //   icon: ShieldCheckIcon,
-  // },
-  // {
-  //   label: "Owner",
-  //   value: "OWNER",
-  //   icon: CrownIcon,
-  // },
+  {
+    label: "Super Admin",
+    value: "SUPER_ADMIN",
+    icon: ShieldCheckIcon,
+  },
+  {
+    label: "Owner",
+    value: "OWNER",
+    icon: CrownIcon,
+  },
   {
     label: "Other",
     value: "OTHER",

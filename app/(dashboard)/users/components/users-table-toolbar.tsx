@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useSession } from "@/hooks/rq/use-auth-query"
 import { useUsersStore } from "@/stores/users-store"
 import { genders, kinds } from "../data/data"
 
@@ -26,6 +27,8 @@ export function UsersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>
 
   const { setUserMutationType, setIsUpsertUserDialogOpen } = useUsersStore()
   const [searchField, setSearchField] = React.useState("first_name")
+
+  const { data: session } = useSession()
 
   return (
     <div className="flex md:items-center md:justify-between flex-col md:flex-row gap-2">
@@ -68,16 +71,18 @@ export function UsersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>
         )}
       </div>
 
-      <Button
-        onClick={() => {
-          setIsUpsertUserDialogOpen(true)
-          setUserMutationType("add")
-        }}
-        size="sm"
-        className="md:mr-2"
-      >
-        Add User
-      </Button>
+      {session?.kind === "ADMIN" && (
+        <Button
+          onClick={() => {
+            setIsUpsertUserDialogOpen(true)
+            setUserMutationType("add")
+          }}
+          size="sm"
+          className="md:mr-2"
+        >
+          Add User
+        </Button>
+      )}
 
       <DataTableViewOptions table={table} />
     </div>

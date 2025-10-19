@@ -13,6 +13,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useSession } from "@/hooks/rq/use-auth-query"
 import { useDeleteUser } from "@/hooks/rq/use-users-query"
 import { useUsersStore } from "@/stores/users-store"
 
@@ -30,6 +31,8 @@ export function UsersTableRowActions({ row }: UsersTableRowActionsProps) {
 
   const [open, setOpen] = useState(false)
   const { mutate: triggerDeleteUser } = useDeleteUser()
+
+  const { data: session } = useSession()
 
   return (
     <>
@@ -49,26 +52,31 @@ export function UsersTableRowActions({ row }: UsersTableRowActionsProps) {
           >
             View
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              setIsUpsertUserDialogOpen(true)
-              setUserMutationType("edit")
-              setSelectedUser(row.original)
-            }}
-          >
-            Edit
-          </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+          {session?.kind === "ADMIN" && (
+            <>
+              <DropdownMenuItem
+                onClick={() => {
+                  setIsUpsertUserDialogOpen(true)
+                  setUserMutationType("edit")
+                  setSelectedUser(row.original)
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => {
-              setOpen(true)
-            }}
-          >
-            Delete
-            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-          </DropdownMenuItem>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpen(true)
+                }}
+              >
+                Delete
+                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
