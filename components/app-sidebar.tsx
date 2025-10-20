@@ -1,10 +1,7 @@
 "use client"
-
-import { get } from "http"
 import {
   Building2,
   CreditCard,
-  GalleryVerticalEnd,
   LayoutDashboard,
   Package2,
   Settings2,
@@ -13,6 +10,8 @@ import {
   Wifi,
 } from "lucide-react"
 import type * as React from "react"
+import { Suspense } from "react"
+import { ErrorBoundary } from "react-error-boundary"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
@@ -32,13 +31,6 @@ import { getUserListOptions } from "@/hooks/rq/use-users-query"
 
 // This is sample data.
 const data = {
-  teams: [
-    {
-      name: "Mikrolink",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-  ],
   navMain: [
     {
       title: "Dashboard",
@@ -94,7 +86,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <ErrorBoundary
+          fallback={
+            <div className="text-xs text-center text-red-500">Failed to load</div>
+          }
+        >
+          <Suspense
+            fallback={
+              <div className="h-10 w-full animate-pulse bg-slate-200 rounded-md" />
+            }
+          >
+            <TeamSwitcher />
+          </Suspense>
+        </ErrorBoundary>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

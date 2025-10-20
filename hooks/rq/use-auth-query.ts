@@ -1,4 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import { XiorError } from "xior"
@@ -16,8 +22,20 @@ export type Session = {
   gender: string
   image: string
   kind: string
+  organization: Organization
   created_at: Date
   updated_at: Date
+}
+
+export type Organization = {
+  uid: string
+  name: string
+  phone: string
+  email: string
+  subscription_status: string
+  subscription_end_date: Date
+  allowed_customer: number
+  total_customer: number
 }
 
 export function useLogin() {
@@ -100,8 +118,8 @@ export function useRegister() {
   })
 }
 
-export function useSession() {
-  return useQuery({
+export function sessionOptions() {
+  return queryOptions({
     queryKey: ["session"],
     queryFn: () => {
       return httpV1
@@ -110,4 +128,12 @@ export function useSession() {
     },
     staleTime: 10 * 60 * 1000,
   })
+}
+
+export function useSession() {
+  return useQuery(sessionOptions())
+}
+
+export function useSuspenseSession() {
+  return useSuspenseQuery(sessionOptions())
 }
