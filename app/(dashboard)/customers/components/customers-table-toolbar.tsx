@@ -25,23 +25,16 @@ export function CustomersTableToolbar<TData>({ table }: DataTableToolbarProps<TD
   const isFiltered = table.getState().columnFilters.length > 0
 
   const { setCustomerMutationType, setIsUpsertCustomerDialogOpen } = useCustomersStore()
-  const [searchField, setSearchField] = React.useState("username")
 
   return (
     <div className="flex gap-2 md:items-center md:justify-between flex-col md:flex-row">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
-        <Select defaultValue="username" onValueChange={setSearchField}>
-          <SelectTrigger size="sm" className="w-full md:w-[120px]">
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="username">Username</SelectItem>
-            <SelectItem value="name">Name</SelectItem>
-            <SelectItem value="phone">Phone</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <DataTableSearch table={table} searchField={searchField} />
+        <DataTableSearch
+          table={table}
+          searchField="username"
+          placeholder="Search (name, username, phone)"
+          className="md:w-[280px]"
+        />
 
         {table.getColumn("is_active") && (
           <DataTableFacetedFilter

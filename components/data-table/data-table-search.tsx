@@ -5,12 +5,14 @@ import { SearchIcon } from "lucide-react"
 import * as React from "react"
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { cn } from "@/lib/utils"
 
 type Props<TData> = {
   table: Table<TData>
   searchField: string
   delay?: number
   className?: string
+  placeholder?: string
 }
 
 export function DataTableSearch<TData>({
@@ -18,6 +20,7 @@ export function DataTableSearch<TData>({
   searchField,
   delay = 300,
   className,
+  placeholder,
 }: Props<TData>) {
   const [inputValue, setInputValue] = React.useState(
     (table.getColumn(searchField)?.getFilterValue() as string) ?? "",
@@ -32,10 +35,9 @@ export function DataTableSearch<TData>({
   }, [inputValue, searchField, table])
 
   return (
-    <InputGroup className="w-full md:w-[260px] h-8">
+    <InputGroup className={cn("w-full md:w-[260px] h-8", className)}>
       <InputGroupInput
-        // placeholder={`Filter by ${searchField.toLowerCase()}...`}
-        placeholder="Search..."
+        placeholder={placeholder || "Search..."}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />

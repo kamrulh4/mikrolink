@@ -37,9 +37,9 @@ export const columns: ColumnDef<Customer>[] = [
 
   {
     accessorKey: "username",
-    // accessorFn: (row) => {
-    //   return `${row.username} ${row.name} ${row.phone}`
-    // },
+    accessorFn: (row) => {
+      return `${row.username} ${row.name} ${row.phone}`
+    },
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
     cell: ({ row }) => {
       return (
