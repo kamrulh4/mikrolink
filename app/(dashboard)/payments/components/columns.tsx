@@ -13,16 +13,8 @@ import { PaymentsTableRowActions } from "./payments-table-row-actions"
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "customer",
-    accessorFn: (row) => {
-      const { first_name, last_name, phone } = row.entry_by || {}
-
-      const name =
-        first_name || last_name ? `${first_name || ""} ${last_name || ""}` : "None"
-
-      const collector = `${name} ${phone}`
-
-      return `${row.customer.username} ${row.customer.name} ${row.customer.phone} ${collector}`
-    },
+    accessorFn: (row) =>
+      `${row.customer.username} ${row.customer.name} ${row.customer.phone}`,
     header: ({ column }) => <DataTableColumnHeader column={column} title="Customer" />,
     cell: ({ row }) => {
       return (
@@ -48,6 +40,14 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "entry_by",
+    accessorFn: (row) => {
+      const { first_name, last_name, phone } = row.entry_by || {}
+
+      const name =
+        first_name || last_name ? `${first_name || ""} ${last_name || ""}` : "None"
+
+      return `${name} ${phone}`
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Collected By" />
     ),
