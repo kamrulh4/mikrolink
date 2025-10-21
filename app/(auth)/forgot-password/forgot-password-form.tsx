@@ -35,11 +35,10 @@ const verifySchema = z
 
 export function ForgotPasswordForm() {
   const [step, setStep] = useState<"request" | "verify">("request")
-  const [sending, setSending] = useState(false)
 
   const router = useRouter()
 
-  const { mutate: triggerForgotPassword } = useForgotPassword()
+  const { mutate: triggerForgotPassword, isPending } = useForgotPassword()
 
   const requestForm = useForm<z.infer<typeof phoneSchema>>({
     resolver: zodResolver(phoneSchema),
@@ -52,8 +51,6 @@ export function ForgotPasswordForm() {
   })
 
   function onRequest(values: z.infer<typeof phoneSchema>) {
-    setSending(true)
-
     triggerForgotPassword(values, {
       onSuccess: () => {
         toast.success("OTP sent to user phone if it exists")
@@ -63,15 +60,10 @@ export function ForgotPasswordForm() {
       onError: () => {
         toast.error("Failed to send OTP. Please try again")
       },
-      onSettled: () => {
-        setSending(false)
-      },
     })
   }
 
   function onVerify(values: z.infer<typeof verifySchema>) {
-    setSending(true)
-
     triggerForgotPassword(values, {
       onSuccess: () => {
         toast.success("Password reset successfully. You can now log in.")
@@ -83,9 +75,6 @@ export function ForgotPasswordForm() {
       },
       onError: () => {
         toast.error("Failed to verify OTP or reset password. Please try again")
-      },
-      onSettled: () => {
-        setSending(false)
       },
     })
   }
@@ -126,9 +115,9 @@ export function ForgotPasswordForm() {
               <Button
                 type="submit"
                 className="h-11 w-full font-medium text-base"
-                disabled={sending}
+                disabled={isPending}
               >
-                {sending ? "Sending..." : "Send OTP"}
+                {isPending ? "Sending..." : "Send OTP"}
               </Button>
             </form>
           </Form>
@@ -210,8 +199,8 @@ export function ForgotPasswordForm() {
                 >
                   Back
                 </Button>
-                <Button type="submit" className="ml-auto" disabled={sending}>
-                  {sending ? "Verifying..." : "Verify & Reset"}
+                <Button type="submit" className="ml-auto" disabled={isPending}>
+                  {isPending ? "Verifying..." : "Verify & Reset"}
                 </Button>
               </div>
             </form>
