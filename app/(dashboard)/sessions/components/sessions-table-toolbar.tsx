@@ -2,18 +2,10 @@
 
 import { Table } from "@tanstack/react-table"
 import { RefreshCw, X } from "lucide-react"
-import * as React from "react"
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableSearch } from "@/components/data-table/data-table-search"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { useGetActiveSessions } from "@/hooks/rq/use-sessions-query"
 
 interface DataTableToolbarProps<TData> {
@@ -38,12 +30,11 @@ const serviceTypes = [
 export function SessionsTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const { refetch, isFetching } = useGetActiveSessions()
-  const [searchField, setSearchField] = React.useState("name")
 
   return (
     <div className="flex gap-2 md:items-center md:justify-between flex-col md:flex-row">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
-        <Select defaultValue="name" onValueChange={setSearchField}>
+        {/* <Select defaultValue="name" onValueChange={setSearchField}>
           <SelectTrigger size="sm" className="w-full md:w-[120px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -52,9 +43,9 @@ export function SessionsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
             <SelectItem value="address">IP Address</SelectItem>
             <SelectItem value="caller-id">MAC Address</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
 
-        <DataTableSearch table={table} searchField={searchField} />
+        <DataTableSearch table={table} searchField="name" />
 
         {table.getColumn("service") && (
           <DataTableFacetedFilter

@@ -2,18 +2,11 @@
 
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
-import * as React from "react"
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableSearch } from "@/components/data-table/data-table-search"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 import { useCustomersStore } from "@/stores/customers-store"
 import { connectionType, customerStatus } from "../data/data"
 
@@ -33,7 +26,6 @@ export function CustomersTableToolbar<TData>({ table }: DataTableToolbarProps<TD
           table={table}
           searchField="username"
           placeholder="Search (name, username, phone)"
-          className="md:w-[280px]"
         />
 
         {table.getColumn("is_active") && (

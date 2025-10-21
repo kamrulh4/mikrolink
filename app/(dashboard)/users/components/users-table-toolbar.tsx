@@ -2,18 +2,10 @@
 
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
-import * as React from "react"
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableSearch } from "@/components/data-table/data-table-search"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { useSession } from "@/hooks/rq/use-auth-query"
 import { useUsersStore } from "@/stores/users-store"
 import { genders, kinds } from "../data/data"
@@ -26,14 +18,13 @@ export function UsersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>
   const isFiltered = table.getState().columnFilters.length > 0
 
   const { setUserMutationType, setIsUpsertUserDialogOpen } = useUsersStore()
-  const [searchField, setSearchField] = React.useState("first_name")
 
   const { data: session } = useSession()
 
   return (
     <div className="flex md:items-center md:justify-between flex-col md:flex-row gap-2">
       <div className="flex flex-1 items-center gap-2 flex-wrap">
-        <Select defaultValue="first_name" onValueChange={setSearchField}>
+        {/* <Select defaultValue="first_name" onValueChange={setSearchField}>
           <SelectTrigger size="sm" className="w-full md:w-[142px]">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -41,9 +32,9 @@ export function UsersTableToolbar<TData>({ table }: DataTableToolbarProps<TData>
             <SelectItem value="first_name">Name</SelectItem>
             <SelectItem value="email">Email & Phone</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
 
-        <DataTableSearch table={table} searchField={searchField} />
+        <DataTableSearch table={table} searchField="first_name" />
 
         {table.getColumn("gender") && (
           <DataTableFacetedFilter

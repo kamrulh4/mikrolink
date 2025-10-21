@@ -11,7 +11,10 @@ import { UsersTableRowActions } from "./users-table-row-actions"
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "first_name",
-    accessorFn: (row) => `${row.first_name} ${row.last_name}`,
+    accessorFn: (row) => {
+      const fullName = `${row.first_name || ""} ${row.last_name || ""}`
+      return `${fullName} ${row.email} ${row.phone} ${row.gender} ${row.kind}`
+    },
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
     cell: ({ row }) => {
       const fullName = `${row.original.first_name || ""} (${row.original.last_name || ""})`
@@ -32,7 +35,6 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "email",
-    accessorFn: (row) => `${row.phone} (${row.email})`,
     header: ({ column }) => <DataTableColumnHeader column={column} title="Phone" />,
     cell: ({ row }) => {
       return (

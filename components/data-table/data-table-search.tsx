@@ -2,7 +2,7 @@
 
 import { Table } from "@tanstack/react-table"
 import { SearchIcon } from "lucide-react"
-import * as React from "react"
+import { useEffect, useState } from "react"
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { cn } from "@/lib/utils"
@@ -22,11 +22,11 @@ export function DataTableSearch<TData>({
   className,
   placeholder,
 }: Props<TData>) {
-  const [inputValue, setInputValue] = React.useState(
+  const [inputValue, setInputValue] = useState(
     (table.getColumn(searchField)?.getFilterValue() as string) ?? "",
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       table.getColumn(searchField)?.setFilterValue(inputValue)
     }, delay)
@@ -35,7 +35,7 @@ export function DataTableSearch<TData>({
   }, [inputValue, searchField, table])
 
   return (
-    <InputGroup className={cn("w-full md:w-[260px] h-8", className)}>
+    <InputGroup className={cn("w-full md:w-[280px] h-8", className)}>
       <InputGroupInput
         placeholder={placeholder || "Search..."}
         value={inputValue}

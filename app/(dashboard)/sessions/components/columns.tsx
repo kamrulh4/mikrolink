@@ -9,6 +9,7 @@ import { Session } from "@/types/sessions"
 export const columns: ColumnDef<Session>[] = [
   {
     accessorKey: "name",
+    accessorFn: (row) => `${row.name} ${row.address} ${row["caller-id"]}`,
     header: ({ column }) => <DataTableColumnHeader column={column} title="Username" />,
     cell: ({ row }) => {
       return <div className="font-medium">{row.original.name}</div>

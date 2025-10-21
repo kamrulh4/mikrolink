@@ -8,6 +8,9 @@ import { PackagesTableRowActions } from "./packages-table-row-actions"
 export const columns: ColumnDef<Package>[] = [
   {
     accessorKey: "name",
+    accessorFn: (row) => {
+      return `${row.name} ${row.speed_mbps} ${row.price} ${row.description}`
+    },
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
   },
   {
