@@ -118,6 +118,37 @@ export function useRegister() {
   })
 }
 
+export function useForgotPassword() {
+  return useMutation({
+    mutationKey: ["forgot-password"],
+    mutationFn: (payload: {
+      phone: string
+      otp?: string
+      password?: string
+      confirm_password?: string
+    }) => {
+      return httpV1
+        .request<{
+          phone: string
+          otp: string
+        }>({
+          method: "post",
+          url: "/users/forget-password",
+          data: payload,
+        })
+        .then((res) => res.data)
+    },
+
+    onError: (error) => {
+      if (error instanceof XiorError) {
+        toast.error("Failed. Please try again", {
+          description: error.message,
+        })
+      }
+    },
+  })
+}
+
 export function sessionOptions() {
   return queryOptions({
     queryKey: ["session"],

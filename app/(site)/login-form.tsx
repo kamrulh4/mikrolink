@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff, Globe } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -105,6 +106,14 @@ export function LoginForm() {
                         <Eye className="h-4 w-4 text-muted-foreground" />
                       )}
                     </Button>
+                  </div>
+                  <div className="flex justify-end">
+                    <Link
+                      href="/forgot-password"
+                      className="text-sm text-muted-foreground hover:underline"
+                    >
+                      Forgot password?
+                    </Link>
                   </div>
                   <FormMessage />
                 </FormItem>
