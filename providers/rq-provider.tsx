@@ -10,8 +10,6 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       onError: (error) => {
-        console.log("error from global")
-
         if (error instanceof XiorError) {
           const data = Object.entries(error.response?.data || {})?.[0]
 
