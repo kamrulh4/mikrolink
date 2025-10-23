@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod/v3"
+import { withMask } from "use-mask-input"
+import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -22,31 +23,56 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+import { PasswordInput } from "@/components/ui/password-input"
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import { useCreateCustomer, useUpdateCustomer } from "@/hooks/rq/use-customers-query"
 import { useGetPackageList } from "@/hooks/rq/use-packages-query"
 import { useCustomersStore } from "@/stores/customers-store"
+import { connectionType } from "../data/data"
 
 export const formSchema = z.object({
-  name: z.string().min(1, "Name is required").max(255),
-  email: z.string().email("Invalid email").max(254).optional(),
-  phone: z.string().max(20).optional(),
+  name: z.string({ error: "Name is required" }).min(1, "Name is required").max(255),
+  phone: z
+    .string({ error: "Phone number is required" })
+    .trim()
+    .regex(/^(\+8801[3-9]\d{8}|01[3-9]\d{8})$/, {
+      message: "Invalid Bangladeshi phone number",
+    }),
+  package_id: z.string({ error: "Package is required" }),
+  connection_type: z.enum(["DHCP", "STATIC", "PPPoE"], "Connection type is required"),
+  username: z
+    .string({ error: "Username is required" })
+    .max(30, "Too long")
+    .regex(/^(?![._])(?!.*[._]{2})[a-zA-Z0-9._]+(?<![._])$/, "Invalid format"),
+  password: z.string({ error: "Password is required" }).min(5).max(128),
+
+  // optional fields
+  email: z.email("Invalid email").max(254).optional(),
   address: z.string().max(255).optional(),
-  nid: z.string().max(20).optional(),
+  nid: z
+    .string()
+    .trim()
+    .regex(/^\d{10}$|^\d{13}$|^\d{17}$/, {
+      message: "Invalid Bangladeshi NID number (must be 10, 13, or 17 digits)",
+    })
+    .optional(),
   is_free: z.boolean().optional(),
-  package_id: z.string().optional(),
   connection_start_date: z.string().nullable().optional(),
   is_active: z.boolean().optional(),
-  ip_address: z.string().max(45).optional(),
+  ip_address: z.ipv4().optional(),
   mac_address: z.string().max(32).optional(),
-  username: z.string().max(150).optional(),
-  password: z.string().max(128).optional(),
-  connection_type: z.enum(["DHCP", "STATIC", "PPPoE"]).optional(),
   credentials: z.any().optional(),
 })
 
@@ -115,7 +141,7 @@ export function CustomersUpsertForm() {
             <CardTitle>Basic Information</CardTitle>
             <CardDescription>Enter the customer’s basic details</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
+          <CardContent className="grid gap-4 md:grid-cols-2 items-start">
             <FormField
               control={form.control}
               name="name"
@@ -136,9 +162,23 @@ export function CustomersUpsertForm() {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>
+                    Phone Number<span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter phone number" {...field} />
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <InputGroupText>+88</InputGroupText>
+                      </InputGroupAddon>
+                      <InputGroupInput
+                        {...field}
+                        placeholder="1844668099"
+                        className="!pl-0.5"
+                        ref={withMask("99999999999", {
+                          showMaskOnHover: false,
+                        })}
+                      />
+                    </InputGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -151,7 +191,7 @@ export function CustomersUpsertForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter email" {...field} />
+                    <Input placeholder="example@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,7 +217,8 @@ export function CustomersUpsertForm() {
                 <FormItem className="md:col-span-2">
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter address" {...field} />
+                    {/* <Input placeholder="Enter address" {...field} /> */}
+                    <Textarea placeholder="Enter address" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -191,13 +232,15 @@ export function CustomersUpsertForm() {
             <CardTitle>Package & Status</CardTitle>
             <CardDescription>Select package and set customer status</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
+          <CardContent className="grid gap-4 md:grid-cols-2 items-start">
             <FormField
               control={form.control}
               name="package_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Package</FormLabel>
+                  <FormLabel>
+                    Package<span className="text-red-500">*</span>
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value?.toString()}
@@ -224,7 +267,9 @@ export function CustomersUpsertForm() {
               name="connection_type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Connection Type</FormLabel>
+                  <FormLabel>
+                    Connection Type<span className="text-red-500">*</span>
+                  </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -232,11 +277,18 @@ export function CustomersUpsertForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="PPPoE">PPPoE</SelectItem>
+                      {connectionType.map((type) => (
+                        <SelectItem key={type.value} value={type.value}>
+                          <type.icon /> {type.label}
+                        </SelectItem>
+                      ))}
+                      {/* <SelectItem value="PPPoE">PPPoE</SelectItem>
                       <SelectItem value="STATIC">Static</SelectItem>
-                      <SelectItem value="DHCP">DHCP</SelectItem>
+                      <SelectItem value="DHCP">DHCP</SelectItem> */}
                     </SelectContent>
                   </Select>
+
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -274,7 +326,7 @@ export function CustomersUpsertForm() {
             <CardTitle>Network Configuration</CardTitle>
             <CardDescription>Configure network settings and credentials</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
+          <CardContent className="grid gap-4 md:grid-cols-2 items-start">
             <FormField
               control={form.control}
               name="ip_address"
@@ -282,7 +334,13 @@ export function CustomersUpsertForm() {
                 <FormItem>
                   <FormLabel>IP Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter IP address" {...field} />
+                    <Input
+                      placeholder="Enter IP address"
+                      {...field}
+                      ref={withMask("999.999.999.999", {
+                        showMaskOnHover: false,
+                      })}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -306,7 +364,9 @@ export function CustomersUpsertForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>
+                    Username<span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Enter username" {...field} />
                   </FormControl>
@@ -319,9 +379,15 @@ export function CustomersUpsertForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>
+                    Password<span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter password" type="password" {...field} />
+                    <PasswordInput
+                      placeholder="Enter password"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

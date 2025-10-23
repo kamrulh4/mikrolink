@@ -46,9 +46,10 @@ function createCustomerOptons() {
     },
     onError: (error) => {
       if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
+        const data = Object.entries(error.response?.data || {})?.[0]
+
+        const message = (data?.[1] as string) || "Failed. Please try Again"
+        toast.error(message)
       }
     },
 
