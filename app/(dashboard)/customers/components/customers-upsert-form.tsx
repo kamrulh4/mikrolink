@@ -334,13 +334,7 @@ export function CustomersUpsertForm() {
                 <FormItem>
                   <FormLabel>IP Address</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter IP address"
-                      {...field}
-                      ref={withMask("999.999.999.999", {
-                        showMaskOnHover: false,
-                      })}
-                    />
+                    <Input placeholder="Enter IP address" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
