@@ -59,13 +59,6 @@ export function useLogin() {
       const redirectTo = searchParams.get("redirect") || "/dashboard"
       router.push(redirectTo)
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Login failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
   })
 }
 
@@ -137,14 +130,6 @@ export function useForgotPassword() {
           data: payload,
         })
         .then((res) => res.data)
-    },
-
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try again", {
-          description: error.message,
-        })
-      }
     },
   })
 }

@@ -47,13 +47,6 @@ function createOrganizationOptions() {
     onSuccess: (data, con) => {
       toast.success("Organization created successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
 
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["organizations"] })
@@ -83,13 +76,6 @@ function updateOrganizationOptions() {
     onSuccess: (data, con) => {
       toast.success("Organization updated successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
 
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["organizations"] })
@@ -111,13 +97,6 @@ function deleteOrganizationOptions() {
 
     onSuccess: (data) => {
       toast.success("Organization deleted successfully")
-    },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
     },
 
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {

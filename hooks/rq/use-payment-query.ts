@@ -42,13 +42,6 @@ function createPaymentOptions() {
     onSuccess: () => {
       toast.success("Payment created successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: JSON.stringify(error.response?.data),
-        })
-      }
-    },
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["payments"] })
     },
@@ -70,13 +63,7 @@ function updatePaymentOptions() {
     onSuccess: () => {
       toast.success("Payment updated successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["payments"] })
     },
@@ -97,13 +84,7 @@ function deletePaymentOptions() {
     onSuccess: () => {
       toast.success("Payment deleted successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["payments"] })
     },

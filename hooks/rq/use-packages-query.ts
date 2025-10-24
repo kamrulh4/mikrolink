@@ -42,13 +42,7 @@ function createPackageOptions() {
     onSuccess: () => {
       toast.success("Package created successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["packages"] })
     },
@@ -70,13 +64,7 @@ function updatePackageOptions() {
     onSuccess: () => {
       toast.success("Package updated successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["packages"] })
     },
@@ -97,13 +85,7 @@ function deletePackageOptions() {
     onSuccess: () => {
       toast.success("Package deleted successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["packages"] })
     },

@@ -67,13 +67,6 @@ function updateCustomerOptons() {
     onSuccess: (data, con) => {
       toast.success("Customer updated successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
 
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["customers"] })
@@ -95,13 +88,6 @@ function deleteCustomerOptions() {
 
     onSuccess: (data) => {
       toast.success("Customer deleted successfully")
-    },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
     },
 
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
@@ -139,11 +125,7 @@ function createCustomerPaymentOptions(uid: string) {
     onSuccess: () => {
       toast.success("Payment added successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed to add payment", { description: error.message })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["customers", "payments", uid] })
     },
@@ -165,11 +147,6 @@ function generateCustomerBillOptions() {
     onSuccess: () => {
       toast.success("Bill generated successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed to generate bill", { description: error.message })
-      }
-    },
   })
 }
 
@@ -187,11 +164,6 @@ function toggleCustomerStatusOptions() {
         .then((res) => res.data),
     onSuccess: () => {
       toast.success("Customer status updated")
-    },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed to update status", { description: error.message })
-      }
     },
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["customers"] })

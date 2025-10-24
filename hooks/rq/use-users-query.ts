@@ -42,13 +42,7 @@ function createUserOptions() {
     onSuccess: () => {
       toast.success("User created successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: JSON.stringify(error.response?.data),
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["users"] })
     },
@@ -70,13 +64,7 @@ function updateUserOptions() {
     onSuccess: () => {
       toast.success("User updated successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["users"] })
     },
@@ -97,13 +85,7 @@ function deleteUserOptions() {
     onSuccess: () => {
       toast.success("User deleted successfully")
     },
-    onError: (error) => {
-      if (error instanceof XiorError) {
-        toast.error("Failed. Please try Again", {
-          description: error.message,
-        })
-      }
-    },
+
     onSettled: (_data, _error, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({ queryKey: ["users"] })
     },
