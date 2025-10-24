@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { withMask } from "use-mask-input"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
@@ -174,9 +173,6 @@ export function CustomersUpsertForm() {
                         {...field}
                         placeholder="1844668099"
                         className="!pl-0.5"
-                        ref={withMask("99999999999", {
-                          showMaskOnHover: false,
-                        })}
                       />
                     </InputGroup>
                   </FormControl>
