@@ -126,8 +126,8 @@ importers:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       stan-js:
-        specifier: ^1.7.0
-        version: 1.7.0(react@19.2.0)
+        specifier: ^1.8.2
+        version: 1.8.2(react@19.2.0)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -2613,8 +2613,8 @@ packages:
   stable-hash@0.0.5:
     resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}
 
-  stan-js@1.7.0:
-    resolution: {integrity: sha512-Yjl7AEeFKQvgtmjnWTSI37uzdivjtgJ46Ac0aG77xsYiJwYcUoZH2q9xEtaRpm1hmRxmQpy8rN0dcqBoq9jjBA==}
+  stan-js@1.8.2:
+    resolution: {integrity: sha512-SKz4HxT4lf2etTAPWxWCvAYbSXAQQHnJsn5L/ZCSswU2MYm/p32Yo7UmGyQ3uJ8Vh4jlAV+vWd5YAeLLlCAIAw==}
     peerDependencies:
       react: '>=18.2.0'
       react-native-mmkv: '>=2.0.0'
@@ -5381,7 +5381,7 @@ snapshots:
 
   stable-hash@0.0.5: {}
 
-  stan-js@1.7.0(react@19.2.0):
+  stan-js@1.8.2(react@19.2.0):
     optionalDependencies:
       react: 19.2.0
 

@@ -80,7 +80,11 @@ export function DataTableCardView<TData>({
             className={
               onItemClick ? "cursor-pointer hover:bg-muted/50 transition-colors" : ""
             }
-            onClick={() => onItemClick?.(item, row)}
+            onClick={(e) => {
+              if (e.target !== e.currentTarget) return
+
+              onItemClick?.(item, row)
+            }}
           >
             {item.avatar ? (
               <ItemMedia>
