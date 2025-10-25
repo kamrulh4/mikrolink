@@ -5,7 +5,9 @@ import { RefreshCw, X } from "lucide-react"
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableSearch } from "@/components/data-table/data-table-search"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useGetActiveSessions } from "@/hooks/rq/use-sessions-query"
 
 interface DataTableToolbarProps<TData> {
@@ -29,7 +31,8 @@ const serviceTypes = [
 
 export function SessionsTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
-  const { refetch, isFetching } = useGetActiveSessions()
+  const { refetch, isFetching, data } = useGetActiveSessions()
+  const totalSessions = data?.sessions?.length || 0
 
   return (
     <div className="flex gap-2 md:items-center md:justify-between flex-col md:flex-row">
@@ -68,6 +71,13 @@ export function SessionsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
       </div>
 
       <div className="flex items-center gap-2">
+        {isFetching ? (
+          <Skeleton className="h-7 w-32 rounded-md" />
+        ) : (
+          <Badge variant="outline" className="rounded-md px-3">
+            {totalSessions} Active {totalSessions === 1 ? "Session" : "Sessions"}
+          </Badge>
+        )}
         <Button
           onClick={() => refetch()}
           size="sm"
