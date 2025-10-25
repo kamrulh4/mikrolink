@@ -17,6 +17,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
   Select,
@@ -153,7 +159,22 @@ export function PaymentsUpsertForm() {
               <FormItem>
                 <FormLabel>Amount</FormLabel>
                 <FormControl>
-                  <Input type="number" step="0.01" placeholder="500.00" {...field} />
+                  {/* <Input type="number" step="0.01" placeholder="500.00" {...field} /> */}
+                  <InputGroup>
+                    <InputGroupAddon>
+                      <InputGroupText>৳</InputGroupText>
+                    </InputGroupAddon>
+                    <InputGroupInput
+                      placeholder="0.00"
+                      type="number"
+                      step="1"
+                      min={0}
+                      {...field}
+                    />
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupText>BDT</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>

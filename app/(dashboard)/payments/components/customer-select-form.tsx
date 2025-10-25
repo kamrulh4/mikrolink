@@ -41,9 +41,7 @@ export function CustomerSelect() {
       control={form.control}
       name="customer_id"
       render={({ field }) => {
-        const selectedUsername = customers.find(
-          (customer) => customer.id === field.value,
-        )?.username
+        const selectedUser = customers.find((customer) => customer.id === field.value)
 
         return (
           <FormItem className="flex flex-col">
@@ -62,9 +60,15 @@ export function CustomerSelect() {
                     {field.value ? (
                       <div className="flex items-center">
                         <Avatar className="rounded-md size-6 mr-2">
-                          <AvatarImage src={generateAvatarUrl(selectedUsername || "")} />
+                          <AvatarImage
+                            src={generateAvatarUrl(
+                              selectedUser?.username || selectedUser?.name || "",
+                            )}
+                          />
                           <AvatarFallback className="text-xs font-light">
-                            {getInitials(selectedUsername || "")}
+                            {getInitials(
+                              selectedUser?.username || selectedUser?.name || "",
+                            )}
                           </AvatarFallback>
                         </Avatar>
 
@@ -105,10 +109,12 @@ export function CustomerSelect() {
                               <div className="flex space-x-2 items-center">
                                 <Avatar className="rounded-md">
                                   <AvatarImage
-                                    src={generateAvatarUrl(customer.username)}
+                                    src={generateAvatarUrl(
+                                      customer.username || customer.name,
+                                    )}
                                   />
                                   <AvatarFallback className="text-xs font-light">
-                                    {getInitials(customer.username)}
+                                    {getInitials(customer.username || customer.name)}
                                   </AvatarFallback>
                                 </Avatar>
 
