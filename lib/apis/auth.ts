@@ -1,20 +1,7 @@
 import "server-only"
 import { cookies } from "next/headers"
 import xior from "xior"
-
-type Session = {
-  id: number
-  uid: string
-  first_name: string
-  last_name: string
-  phone: string
-  email: string
-  gender: string
-  image: string
-  kind: string
-  created_at: Date
-  updated_at: Date
-}
+import { Session } from "@/types/auth"
 
 type DashboardData = {
   total_customers: number
@@ -45,7 +32,7 @@ http.interceptors.request.use(async (config) => {
 export async function getSession() {
   try {
     const res = await http
-      .request<Session>({ method: "GET", url: "/users/me", cache: "no-store" })
+      .request<Session>({ method: "GET", url: "/users/me" })
       .then((res) => res.data)
 
     return res

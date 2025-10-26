@@ -9,34 +9,9 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
+import { Session } from "@/types/auth"
 import { LoginResponse } from "@/types/logins"
 import { RegisterPayload, RegisterResponse } from "@/types/register"
-
-export type Session = {
-  id: number
-  uid: string
-  first_name: string
-  last_name: string
-  phone: string
-  email: string
-  gender: string
-  image: string
-  kind: string
-  organization: Organization
-  created_at: Date
-  updated_at: Date
-}
-
-export type Organization = {
-  uid: string
-  name: string
-  phone: string
-  email: string
-  subscription_status: string
-  subscription_end_date: Date
-  allowed_customer: number
-  total_customer: number
-}
 
 export function useLogin() {
   const router = useRouter()
@@ -139,7 +114,7 @@ export function sessionOptions() {
     queryKey: ["session"],
     queryFn: () => {
       return httpV1
-        .request<Session>({ method: "GET", url: "/users/me", cache: "no-store" })
+        .request<Session>({ method: "GET", url: "/users/me" })
         .then((res) => res.data)
     },
     staleTime: 10 * 60 * 1000,
