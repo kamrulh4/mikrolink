@@ -1,12 +1,12 @@
 import { createCollection } from "@tanstack/db"
 import { queryCollectionOptions } from "@tanstack/query-db-collection"
 import { httpV1 } from "@/lib/xior"
-import { queryClient } from "@/providers/rq-provider"
+import { getQueryClient } from "@/providers/rq-provider"
 import { PackageResponse } from "@/types/packages"
 
 export const packagesCollection = createCollection(
   queryCollectionOptions({
-    queryClient,
+    queryClient: getQueryClient(),
     queryKey: ["packages"],
     queryFn: () => {
       const results = httpV1

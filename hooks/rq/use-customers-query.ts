@@ -3,6 +3,7 @@ import {
   queryOptions,
   useMutation,
   useQuery,
+  useSuspenseQuery,
 } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { XiorError } from "xior"
@@ -173,6 +174,10 @@ function toggleCustomerStatusOptions() {
 
 export function useGetCustomerList() {
   return useQuery(getCustomerListOptions())
+}
+
+export function useSuspenseGetCustomerList() {
+  return useSuspenseQuery(getCustomerListOptions())
 }
 
 export function useCreateCustomer() {
