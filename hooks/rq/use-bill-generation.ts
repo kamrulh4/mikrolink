@@ -19,3 +19,21 @@ export function useBillGeneration() {
     },
   })
 }
+
+export function useBillGenerationTask() {
+  return useMutation({
+    mutationFn: () => {
+      return httpV1.request({
+        method: "GET",
+        url: "/tasks/generate-bills",
+      })
+    },
+    onSuccess: () => {
+      toast.success("Bills generated successfully!")
+    },
+    onError: (error) => {
+      toast.error("Failed to generate bills. Please try again.")
+      console.error("Bill generation error:", error)
+    },
+  })
+}
