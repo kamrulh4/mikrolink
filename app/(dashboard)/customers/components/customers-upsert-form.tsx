@@ -68,9 +68,9 @@ export const formSchema = z.object({
     })
     .optional(),
   is_free: z.boolean().optional(),
-  connection_start_date: z.string().nullable().optional(),
+  connection_start_date: z.string().nullish(),
   is_active: z.boolean().optional(),
-  ip_address: z.ipv4().optional(),
+  ip_address: z.string().optional(),
   mac_address: z.string().max(32).optional(),
   credentials: z.any().optional(),
 })

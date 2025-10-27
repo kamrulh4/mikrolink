@@ -1,9 +1,15 @@
+import { cacheLife, cacheTag } from "next/cache"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 import { getSession } from "@/lib/apis/auth"
 import { generateAvatarUrl, getInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 export async function TeamSwitcher() {
+  "use cache: private"
+
+  cacheLife("minutes")
+  cacheTag("team-session")
+
   const session = await getSession()
 
   return (
