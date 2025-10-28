@@ -7,7 +7,7 @@ export function useDeactivateDueCustomersTask() {
     mutationFn: () => {
       return httpV1.request({
         method: "GET",
-        url: "/tasks/deactive-organizations-due-customer",
+        url: "/tasks/deactive-due-customer",
       })
     },
     onSuccess: () => {
