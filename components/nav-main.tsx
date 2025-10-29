@@ -1,11 +1,10 @@
 "use client"
 
-import { QueryOptions, useQueryClient } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import {
   Building2,
   CreditCard,
   LayoutDashboard,
-  type LucideIcon,
   Package2,
   Settings2,
   User,
@@ -20,7 +19,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
+import { useSession, useSuspenseSession } from "@/hooks/rq/use-auth-query"
 import { getCustomerListOptions } from "@/hooks/rq/use-customers-query"
 import { getOrganizationListOptions } from "@/hooks/rq/use-organizations-query"
 import { getPackageListOptions } from "@/hooks/rq/use-packages-query"
@@ -80,45 +79,40 @@ const navMain = [
 
 export function NavMain() {
   const pathname = usePathname()
-
   const queryClient = useQueryClient()
+
+  const { data: session } = useSuspenseSession()
 
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {navMain.map((item) => (
-          <SidebarMenuItem
-            key={item.title}
-            onMouseEnter={(e) => {
-              if (item.prefetchOptions) {
-                queryClient.prefetchQuery(item.prefetchOptions() as any)
-              }
-            }}
-          >
-            <Link href={item.url}>
-              <SidebarMenuButton
-                tooltip={item.title}
-                isActive={pathname === item.url}
-                className="cursor-pointer"
-              >
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </Link>
+        {navMain
+          .filter((list) => {
+            if (session?.kind == "ADMIN" && list.url === "/users") return false
 
-            {/* <SidebarMenuSub>
-              {item.items?.map((subItem) => (
-                <SidebarMenuSubItem key={subItem.title}>
-                  <SidebarMenuSubButton asChild>
-                    <Link href={subItem.url}>
-                      <span>{subItem.title}</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-              ))}
-            </SidebarMenuSub> */}
-          </SidebarMenuItem>
-        ))}
+            return true
+          })
+          .map((item) => (
+            <SidebarMenuItem
+              key={item.title}
+              onMouseEnter={(e) => {
+                if (item.prefetchOptions) {
+                  queryClient.prefetchQuery(item.prefetchOptions() as any)
+                }
+              }}
+            >
+              <Link href={item.url}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  isActive={pathname === item.url}
+                  className="cursor-pointer"
+                >
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </Link>
+            </SidebarMenuItem>
+          ))}
       </SidebarMenu>
     </SidebarGroup>
   )
