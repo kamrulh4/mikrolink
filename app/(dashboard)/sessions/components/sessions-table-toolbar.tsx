@@ -74,8 +74,9 @@ export function SessionsTableToolbar<TData>({ table }: DataTableToolbarProps<TDa
         {isFetching ? (
           <Skeleton className="h-7 w-32 rounded-md" />
         ) : (
-          <Badge variant="outline" className="rounded-md px-3">
-            {totalSessions} Active {totalSessions === 1 ? "Session" : "Sessions"}
+          <Badge className="rounded-md px-3">
+            <span className="font-semibold">{totalSessions}</span> Active{" "}
+            {totalSessions === 1 ? "Session" : "Sessions"}
           </Badge>
         )}
         <Button
