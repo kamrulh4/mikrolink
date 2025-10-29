@@ -88,7 +88,7 @@ export function NavMain() {
       <SidebarMenu>
         {navMain
           .filter((list) => {
-            if (session?.kind == "ADMIN" && list.url === "/users") return false
+            if (session.kind !== "ADMIN" && list.url === "/users") return false
 
             return true
           })

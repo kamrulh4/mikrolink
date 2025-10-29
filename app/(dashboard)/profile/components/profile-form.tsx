@@ -19,10 +19,9 @@ import { useSession } from "@/hooks/rq/use-auth-query"
 import { useUpdateUser } from "@/hooks/rq/use-users-query"
 
 const profileFormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().email({
+  first_name: z.string().max(50).optional(),
+  last_name: z.string().max(50).optional(),
+  email: z.email({
     message: "Please enter a valid email address.",
   }),
   phone: z.string().min(10, {
@@ -39,22 +38,20 @@ export function ProfileForm() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      name: session?.first_name ?? "",
-      email: session?.email ?? "",
-      phone: session?.phone ?? "",
-    },
-    values: {
-      name: session?.first_name ?? "",
+      first_name: session?.first_name ?? "",
+      last_name: session?.last_name ?? "",
       email: session?.email ?? "",
       phone: session?.phone ?? "",
     },
   })
 
   function onSubmit(data: ProfileFormValues) {
-    updateUser.mutate({
-      uid: session?.uid ?? "",
-      payload: data,
-    })
+    if (session?.uid) {
+      updateUser.mutate({
+        uid: session?.uid,
+        payload: data,
+      })
+    }
   }
 
   return (
@@ -67,18 +64,34 @@ export function ProfileForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="name"
+              name="first_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your name" {...field} />
+                    <Input placeholder="John" {...field} />
                   </FormControl>
                   <FormDescription>This is your public display name.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="last_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Doe" {...field} />
+                  </FormControl>
+                  <FormDescription>This is your public display name.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="email"
@@ -86,7 +99,7 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
+                    <Input placeholder="example@jot.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
