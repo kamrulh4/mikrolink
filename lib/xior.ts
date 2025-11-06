@@ -4,7 +4,7 @@ import xior from "xior"
 // https://api.mikrolink.artsensebd.com
 
 export const httpV1 = xior.create({
-  baseURL: "http://145.223.22.92:8090/api/v1",
+  baseURL: "https://api.mikrolink.artsensebd.com/api/v1",
 })
 
 httpV1.interceptors.request.use((config) => {
