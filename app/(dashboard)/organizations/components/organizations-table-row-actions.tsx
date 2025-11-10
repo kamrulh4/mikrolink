@@ -9,20 +9,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useDeleteOrganization } from "@/hooks/rq/use-organizations-query"
 import { useOrganizationsStore } from "@/stores/organizations-store"
 import { Organization } from "@/types/organizations"
-import { organizationStatus } from "../data/data"
+
+// import { organizationStatus } from "../data/data"
 
 interface OrganizationsTableRowActionsProps {
   row: Row<Organization>
@@ -74,9 +69,9 @@ export function OrganizationsTableRowActions({ row }: OrganizationsTableRowActio
             Edit
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+          {/* <DropdownMenuSeparator /> */}
 
-          <DropdownMenuSub>
+          {/* <DropdownMenuSub>
             <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
@@ -94,9 +89,9 @@ export function OrganizationsTableRowActions({ row }: OrganizationsTableRowActio
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
-          </DropdownMenuSub>
+          </DropdownMenuSub> */}
 
-          <DropdownMenuSeparator />
+          {/* <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
               setOpen(true)
@@ -104,7 +99,7 @@ export function OrganizationsTableRowActions({ row }: OrganizationsTableRowActio
           >
             Delete
             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
 

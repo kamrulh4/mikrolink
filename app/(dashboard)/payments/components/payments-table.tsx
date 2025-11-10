@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { DataTableCardView } from "@/components/data-table/data-table-card-view"
 import { useDataTable } from "@/components/data-table/use-data-table"
 import { useGetPaymentList } from "@/hooks/rq/use-payment-query"
@@ -23,7 +24,9 @@ export function PaymentsTable() {
 
   return (
     <div className="space-y-4">
-      <PaymentsTableToolbar table={table} />
+      <Suspense>
+        <PaymentsTableToolbar table={table} />
+      </Suspense>
 
       <div className="block md:hidden">
         <DataTableCardView

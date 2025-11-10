@@ -24,15 +24,32 @@ interface DataTableFacetedFilterProps<TData, TValue> {
     value: string
     icon?: React.ComponentType<{ className?: string }>
   }[]
+  defaultValues?: string[]
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
   options,
+  defaultValues = [],
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues()
-  const selectedValues = new Set(column?.getFilterValue() as string[])
+
+  const [hasInitialized, setHasInitialized] = React.useState(false)
+
+  const selectedValues = React.useMemo(() => {
+    const filterValues = column?.getFilterValue() as string[] | undefined
+
+    if (!hasInitialized) {
+      setHasInitialized(true)
+      if ((!filterValues || filterValues.length === 0) && defaultValues.length > 0) {
+        column?.setFilterValue(defaultValues)
+        return new Set(defaultValues)
+      }
+    }
+
+    return new Set(filterValues || [])
+  }, [column, defaultValues, hasInitialized])
 
   return (
     <Popover>
@@ -40,7 +57,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Button variant="outline" size="sm" className="h-8 border-dashed">
           <PlusCircle />
           {title}
-          {selectedValues?.size > 0 && (
+          {selectedValues.size > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
@@ -89,14 +106,15 @@ export function DataTableFacetedFilter<TData, TValue>({
                   <CommandItem
                     key={option.value}
                     onSelect={() => {
+                      const newValues = new Set(selectedValues)
                       if (isSelected) {
-                        selectedValues.delete(option.value)
+                        newValues.delete(option.value)
                       } else {
-                        selectedValues.add(option.value)
+                        newValues.add(option.value)
                       }
-                      const filterValues = Array.from(selectedValues)
+
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined,
+                        newValues.size ? Array.from(newValues) : undefined,
                       )
                     }}
                   >
