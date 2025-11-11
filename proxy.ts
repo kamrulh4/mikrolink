@@ -23,7 +23,7 @@ export function proxy(request: NextRequest) {
   // 1. If accessing protected route but no token → redirect to login
   if (isProtected && !token) {
     const loginUrl = new URL("/login", request.url)
-    loginUrl.searchParams.set("redirect", pathname)
+    // loginUrl.searchParams.set("redirect", pathname)
     return NextResponse.redirect(loginUrl)
   }
 
