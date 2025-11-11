@@ -14,7 +14,7 @@ type DashboardData = {
 }
 
 const http = xior.create({
-  baseURL: "https://api.mikrolink.artsensebd.com/api/v1",
+  baseURL: "https://api.billsheba.com/api/v1",
 })
 
 http.interceptors.request.use(async (config) => {
