@@ -2,7 +2,7 @@ import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
-  output: "standalone", // ✅ Add this
+  // output: "standalone",
   experimental: {
     turbopackFileSystemCacheForDev: true,
   },
