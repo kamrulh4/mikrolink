@@ -31,11 +31,12 @@ export function useLogin() {
         })
         .then((res) => res.data)
     },
-    onSuccess: (data) => {
-      queryClient.prefetchQuery(getDashboardDataOptions())
-
+    onSuccess: async (data) => {
       toast.success("Successfully logged in")
       document.cookie = `token=${data.access_token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`
+
+      await queryClient.prefetchQuery(getDashboardDataOptions())
+
       const redirectTo = "/dashboard"
       router.push(redirectTo)
     },
@@ -57,7 +58,9 @@ export function useLogout() {
     onSuccess: () => {
       queryClient.clear()
       toast.success("Successfully logged out")
-      router.push("/")
+      // router.push("/")
+
+      window.location.href = "/"
     },
     onError: () => {
       toast.error("Logout failed")
