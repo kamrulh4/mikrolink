@@ -1,7 +1,7 @@
 import xior from "xior"
 
 export const httpV1 = xior.create({
-  baseURL: "https://api.mikrolink.artsensebd.com/api/v1",
+  baseURL: "https://api.billsheba.com/api/v1",
 })
 
 httpV1.interceptors.request.use((config) => {
