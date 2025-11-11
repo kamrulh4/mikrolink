@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Mikrolink",
+  title: "Billsheba",
   description: "A app to internet provider",
 }
 
