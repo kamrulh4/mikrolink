@@ -1,10 +1,10 @@
 import { createStore } from "stan-js"
 
-import packages from "@/data/packages.json"
+import { Package } from "@/types/packages"
 
 export const { useStore: usePackagesStore, reset: resetPacksgesStore } = createStore({
   isViewPackageDialogOpen: false,
   isUpsertPackageDialogOpen: false,
   packageMutationType: "" as "add" | "edit",
-  selectedPackage: {} as (typeof packages.results)[0],
+  selectedPackage: {} as Package,
 })
