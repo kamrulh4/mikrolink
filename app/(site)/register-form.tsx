@@ -95,7 +95,7 @@ export function RegisterForm() {
         <div>
           <h2 className="font-semibold text-2xl text-foreground">Create an account</h2>
           <p className="mt-1 text-muted-foreground text-sm">
-            Register a new Mikrolink account
+            Register a new Billsheba account
           </p>
         </div>
       </CardHeader>

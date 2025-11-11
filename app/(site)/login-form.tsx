@@ -51,7 +51,7 @@ export function LoginForm() {
         <div>
           <h2 className="font-semibold text-2xl text-foreground">Welcome Back</h2>
           <p className="mt-1 text-muted-foreground text-sm">
-            Sign in to your Mikrolink account
+            Sign in to your Billsheba account
           </p>
         </div>
       </CardHeader>

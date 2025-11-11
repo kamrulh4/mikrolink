@@ -12,7 +12,7 @@ export async function Header() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <Globe className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-semibold text-foreground text-lg">Mikrolink</span>
+            <span className="font-semibold text-foreground text-lg">Billsheba</span>
           </div>
 
           <Suspense fallback={<Skeleton className="h-4 w-[100px]" />}>

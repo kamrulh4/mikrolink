@@ -37,7 +37,7 @@ export function FeaturesSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16 space-y-4 text-center">
           <h2 className="font-bold text-3xl tracking-tight lg:text-4xl">
-            Why Choose Mikrolink?
+            Why Choose Billsheba?
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Professional tools designed specifically for internet service providers to

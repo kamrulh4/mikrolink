@@ -18,7 +18,7 @@ export function DashboardHeader() {
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <div className="w-4 h-4 bg-primary-foreground rounded-full" />
               </div>
-              <span className="text-xl font-bold text-foreground">Mikrolink</span>
+              <span className="text-xl font-bold text-foreground">Billsheba</span>
             </div>
           </div>
 
