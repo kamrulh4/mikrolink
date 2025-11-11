@@ -1,12 +1,11 @@
-// "use client"
+"use client"
 import { Clock, CreditCard, DollarSign, Package, UserCheck, Users } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { getDashboardData } from "@/lib/apis/auth"
+import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { useSuspenseGetDashboardData } from "@/hooks/rq/use-dashboard-query"
+import { currencyFormtter } from "@/lib/text-formatters"
 
-export async function StatsGrid() {
-  // const { data, isLoading, isError } = useDashboardQuery()
-
-  const data = await getDashboardData()
+export function StatsGrid() {
+  const { data } = useSuspenseGetDashboardData()
 
   const stats = [
     {
@@ -19,15 +18,15 @@ export async function StatsGrid() {
     },
     {
       title: "Active Customers",
-      value: data?.active_customers,
+      value: data.active_customers,
       icon: UserCheck,
       color: "text-gray-500",
-      subtitle: <span className="text-green-600">+2.5%</span>,
+      // subtitle: <span className="text-green-600">+2.5%</span>,
       change: "currently active",
     },
     {
       title: "Available Packages",
-      value: data?.total_packages,
+      value: data.total_packages,
       icon: Package,
       color: "text-gray-500",
       subtitle: "service packages",
@@ -35,10 +34,10 @@ export async function StatsGrid() {
     },
     {
       title: "Total Revenue",
-      value: `BDT ${Number(data?.total_revenue).toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
+      value: currencyFormtter(+data.total_revenue),
       icon: CreditCard,
       color: "text-gray-500",
-      subtitle: <span className="text-green-600">+12.3%</span>,
+      // subtitle: <span className="text-green-600">+12.3%</span>,
       change: "from paid invoices",
     },
     {
@@ -54,7 +53,7 @@ export async function StatsGrid() {
       value: data?.pending_payments,
       icon: Clock,
       color: "text-gray-500",
-      subtitle: "awaiting payment",
+      subtitle: `awaiting payment of ${currencyFormtter(+data.current_month_pending_amount)}`,
       change: null,
     },
     {
@@ -62,7 +61,7 @@ export async function StatsGrid() {
       value: data?.current_month_payments,
       icon: CreditCard,
       color: "text-gray-500",
-      subtitle: "paid this month",
+      subtitle: `paid this month ${currencyFormtter(+data.current_month_paid_amount)}`,
       change: null,
     },
   ]

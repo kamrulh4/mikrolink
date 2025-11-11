@@ -2,6 +2,7 @@ import xior from "xior"
 
 export const httpV1 = xior.create({
   baseURL: "https://api.billsheba.com/api/v1",
+  cache: "no-store",
 })
 
 httpV1.interceptors.request.use((config) => {

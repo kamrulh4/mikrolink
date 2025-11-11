@@ -1,18 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
+import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { httpV1 } from "@/lib/xior"
+import { DashboardResponse } from "@/types/dashboard"
 
-export type DashboardResponse = {
-  total_customers: number
-  active_customers: number
-  total_packages: number
-  total_payments: number
-  total_revenue: string
-  pending_payments: number
-  current_month_payments: number
-}
-
-export function useDashboardQuery() {
-  return useQuery({
+export function getDashboardDataOptions() {
+  return queryOptions({
     queryKey: ["dashboard"],
     queryFn: () =>
       httpV1
@@ -21,6 +12,13 @@ export function useDashboardQuery() {
           url: "/dashboard",
         })
         .then((res) => res.data),
-    staleTime: 5 * 60 * 1000,
   })
+}
+
+export function useGetDashboardData() {
+  return useQuery(getDashboardDataOptions())
+}
+
+export function useSuspenseGetDashboardData() {
+  return useSuspenseQuery(getDashboardDataOptions())
 }

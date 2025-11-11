@@ -5,7 +5,6 @@ import {
   useQuery,
 } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { XiorError } from "xior"
 import { httpV1 } from "@/lib/xior"
 import { Package, PackageResponse } from "@/types/packages"
 

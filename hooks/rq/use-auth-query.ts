@@ -12,10 +12,13 @@ import { httpV1 } from "@/lib/xior"
 import { Session } from "@/types/auth"
 import { LoginResponse } from "@/types/logins"
 import { RegisterPayload, RegisterResponse } from "@/types/register"
+import { getDashboardDataOptions } from "./use-dashboard-query"
 
 export function useLogin() {
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationKey: ["login"],
@@ -29,6 +32,8 @@ export function useLogin() {
         .then((res) => res.data)
     },
     onSuccess: (data) => {
+      queryClient.prefetchQuery(getDashboardDataOptions())
+
       toast.success("Successfully logged in")
       document.cookie = `token=${data.access_token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`
       const redirectTo = searchParams.get("redirect") || "/dashboard"
