@@ -1,40 +1,35 @@
-# Stage 1 — Build the Next.js app
+# ---------- Stage 1: Build ----------
 FROM node:20-alpine AS builder
 
-# Set working directory
 WORKDIR /app
-
-# Copy dependency files first for efficient caching
-COPY package.json pnpm-lock.yaml ./
 
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Install dependencies (frozen lockfile for reproducibility)
+# Copy dependency files and install
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# Copy rest of the app
+# Copy the rest of your app
 COPY . .
 
-# Build the Next.js app
+# Build the Next.js app (produces .next/standalone)
 RUN pnpm run build
 
-# Stage 2 — Production Image
-FROM node:20-alpine AS runner
 
+# ---------- Stage 2: Run ----------
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy only what’s needed for running the app
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/next.config.ts ./
+# Copy the standalone build output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
 
-# Expose the port Coolify will map
+# Expose the port that Next.js runs on
 EXPOSE 3000
 
-# Default command
-CMD ["pnpm", "start"]
+# Run the app
+CMD ["node", "server.js"]
