@@ -1,19 +1,61 @@
+# # ---------- Stage 1: Build ----------
+# FROM node:20-alpine AS builder
+
+# WORKDIR /app
+
+# # Install pnpm globally
+# RUN npm install -g pnpm
+
+# # Copy dependency files and install
+# COPY package.json pnpm-lock.yaml ./
+# RUN pnpm install --frozen-lockfile
+
+# # Copy the rest of your app
+# COPY . .
+
+# # Build the Next.js app (produces .next/standalone)
+# RUN pnpm run build
+
+
+# # ---------- Stage 2: Run ----------
+# FROM node:20-alpine AS runner
+# WORKDIR /app
+
+# ENV NODE_ENV=production
+
+# # Copy the standalone build output
+# COPY --from=builder /app/.next/standalone ./
+# COPY --from=builder /app/.next/static ./.next/static
+# COPY --from=builder /app/public ./public
+
+# # Expose the port that Next.js runs on
+# EXPOSE 3000
+
+# # Run the app
+# CMD ["node", "server.js"]
+
+
 # ---------- Stage 1: Build ----------
 FROM node:20-alpine AS builder
 
+# Working directory inside container
 WORKDIR /app
 
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Copy dependency files and install
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+# Copy package manifests first (for caching)
+COPY package.json ./
+# Copy pnpm lockfile if it exists (ignore error if missing)
+COPY pnpm-lock.yaml* ./
 
-# Copy the rest of your app
+# Install dependencies
+RUN pnpm install --frozen-lockfile || pnpm install
+
+# Copy the rest of the source code
 COPY . .
 
-# Build the Next.js app (produces .next/standalone)
+# Build Next.js app for production (creates .next/standalone)
 RUN pnpm run build
 
 
@@ -23,13 +65,13 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy the standalone build output
+# Copy standalone build files from builder stage
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Expose the port that Next.js runs on
+# Coolify expects something listening on port 3000
 EXPOSE 3000
 
-# Run the app
+# Default start command
 CMD ["node", "server.js"]
