@@ -36,7 +36,7 @@ export function useLogin() {
 
       toast.success("Successfully logged in")
       document.cookie = `token=${data.access_token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`
-      const redirectTo = searchParams.get("redirect") || "/dashboard"
+      const redirectTo = "/dashboard"
       router.push(redirectTo)
     },
   })
