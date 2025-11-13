@@ -2,16 +2,7 @@ import "server-only"
 import { cookies } from "next/headers"
 import xior from "xior"
 import { Session } from "@/types/auth"
-
-type DashboardData = {
-  total_customers: number
-  active_customers: number
-  total_packages: number
-  total_payments: number
-  total_revenue: string
-  pending_payments: number
-  current_month_payments: number
-}
+import { DashboardResponse } from "@/types/dashboard"
 
 const http = xior.create({
   baseURL: "https://api.billsheba.com/api/v1",
@@ -44,7 +35,7 @@ export async function getSession() {
 export async function getDashboardData() {
   try {
     const res = await http
-      .request<DashboardData>({ method: "GET", url: "/dashboard" })
+      .request<DashboardResponse>({ method: "GET", url: "/dashboard" })
       .then((res) => res.data)
     return res
   } catch (error) {

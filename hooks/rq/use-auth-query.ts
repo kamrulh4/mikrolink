@@ -5,7 +5,6 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query"
-import { setCookie } from "cookies-next/client"
 import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import { XiorError } from "xior"
@@ -34,14 +33,15 @@ export function useLogin() {
     },
     onSuccess: async (data) => {
       toast.success("Successfully logged in")
-      // document.cookie = `token=${data.access_token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`
 
-      setCookie("token", data.access_token, { sameSite: "lax", secure: false })
+      document.cookie = `token=${data.access_token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=lax`
 
       await queryClient.prefetchQuery(getDashboardDataOptions())
 
-      const redirectTo = "/dashboard"
-      router.push(redirectTo)
+      router.refresh()
+      router.push("/")
+
+      // window.location.href = "/dashboard"
     },
   })
 }
