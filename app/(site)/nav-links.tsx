@@ -1,10 +1,12 @@
+"use client"
+
 import Link from "next/link"
-import { getSession } from "@/lib/apis/auth"
+import { useSession } from "@/hooks/rq/use-auth-query"
 
 export const dynamic = "force-dynamic"
 
-export async function NavLinks() {
-  const session = await getSession()
+export function NavLinks() {
+  const { data: session } = useSession()
 
   return (
     <nav className="hidden items-center gap-8 md:flex">

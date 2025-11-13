@@ -72,7 +72,7 @@ export function StatsGrid() {
       {stats.map((stat) => (
         <Card
           key={stat.title}
-          className="border border-border rounded-xl shadow-none px-6 py-4 flex flex-col justify-between min-h-[140px]"
+          className="border border-border rounded-xl shadow-none px-6 py-4 flex flex-col justify-between min-h-[140px] md:last:mb-0 last:mb-20"
         >
           <div className="flex items-center justify-between">
             <CardTitle className="text-base font-medium text-muted-foreground">
@@ -82,7 +82,7 @@ export function StatsGrid() {
           </div>
           <CardContent className="px-0 pt-2 pb-0">
             <div className="text-3xl font-bold text-foreground mb-1">{stat.value}</div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
               {stat.subtitle}
               {stat.change && <span className="ml-1">{stat.change}</span>}
             </div>
