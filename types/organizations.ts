@@ -17,6 +17,7 @@ export type Organization = {
   subscription: number | null
   subscription_status: "ACTIVE" | "EXPIRED" | "CANCELLED" | "PENDING"
   subscription_end_date: string | null
+  billing_cycle: "MONTHLY" | "YEARLY" | "DAYS_30" | "DAYS_60" | "DAYS_90"
   logo: string
   allowed_customer: number
   total_customer: number

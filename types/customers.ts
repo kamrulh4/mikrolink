@@ -10,13 +10,14 @@ export type Customer = {
   id: number
   uid: string
   name: string
-  email: string | undefined
+  email: string | null
   phone: string
   address: string
   nid: string
   is_free: boolean
   package: Package
-  connection_start_date: null
+  connection_start_date: string | null
+  subscription_end_date: string | null
   is_active: boolean
   ip_address: string
   mac_address: string

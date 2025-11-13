@@ -1,6 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
+import { format } from "date-fns"
 import { BadgeCheckIcon, BadgeXIcon } from "lucide-react"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -97,6 +98,15 @@ export const columns: ColumnDef<Customer>[] = [
           )}
         </div>
       )
+    },
+  },
+  {
+    accessorKey: "subscription_end_date",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Expiry Date" />,
+    cell: ({ row }) => {
+      const date = row.original.subscription_end_date
+      const formatted = date ? format(new Date(date), "dd MMM yyyy") : "N/A"
+      return formatted
     },
   },
   {
