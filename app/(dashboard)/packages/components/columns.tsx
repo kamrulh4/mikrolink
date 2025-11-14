@@ -12,6 +12,7 @@ export const columns: ColumnDef<Package>[] = [
       return `${row.name} ${row.speed_mbps} ${row.price} ${row.description}`
     },
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+    cell: ({ row }) => <div className="w-[80px]">{row.original.name}</div>,
   },
   {
     accessorKey: "speed_mbps",
