@@ -144,7 +144,7 @@ export function ViewOrganizationsContent() {
           <CardDescription>Subscription details and customer limits</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="space-y-2">
               <span className="font-medium">Subscription ID</span>
               <p className="text-sm text-muted-foreground">
@@ -170,6 +170,13 @@ export function ViewOrganizationsContent() {
                       selectedOrganization.subscription_end_date,
                     ).toLocaleDateString()
                   : "Not set"}
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <span className="font-medium">Billing Cycle</span>
+              <p className="text-sm text-muted-foreground">
+                {selectedOrganization.billing_cycle}
               </p>
             </div>
           </div>

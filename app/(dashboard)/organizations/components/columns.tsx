@@ -1,6 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
+import { format } from "date-fns"
 import { BadgeCheckIcon, BadgeXIcon, Globe, Mail, Phone } from "lucide-react"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -127,6 +128,12 @@ export const columns: ColumnDef<Organization>[] = [
     },
   },
   {
+    accessorKey: "billing_cycle",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Billing Cycle" />
+    ),
+  },
+  {
     accessorKey: "subscription_end_date",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Expires" />,
     cell: ({ row }) => {
@@ -139,7 +146,7 @@ export const columns: ColumnDef<Organization>[] = [
 
       return (
         <div className={cn("text-sm", isExpired ? "text-red-500" : "text-slate-700")}>
-          {date.toLocaleDateString()}
+          {format(date, "PP")}
         </div>
       )
     },
