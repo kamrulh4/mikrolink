@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useSession, useSuspenseSession } from "@/hooks/rq/use-auth-query"
 import { getCustomerListOptions } from "@/hooks/rq/use-customers-query"
+import { getDashboardDataOptions } from "@/hooks/rq/use-dashboard-query"
 import { getOrganizationListOptions } from "@/hooks/rq/use-organizations-query"
 import { getPackageListOptions } from "@/hooks/rq/use-packages-query"
 import { getPaymentListOptions } from "@/hooks/rq/use-payment-query"
@@ -33,6 +34,7 @@ const navMain = [
     url: "/dashboard",
     icon: LayoutDashboard,
     isActive: true,
+    prefetchOptions: getDashboardDataOptions,
   },
   {
     title: "Customers",
